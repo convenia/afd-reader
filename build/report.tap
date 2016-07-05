@@ -1,0 +1,14 @@
+TAP version 13
+ok 1 - Convenia\AfdReader\Tests\AfdReaderTest::test_read_file
+ok 2 - Convenia\AfdReader\Tests\AfdReaderTest::test_magic_file
+ok 3 - Convenia\AfdReader\Tests\DateTest::test_success_value
+ok 4 - Convenia\AfdReader\Tests\DirectionTest::test_success_value
+ok 5 - Convenia\AfdReader\Tests\DirectionTest::test_fail_value
+ok 6 - Convenia\AfdReader\Tests\IdentityTest::test_success_value
+ok 7 - Convenia\AfdReader\Tests\IdentityTest::test_fail_value
+ok 8 - Convenia\AfdReader\Tests\RegistryTypeTest::test_success_value
+ok 9 - Convenia\AfdReader\Tests\RegistryTypeTest::test_fail_value
+ok 10 - Convenia\AfdReader\Tests\TimeTest::test_success_value
+ok 11 - Convenia\AfdReader\Tests\TimeTest::test_fail_value
+ok 12 - Convenia\AfdReader\Tests\AlphanumericTest::test_success_value
+1..12
