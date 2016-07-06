@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1467823868">
-  <project timestamp="1467823868">
+<coverage generated="1467826790">
+  <project timestamp="1467826790">
     <package name="Convenia\AfdReader">
       <file name="/var/www/AfdReader/src/AfdReader.php">
         <class name="AfdReader" namespace="Convenia\AfdReader">
@@ -80,7 +80,8 @@
         <line num="199" type="stmt" count="2"/>
         <line num="200" type="stmt" count="1"/>
         <line num="202" type="stmt" count="1"/>
-        <line num="212" type="method" name="translateToArray" crap="4" count="2"/>
+        <line num="211" type="method" name="translateToArray" crap="4" count="2"/>
+        <line num="213" type="stmt" count="2"/>
         <line num="214" type="stmt" count="2"/>
         <line num="215" type="stmt" count="2"/>
         <line num="216" type="stmt" count="2"/>
@@ -94,16 +95,15 @@
         <line num="224" type="stmt" count="2"/>
         <line num="225" type="stmt" count="2"/>
         <line num="226" type="stmt" count="2"/>
-        <line num="227" type="stmt" count="2"/>
-        <line num="236" type="method" name="getType" crap="1" count="2"/>
-        <line num="238" type="stmt" count="2"/>
-        <line num="247" type="method" name="getMap" crap="2" count="2"/>
+        <line num="235" type="method" name="getType" crap="1" count="2"/>
+        <line num="237" type="stmt" count="2"/>
+        <line num="246" type="method" name="getMap" crap="2" count="2"/>
+        <line num="248" type="stmt" count="2"/>
         <line num="249" type="stmt" count="2"/>
         <line num="250" type="stmt" count="2"/>
         <line num="251" type="stmt" count="2"/>
-        <line num="252" type="stmt" count="2"/>
-        <line num="254" type="stmt" count="1"/>
-        <metrics loc="256" ncloc="181" classes="1" methods="12" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="85" coveredstatements="82" elements="97" coveredelements="91"/>
+        <line num="253" type="stmt" count="1"/>
+        <metrics loc="255" ncloc="180" classes="1" methods="12" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="85" coveredstatements="82" elements="97" coveredelements="91"/>
       </file>
     </package>
     <package name="Convenia\AfdReader\Exception">
@@ -298,6 +298,6 @@
         <metrics loc="44" ncloc="28" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="0" elements="2" coveredelements="0"/>
       </file>
     </package>
-    <metrics files="25" loc="1246" ncloc="919" classes="23" methods="27" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="116" coveredstatements="102" elements="143" coveredelements="117"/>
+    <metrics files="25" loc="1245" ncloc="918" classes="23" methods="27" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="116" coveredstatements="102" elements="143" coveredelements="117"/>
   </project>
 </coverage>

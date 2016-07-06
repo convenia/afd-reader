@@ -28,7 +28,7 @@
                                             [timezone] => America/Sao_Paulo
                                         )
 
-                                    [reazon] =>
+                                    [reason] =>
 
                                     [direction] => Entrada
                                     [type] => Original
@@ -44,7 +44,7 @@
                                             [timezone] => America/Sao_Paulo
                                         )
 
-                                    [reazon] =>
+                                    [reason] =>
 
                                     [direction] => Saída
                                     [type] => Original

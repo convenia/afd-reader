@@ -120,7 +120,7 @@ class AfdReader
                 $this->userArray[$value['identityNumber']][$value['clockDate']->format('dmY')][$value['directionOrder']][] = [
                     'sequency' => $value['sequency'],
                     'dateTime' => $value['clockDate']->setTime($value['clockTime']['hour'], $value['clockTime']['minute']),
-                    'reazon' =>  $value['reason'],
+                    'reason' =>  $value['reason'],
                     'direction' =>  $value['direction'],
                     'type' =>  $value['registryType']
                 ];
@@ -200,7 +200,6 @@ class AfdReader
             return 'Afdt';
         }
         return 'Afd';
-
     }
 
     /**
