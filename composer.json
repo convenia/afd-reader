@@ -1,0 +1,25 @@
+{
+    "name": "Convenia/AfdReader",
+    "description": "Reader and tranlate Afd and AFDT point files",
+    "authors": [
+        {
+            "name": "Victor ventura",
+            "email": "euventura@gmail.com"
+        },
+        {
+            "name": "Convenia",
+            "email": "contato@convenia.com.br"
+        }
+    ],
+    "require": {
+        "php": "^5.3.3 || ^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Convenia\\AfdReader\\": "src/"
+        }
+    }
+}

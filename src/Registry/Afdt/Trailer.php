@@ -32,6 +32,11 @@ class Trailer implements RegistryInterface
         ]
     ];
 
+    /**
+     * Return may about line type
+     * @method map
+     * @return array Map
+     */
     public function map()
     {
         return $this->map;

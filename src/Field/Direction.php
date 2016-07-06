@@ -23,6 +23,12 @@ class Direction implements FieldInterface
         'D' => 'Desconsiderado'
     ];
 
+    /**
+     * Format field type
+     * @method format
+     * @param  string $value value to be formated
+     * @return string        formated value
+     */
     public function format($value)
     {
         if (isset($this->types[$value])) {

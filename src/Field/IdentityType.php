@@ -24,6 +24,12 @@ class IdentityType implements FieldInterface
         '2' => 'CPF',
     ];
 
+    /**
+     * Format field type
+     * @method format
+     * @param  string $value value to be formated
+     * @return string        formated value
+     */
     public function format($value)
     {
         if (isset($this->types[$value])) {

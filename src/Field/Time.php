@@ -19,6 +19,12 @@ use Convenia\AfdReader\Interfaces\FieldInterface;
 class Time implements FieldInterface
 {
 
+    /**
+     * Format field type
+     * @method format
+     * @param  string $value value to be formated
+     * @return string        formated value
+     */
     public function format($value)
     {
         if (strlen($value) != 4) {

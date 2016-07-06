@@ -19,9 +19,16 @@ use \DateTime;
 
 class Date implements FieldInterface
 {
+    /**
+     * Format field type
+     * @method format
+     * @param  string $value value to be formated
+     * @return string        formated value
+     */
     public function format($value)
     {
-        $dateObj = DateTime::createFromFormat('dmY', $value);
+        $dateObj = new DateTime();
+        $dateObj = $dateObj->createFromFormat('dmY', $value);
         if ($dateObj  === false) {
             //throw new InvalidDateFormatException('passed value:' . $value);
         }
