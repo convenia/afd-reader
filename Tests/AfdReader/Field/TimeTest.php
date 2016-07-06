@@ -21,6 +21,6 @@ class TimeTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Convenia\AfdReader\Exception\InvalidTimeFormatException');
         $obj = new Time();
-        $val = $obj->format('225');
+        $obj->format('225');
     }
 }

@@ -22,6 +22,6 @@ class DirectionTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Convenia\AfdReader\Exception\DirectionNotExistsException');
         $obj = new Direction();
-        $val = $obj->format('HH');
+        $obj->format('HH');
     }
 }

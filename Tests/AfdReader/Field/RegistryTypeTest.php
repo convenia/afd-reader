@@ -21,6 +21,6 @@ class RegistryTypeTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Convenia\AfdReader\Exception\RegistryNotExistsException');
         $obj = new RegistryType();
-        $val = $obj->format('HH');
+        $obj->format('HH');
     }
 }

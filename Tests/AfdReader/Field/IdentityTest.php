@@ -21,6 +21,6 @@ class IdentityTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Convenia\AfdReader\Exception\IdentityNotExistsException');
         $obj = new IdentityType();
-        $val = $obj->format('HH');
+        $obj->format('HH');
     }
 }
