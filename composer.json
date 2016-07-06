@@ -1,5 +1,5 @@
 {
-    "name": "Convenia/AfdReader",
+    "name": "convenia/afd-reader",
     "description": "Reader and tranlate Afd and AFDT point files",
     "authors": [
         {
