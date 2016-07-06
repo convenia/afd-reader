@@ -5,7 +5,7 @@
 ```
  use Convenia\AfdReader\AfdReader
 
- $objAfdReader = new AfdReader('afdt_test.txt', 'Afdt');
+ $objAfdReader = new AfdReader('afdt_test.txt');
  $array = $objAfdReader->getByUser();
 ```
 
