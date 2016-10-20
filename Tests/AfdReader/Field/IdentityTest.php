@@ -1,9 +1,9 @@
 <?php
+
 namespace Convenia\AfdReader\Tests;
 
-use PHPUnit_Framework_TestCase;
 use Convenia\AfdReader\Field\IdentityType;
-use \DateTime;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Class AleloOrderTest.
@@ -14,7 +14,7 @@ class IdentityTest extends PHPUnit_Framework_TestCase
     {
         $obj = new IdentityType();
         $val = $obj->format('1');
-        $this->assertEquals("CNPJ", $val);
+        $this->assertEquals('CNPJ', $val);
     }
 
     public function test_fail_value()

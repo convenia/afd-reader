@@ -1,13 +1,14 @@
 <?php
+
 namespace Convenia\AfdReader\Tests;
 
-use PHPUnit_Framework_TestCase;
 use Convenia\AfdReader\Field\Alphanumeric;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Class AleloOrderTest.
  */
-class AlphanumericTest extends PHPUnit_Framework_TestCase
+class alphanumericTest extends PHPUnit_Framework_TestCase
 {
     public function test_success_value()
     {

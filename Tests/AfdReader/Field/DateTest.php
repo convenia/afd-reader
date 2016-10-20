@@ -1,10 +1,10 @@
 <?php
+
 namespace Convenia\AfdReader\Tests;
 
-use \Convenia\AfdReader\Exception\InvalidDateFormat;
-use PHPUnit_Framework_TestCase;
 use Convenia\AfdReader\Field\Date;
-use \DateTime;
+use DateTime;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Class AleloOrderTest.
@@ -15,6 +15,6 @@ class DateTest extends PHPUnit_Framework_TestCase
     {
         $obj = new Date();
         $val = $obj->format('13061988');
-        $this->assertInstanceOf("DateTime", $val);
+        $this->assertInstanceOf('DateTime', $val);
     }
 }

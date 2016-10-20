@@ -1,9 +1,9 @@
 <?php
+
 namespace Convenia\AfdReader\Tests;
 
-use PHPUnit_Framework_TestCase;
 use Convenia\AfdReader\AfdReader;
-use Convenia\AfdReader\Exception\FileNotFoundException;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Class AleloOrderTest.
