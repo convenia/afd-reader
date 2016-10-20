@@ -1,4 +1,5 @@
 <?php
+
 namespace Convenia\AfdReader\Interfaces;
 
 interface FieldInterface

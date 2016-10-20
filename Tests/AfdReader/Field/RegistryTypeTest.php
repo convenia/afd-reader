@@ -1,9 +1,9 @@
 <?php
+
 namespace Convenia\AfdReader\Tests;
 
-use PHPUnit_Framework_TestCase;
 use Convenia\AfdReader\Field\RegistryType;
-use \DateTime;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Class AleloOrderTest.
@@ -14,7 +14,7 @@ class RegistryTypeTest extends PHPUnit_Framework_TestCase
     {
         $obj = new RegistryType();
         $val = $obj->format('O');
-        $this->assertEquals("Original", $val);
+        $this->assertEquals('Original', $val);
     }
 
     public function test_fail_value()

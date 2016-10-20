@@ -1,9 +1,9 @@
 <?php
+
 namespace Convenia\AfdReader\Tests;
 
-use PHPUnit_Framework_TestCase;
 use Convenia\AfdReader\Field\Time;
-use \DateTime;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Class AleloOrderTest.

@@ -1,10 +1,9 @@
 <?php
+
 namespace Convenia\AfdReader\Tests;
 
-use Convenia\AfdReader\Exception\DirectionNotExistsException;
-use PHPUnit_Framework_TestCase;
 use Convenia\AfdReader\Field\Direction;
-use \DateTime;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Class AleloOrderTest.
@@ -15,7 +14,7 @@ class DirectionTest extends PHPUnit_Framework_TestCase
     {
         $obj = new Direction();
         $val = $obj->format('E');
-        $this->assertEquals("Entrada", $val);
+        $this->assertEquals('Entrada', $val);
     }
 
     public function test_fail_value()
