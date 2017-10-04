@@ -45,7 +45,6 @@ class CompanyChange implements RegistryInterface
             'size' => 1,
             'type' => 'numeric',
             'name' => 'identityType',
-            //'class' => \Convenia\AfdReader\Field\identityType::class
         ],
         6 => [
             'size' => 14,

@@ -45,7 +45,6 @@ class Employee implements RegistryInterface
             'size' => 1,
             'type' => 'numeric',
             'name' => 'operation',
-            //'class' => \Convenia\AfdReader\Field\Operation::class > class Not Exists
         ],
         6 => [
             'size'  => 12,
