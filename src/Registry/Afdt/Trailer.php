@@ -10,13 +10,10 @@
  * @version  0.1
  *
  * @copyright  CC BY-SA 3.0 <http://creativecommons.org/licenses/by-sa/3.0/>
- *
- * @todo  Ler Arquivos AFD e AFDF e devolver em Array
  */
 
 namespace Convenia\AfdReader\Registry\Afdt;
 
-use Convenia\AfdReader\Field\Numeric;
 use Convenia\AfdReader\Interfaces\RegistryInterface;
 
 class Trailer implements RegistryInterface
