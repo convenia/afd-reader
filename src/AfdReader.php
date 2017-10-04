@@ -1,18 +1,19 @@
 <?php
 /**
-* Leitura e transformação do aquivo AFD e AFDT(AFD).
-*
-* Especificação do MTE referente a portaria 1.510/2009, especifica um padrão
-* para os arquivos gerados pelos REP - Registrador Eletrônico de Ponto
-*
-* @author  Victor Ventura <euventura@gmail.com>
-*
-* @version  0.1
-*
-* @copyright  CC BY-SA 3.0 <http://creativecommons.org/licenses/by-sa/3.0/>
-*
-* @todo  Ler Arquivos AFD e AFDF e devolver em Array
-*/
+ * Leitura e transformação do aquivo AFD e AFDT(AFD).
+ *
+ * Especificação do MTE referente a portaria 1.510/2009, especifica um padrão
+ * para os arquivos gerados pelos REP - Registrador Eletrônico de Ponto
+ *
+ * @author  Victor Ventura <euventura@gmail.com>
+ *
+ * @version  0.1
+ *
+ * @copyright  CC BY-SA 3.0 <http://creativecommons.org/licenses/by-sa/3.0/>
+ *
+ * @todo  Ler Arquivos AFD e AFDF e devolver em Array
+ */
+
 namespace Convenia\AfdReader;
 
 use Convenia\AfdReader\Exception\FileNotFoundException;
@@ -31,7 +32,7 @@ class AfdReader
             '2' => \Convenia\AfdReader\Registry\Afdt\Detail::class,
             '9' => \Convenia\AfdReader\Registry\Afdt\Trailer::class,
         ],
-        'Afd' => [
+        'Afd'  => [
             '1' => \Convenia\AfdReader\Registry\Afd\Header::class,
             '2' => \Convenia\AfdReader\Registry\Afd\CompanyChange::class,
             '3' => \Convenia\AfdReader\Registry\Afd\Mark::class,
@@ -275,7 +276,7 @@ class AfdReader
     {
         $type = $this->getType($content);
         if (isset($this->typeNumber[$this->fileType][$type])) {
-            $classMap = new $this->typeNumber[$this->fileType][$type];
+            $classMap = (new \ReflectionClass($this->typeNumber[$this->fileType][$type]))->newInstance();
 
             return $classMap->map;
         }
