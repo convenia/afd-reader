@@ -74,7 +74,7 @@ class Header implements RegistryInterface
             'size'  => 4,
             'type'  => 'numeric',
             'name'  => 'generationTime',
-            'class' => \Convenia\AfdReader\Field\Date::class,
+            'class' => \Convenia\AfdReader\Field\Time::class,
         ],
     ];
 

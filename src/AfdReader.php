@@ -275,7 +275,7 @@ class AfdReader
     {
         $type = $this->getType($content);
         if (isset($this->typeNumber[$this->fileType][$type])) {
-            $classMap = new $this->typeNumber[$this->fileType][$type]();
+            $classMap = new $this->typeNumber[$this->fileType][$type];
 
             return $classMap->map;
         }
