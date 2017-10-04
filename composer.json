@@ -1,6 +1,6 @@
 {
     "name": "convenia/afd-reader",
-    "description": "Reader and translate AFD, AFDT and ACJEF point files",
+    "description": "Reader and translate AFD and AFDT point files",
     "authors": [
         {
             "name": "Victor Ventura",

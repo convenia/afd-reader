@@ -1,4 +1,4 @@
-# AfdReader - AFD, AFDT and ACJEF Read Class
+# AfdReader - AFD and AFDT Read Class
 
 ## How to use:
 
