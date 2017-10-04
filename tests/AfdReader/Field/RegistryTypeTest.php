@@ -6,7 +6,7 @@ use Convenia\AfdReader\Field\RegistryType;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Class AleloOrderTest.
+ * Class RegistryTypeTest.
  */
 class RegistryTypeTest extends PHPUnit_Framework_TestCase
 {

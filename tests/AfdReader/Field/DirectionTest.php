@@ -6,7 +6,7 @@ use Convenia\AfdReader\Field\Direction;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Class AleloOrderTest.
+ * Class DirectionTest.
  */
 class DirectionTest extends PHPUnit_Framework_TestCase
 {

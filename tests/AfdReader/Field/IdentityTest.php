@@ -6,7 +6,7 @@ use Convenia\AfdReader\Field\IdentityType;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Class AleloOrderTest.
+ * Class IdentityTest.
  */
 class IdentityTest extends PHPUnit_Framework_TestCase
 {

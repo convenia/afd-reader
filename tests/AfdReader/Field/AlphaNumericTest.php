@@ -6,9 +6,9 @@ use Convenia\AfdReader\Field\Alphanumeric;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Class AleloOrderTest.
+ * Class AlphaNumericTest.
  */
-class alphanumericTest extends PHPUnit_Framework_TestCase
+class AlphaNumericTest extends PHPUnit_Framework_TestCase
 {
     public function test_success_value()
     {

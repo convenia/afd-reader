@@ -6,7 +6,7 @@ use Convenia\AfdReader\Field\Time;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Class AleloOrderTest.
+ * Class TimeTest.
  */
 class TimeTest extends PHPUnit_Framework_TestCase
 {

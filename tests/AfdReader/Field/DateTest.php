@@ -3,11 +3,10 @@
 namespace Convenia\AfdReader\Tests;
 
 use Convenia\AfdReader\Field\Date;
-use DateTime;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Class AleloOrderTest.
+ * Class DateTest.
  */
 class DateTest extends PHPUnit_Framework_TestCase
 {
