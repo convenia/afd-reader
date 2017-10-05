@@ -276,9 +276,9 @@ class AfdReader
     {
         $type = $this->getType($content);
         if (isset($this->typeNumber[$this->fileType][$type])) {
-            $classMap = (new \ReflectionClass($this->typeNumber[$this->fileType][$type]))->newInstance();
-
-            return $classMap->map;
+            $registry = $this->typeNumber[$this->fileType][$type];
+            $class = new $registry;
+            return $class->map;
         }
 
         return false;
