@@ -224,7 +224,7 @@ class AfdReader
             case 91 :
                 return 'Acjef';
             default :
-                throw new WrongFileTypeException('File type magic couldn\'t regognize this file.');
+                throw new WrongFileTypeException('File type magic couldn\'t recognize this file.');
         }
 
     }
