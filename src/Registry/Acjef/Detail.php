@@ -30,9 +30,9 @@ class Detail implements RegistryInterface
             'name' => 'type',
         ],
         3  => [
-            'size'  => 12,
-            'type'  => 'numeric',
-            'name'  => 'identityNumber',
+            'size' => 12,
+            'type' => 'numeric',
+            'name' => 'identityNumber',
         ],
         4  => [
             'size'  => 8,
@@ -41,9 +41,9 @@ class Detail implements RegistryInterface
             'class' => \Convenia\AfdReader\Field\Date::class,
         ],
         5  => [
-            'size' => 4,
-            'type' => 'numeric',
-            'name' => 'firstHour',
+            'size'  => 4,
+            'type'  => 'numeric',
+            'name'  => 'firstHour',
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
         6  => [
@@ -58,21 +58,90 @@ class Detail implements RegistryInterface
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
         8  => [
-            'size' => 4,
-            'type' => 'numeric',
-            'name' => 'nightTime',
+            'size'  => 4,
+            'type'  => 'numeric',
+            'name'  => 'nightTime',
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
         9  => [
             'size'  => 4,
             'type'  => 'alphanumeric',
-            'name'  => 'overtime',
+            'name'  => 'overtime1',
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
         10 => [
             'size' => 4,
             'type' => 'numeric',
-            'name' => 'overtimePercentage',
+            'name' => 'overtimePercentage1',
+        ],
+        11 => [
+            'size' => 1,
+            'type' => 'numeric',
+            'name' => 'overtimeModality1',
+        ],
+        12 => [
+            'size'  => 4,
+            'type'  => 'numeric',
+            'name'  => 'overtime2',
+            'class' => \Convenia\AfdReader\Field\Time::class,
+        ],
+        13 => [
+            'size' => 4,
+            'type' => 'numeric',
+            'name' => 'overtimePercentage2',
+        ],
+        14 => [
+            'size' => 1,
+            'type' => 'numeric',
+            'name' => 'overtimeModality2',
+        ],
+        15 => [
+            'size'  => 4,
+            'type'  => 'numeric',
+            'name'  => 'overtime3',
+            'class' => \Convenia\AfdReader\Field\Time::class,
+        ],
+        16 => [
+            'size' => 4,
+            'type' => 'numeric',
+            'name' => 'overtimePercentage3',
+        ],
+        17 => [
+            'size' => 1,
+            'type' => 'numeric',
+            'name' => 'overtimeModality3',
+        ],
+        18 => [
+            'size'  => 4,
+            'type'  => 'numeric',
+            'name'  => 'overtime4',
+            'class' => \Convenia\AfdReader\Field\Time::class,
+        ],
+        19 => [
+            'size' => 4,
+            'type' => 'numeric',
+            'name' => 'overtimePercentage4',
+        ],
+        20 => [
+            'size' => 1,
+            'type' => 'numeric',
+            'name' => 'overtimeModality4',
+        ],
+        21 => [
+            'size' => 4,
+            'type' => 'numeric',
+            'name' => 'hourMissLate',
+        ],
+        22 => [
+            'size' => 1,
+            'type' => 'numeric',
+            'name' => 'hourSinalCompensation',
+        ],
+        23 => [
+            'size'  => 4,
+            'type'  => 'numeric',
+            'name'  => 'hourBalanceCompensation',
+            'class' => \Convenia\AfdReader\Field\Time::class,
         ],
     ];
 
