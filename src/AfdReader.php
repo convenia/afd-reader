@@ -1,18 +1,4 @@
 <?php
-/**
- * Leitura e transformação do aquivo AFD e AFDT(AFD).
- *
- * Especificação do MTE referente a portaria 1.510/2009, especifica um padrão
- * para os arquivos gerados pelos REP - Registrador Eletrônico de Ponto
- *
- * @author  Victor Ventura <euventura@gmail.com>
- *
- * @version  0.1
- *
- * @copyright  CC BY-SA 3.0 <http://creativecommons.org/licenses/by-sa/3.0/>
- *
- * @todo  Ler Arquivos AFD e AFDF e devolver em Array
- */
 
 namespace Convenia\AfdReader;
 
@@ -28,17 +14,22 @@ class AfdReader
     private $userArray = [];
     private $typePosition = 9;
     private $typeNumber = [
-        'Afdt' => [
+        'Afdt'  => [
             '1' => \Convenia\AfdReader\Registry\Afdt\Header::class,
             '2' => \Convenia\AfdReader\Registry\Afdt\Detail::class,
             '9' => \Convenia\AfdReader\Registry\Afdt\Trailer::class,
         ],
-        'Afd'  => [
+        'Afd'   => [
             '1' => \Convenia\AfdReader\Registry\Afd\Header::class,
             '2' => \Convenia\AfdReader\Registry\Afd\CompanyChange::class,
             '3' => \Convenia\AfdReader\Registry\Afd\Mark::class,
             '4' => \Convenia\AfdReader\Registry\Afd\MarkAdjust::class,
             '5' => \Convenia\AfdReader\Registry\Afd\Employee::class,
+        ],
+        'Acjef' => [
+            '1' => \Convenia\AfdReader\Registry\Acjef\Header::class,
+            '2' => \Convenia\AfdReader\Registry\Acjef\ContractHours::class,
+            '3' => \Convenia\AfdReader\Registry\Acjef\Detail::class,
         ],
     ];
 
@@ -61,6 +52,140 @@ class AfdReader
         }
 
         $this->readLines();
+    }
+
+    /**
+     * check file, if exists set content.
+     *
+     * @method setFileContents
+     */
+    public function setFileContents()
+    {
+        if (file_exists($this->file) === false) {
+            throw new FileNotFoundException($this->file);
+        }
+
+        $this->fileContents = file($this->file);
+    }
+
+    /**
+     * Check file type by lines.
+     *
+     * @method fileTypeMagic
+     *
+     * @return atring Type of files [afd|afdt]
+     */
+    private function fileTypeMagic()
+    {
+        $trailer = ($this->fileContents[count($this->fileContents) - 2]);
+        $trailer = trim($trailer);
+
+        switch (strlen($trailer)) {
+            case 34 :
+                return 'Afd';
+            case 55 :
+                return 'Afdt';
+            case 91 :
+                return 'Acjef';
+            default :
+                throw new WrongFileTypeException(__METHOD__ . ' couldn\'t recognize this file.');
+        }
+
+    }
+
+    /**
+     * Read de Content and transforma in array.
+     *
+     * @method readLines
+     *
+     * @return array return array of lines
+     */
+    public function readLines()
+    {
+        foreach ($this->fileContents as $value) {
+            $this->fileArray[] = $this->translateToArray($value);
+        }
+    }
+
+    /**
+     * Translate line to array info.
+     *
+     * @method translateToArray
+     *
+     * @param string $content line
+     *
+     * @return array line content
+     */
+    public function translateToArray($content)
+    {
+        $position = 0;
+        $line = [];
+        $map = $this->getMap($content);
+        if ($map !== false) {
+            foreach ($map as $fieldMap) {
+                $line[$fieldMap['name']] = substr($content, $position, $fieldMap['size']);
+                if (isset($fieldMap['class'])) {
+                    $field = new $fieldMap['class']($line[$fieldMap['name']]);
+                    $line[$fieldMap['name']] = $field->format($line[$fieldMap['name']]);
+                }
+                $position = $position + $fieldMap['size'];
+            }
+        }
+
+        return $line;
+    }
+
+    /**
+     * Return a map by line type and file type.
+     *
+     * @method getMap
+     *
+     * @param [type] $content full line
+     *
+     * @return array|boll return line map or false
+     */
+    private function getMap($content)
+    {
+        $type = $this->getType($content);
+        if (isset($this->typeNumber[$this->fileType][$type])) {
+            $registry = $this->typeNumber[$this->fileType][$type];
+            $class = new $registry;
+            return $class->map;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get type line.
+     *
+     * @method getType
+     *
+     * @param string $content full line
+     *
+     * @return string return numeric type of a line
+     */
+    private function getType($content)
+    {
+        return substr($content, $this->typePosition, 1);
+    }
+
+    /**
+     * Return arry by user formated.
+     *
+     * @method getByUser
+     *
+     * @return array() By user formated array
+     */
+    public function getByUser()
+    {
+        if ($this->fileType == 'Afd') {
+            return $this->getByUserAfd();
+        } elseif ($this->fileType == 'Afdt') {
+            return $this->getByUserAfdt();
+        } else {
+            return $this->getByUserAcjef();
+        }
     }
 
     /**
@@ -99,46 +224,6 @@ class AfdReader
     }
 
     /**
-     * Return arry by user formated.
-     *
-     * @method getByUser
-     *
-     * @return array() By user formated array
-     */
-    public function getByUser()
-    {
-        if ($this->fileType == 'Afd') {
-            return $this->getByUserAfd();
-        } elseif ($this->fileType == 'Afdt') {
-            return $this->getByUserAfdt();
-        }
-    }
-
-    /**
-     * Get By User on AFDT files.
-     *
-     * @method getByUserAfd
-     *
-     * @return array() By user formated array
-     */
-    public function getByUserAfdt()
-    {
-        foreach ($this->fileArray as $value) {
-            if ($this->isByUserCondition($value)) {
-                $this->userArray[$value['identityNumber']][$value['clockDate']->format('dmY')][$value['directionOrder']][] = [
-                    'sequency'  => $value['sequency'],
-                    'dateTime'  => $value['clockDate']->setTime($value['clockTime']['hour'], $value['clockTime']['minute']),
-                    'reason'    => $value['reason'],
-                    'direction' => $value['direction'],
-                    'type'      => $value['registryType'],
-                ];
-            }
-        }
-
-        return $this->userArray;
-    }
-
-    /**
      * Check Line Type on file.
      *
      * @method isByUserCondition
@@ -165,6 +250,35 @@ class AfdReader
     }
 
     /**
+     * Get By User on AFDT files.
+     *
+     * @method getByUserAfd
+     *
+     * @return array() By user formated array
+     */
+    public function getByUserAfdt()
+    {
+        foreach ($this->fileArray as $value) {
+            if ($this->isByUserCondition($value)) {
+                $this->userArray[$value['identityNumber']][$value['clockDate']->format('dmY')][$value['directionOrder']][] = [
+                    'sequency'  => $value['sequency'],
+                    'dateTime'  => $value['clockDate']->setTime($value['clockTime']['hour'], $value['clockTime']['minute']),
+                    'reason'    => $value['reason'],
+                    'direction' => $value['direction'],
+                    'type'      => $value['registryType'],
+                ];
+            }
+        }
+
+        return $this->userArray;
+    }
+
+    public function getByUserAcjef()
+    {
+        echo 'getByUserAcjef';
+    }
+
+    /**
      * Get Lines.
      *
      * @method getLines
@@ -174,121 +288,5 @@ class AfdReader
     public function getLines()
     {
         return $this->fileArray;
-    }
-
-    /**
-     * check file, if exists set content.
-     *
-     * @method setFileContents
-     */
-    public function setFileContents()
-    {
-        if (file_exists($this->file) === false) {
-            throw new FileNotFoundException($this->file);
-        }
-
-        $this->fileContents = file($this->file);
-    }
-
-    /**
-     * Read de Content and transforma in array.
-     *
-     * @method readLines
-     *
-     * @return array return array of lines
-     */
-    public function readLines()
-    {
-        foreach ($this->fileContents as $value) {
-            $this->fileArray[] = $this->translateToArray($value);
-        }
-    }
-
-    /**
-     * Check file type by lines.
-     *
-     * @method fileTypeMagic
-     *
-     * @return atring Type of files [afd|afdt]
-     */
-    public function fileTypeMagic()
-    {
-        $trailer = ($this->fileContents[count($this->fileContents) - 2]);
-        $trailer = trim($trailer);
-
-        switch (strlen($trailer)) {
-            case 34 :
-                return 'Afd';
-            case 55 :
-                return 'Afdt';
-            case 91 :
-                return 'Acjef';
-            default :
-                throw new WrongFileTypeException('File type magic couldn\'t recognize this file.');
-        }
-
-    }
-
-    /**
-     * Translate line to array info.
-     *
-     * @method translateToArray
-     *
-     * @param string $content line
-     *
-     * @return array line content
-     */
-    public function translateToArray($content)
-    {
-        $position = 0;
-        $line = [];
-        $map = $this->getMap($content);
-        if ($map !== false) {
-            foreach ($map as $fieldMap) {
-                $line[$fieldMap['name']] = substr($content, $position, $fieldMap['size']);
-                if (isset($fieldMap['class'])) {
-                    $field = new $fieldMap['class']($line[$fieldMap['name']]);
-                    $line[$fieldMap['name']] = $field->format($line[$fieldMap['name']]);
-                }
-                $position = $position + $fieldMap['size'];
-            }
-        }
-
-        return $line;
-    }
-
-    /**
-     * Get type line.
-     *
-     * @method getType
-     *
-     * @param string $content full line
-     *
-     * @return string return numeric type of a line
-     */
-    private function getType($content)
-    {
-        return substr($content, $this->typePosition, 1);
-    }
-
-    /**
-     * Return a map by line type and file type.
-     *
-     * @method getMap
-     *
-     * @param [type] $content full line
-     *
-     * @return array|boll return line map or false
-     */
-    private function getMap($content)
-    {
-        $type = $this->getType($content);
-        if (isset($this->typeNumber[$this->fileType][$type])) {
-            $registry = $this->typeNumber[$this->fileType][$type];
-            $class = new $registry;
-            return $class->map;
-        }
-
-        return false;
     }
 }

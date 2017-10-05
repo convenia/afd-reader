@@ -1,6 +1,9 @@
-# AfdReader - AFD and AFDT Read Class
+# AfdReader
 
-## How to use:
+Pacote para leitura de Arquivo Fonte de Dados (AFD).
+Especificação do MTE referente a portaria [1.510/2009](http://www.trtsp.jus.br/geral/tribunal2/ORGAOS/MTE/Portaria/P1510_09.html).
+
+## Utilização:
 
 ```
  use Convenia\AfdReader\AfdReader;
@@ -9,7 +12,7 @@
  $array = $objAfdReader->getByUser();
 ```
 
- ## Response example:
+ ## Resposta:
 
 ```
 Array
