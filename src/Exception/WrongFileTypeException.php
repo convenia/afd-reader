@@ -2,6 +2,6 @@
 
 namespace Convenia\AfdReader\Exception;
 
-class WrongFileTipeException extends \Exception
+class WrongFileTypeException extends \Exception
 {
 }

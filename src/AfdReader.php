@@ -17,6 +17,7 @@
 namespace Convenia\AfdReader;
 
 use Convenia\AfdReader\Exception\FileNotFoundException;
+use Convenia\AfdReader\Exception\WrongFileTypeException;
 
 class AfdReader
 {
@@ -212,13 +213,20 @@ class AfdReader
      */
     public function fileTypeMagic()
     {
-        $trailer = ($this->fileContents[count($this->fileContents) - 1]);
+        $trailer = ($this->fileContents[count($this->fileContents) - 2]);
         $trailer = trim($trailer);
-        if (strlen($trailer) == 10) {
-            return 'Afdt';
+
+        switch (strlen($trailer)) {
+            case 34 :
+                return 'Afd';
+            case 55 :
+                return 'Afdt';
+            case 91 :
+                return 'Acjef';
+            default :
+                throw new WrongFileTypeException('File type magic couldn\'t regognize this file.');
         }
 
-        return 'Afd';
     }
 
     /**
