@@ -7,12 +7,39 @@ use Convenia\AfdReader\Exception\WrongFileTypeException;
 
 class AfdReader
 {
+    /**
+     * @var
+     */
     private $file;
+
+    /**
+     * @var string
+     */
     private $fileType;
+
+    /**
+     * @var
+     */
     private $fileContents;
+
+    /**
+     * @var array
+     */
     private $fileArray = [];
+
+    /**
+     * @var array
+     */
     private $userArray = [];
+
+    /**
+     * @var int
+     */
     private $typePosition = 9;
+
+    /**
+     * @var array
+     */
     private $typeNumber = [
         'Afdt'  => [
             '1' => \Convenia\AfdReader\Registry\Afdt\Header::class,
@@ -93,10 +120,6 @@ class AfdReader
 
     /**
      * Read de Content and transforma in array.
-     *
-     * @method readLines
-     *
-     * @return array return array of lines
      */
     private function readLines()
     {
@@ -108,11 +131,8 @@ class AfdReader
     /**
      * Translate line to array info.
      *
-     * @method translateToArray
-     *
-     * @param string $content line
-     *
-     * @return array line content
+     * @param $content
+     * @return array
      */
     private function translateToArray($content)
     {
@@ -136,11 +156,8 @@ class AfdReader
     /**
      * Return a map by line type and file type.
      *
-     * @method getMap
-     *
-     * @param [type] $content full line
-     *
-     * @return array|boll return line map or false
+     * @param $content
+     * @return bool
      */
     private function getMap($content)
     {
@@ -157,11 +174,8 @@ class AfdReader
     /**
      * Get type line.
      *
-     * @method getType
-     *
-     * @param string $content full line
-     *
-     * @return string return numeric type of a line
+     * @param $content
+     * @return bool|string
      */
     private function getType($content)
     {
@@ -171,9 +185,7 @@ class AfdReader
     /**
      * Return array by user formated.
      *
-     * @method getByUser
-     *
-     * @return array() By user formated array
+     * @return array
      */
     public function getByUser()
     {
@@ -189,9 +201,7 @@ class AfdReader
     /**
      * Return array by user formated.
      *
-     * @method getByUser
-     *
-     * @return array() By user formated array
+     * @return array
      */
     public function getAll()
     {
@@ -207,9 +217,7 @@ class AfdReader
     /**
      * Get By User on AFD files.
      *
-     * @method getByUserAfd
-     *
-     * @return array() By user formated array
+     * @return array
      */
     private function getByUserAfd()
     {
@@ -242,11 +250,8 @@ class AfdReader
     /**
      * Check Line Type on file.
      *
-     * @method isByUserCondition
-     *
-     * @param string $value Full line
-     *
-     * @return bool If kind of line can be formated to output array
+     * @param $value
+     * @return bool
      */
     private function isByUserCondition($value)
     {
@@ -269,6 +274,12 @@ class AfdReader
         return false;
     }
 
+    /**
+     * Check Line Type on file.
+     *
+     * @param $value
+     * @return bool
+     */
     private function isAllCondition($value)
     {
         if (!isset($value['type'])) {
@@ -293,9 +304,7 @@ class AfdReader
     /**
      * Get By User on AFDT files.
      *
-     * @method getByUserAfdt
-     *
-     * @return array() By user formated array
+     * @return array
      */
     private function getByUserAfdt()
     {
@@ -317,9 +326,7 @@ class AfdReader
     /**
      * Get By User on ACJEF files.
      *
-     * @method getByUserAcjef
-     *
-     * @return array() By user formated array
+     * @return array
      */
     private function getByUserAcjef()
     {
@@ -358,6 +365,11 @@ class AfdReader
     }
 
 
+    /**
+     * Get All on ACJEF files.
+     *
+     * @return array
+     */
     private function getAllAcjef()
     {
 
@@ -389,7 +401,7 @@ class AfdReader
                 ];
             }
         }
-        
+
         $data['detail'] = $this->getByUserAcjef();
 
         return $data;
