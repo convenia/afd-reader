@@ -62,6 +62,7 @@ class AfdReader
 
     /**
      * AfdReader constructor.
+     *
      * @param $filePath
      * @param null $fileType
      * @throws FileNotFoundException
