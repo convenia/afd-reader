@@ -35,14 +35,13 @@ class Employee implements RegistryInterface
             'name' => 'operation',
         ],
         6 => [
-            'size'  => 12,
-            'type'  => 'numeric',
-            'name'  => 'identityNumber',
-            'class' => \Convenia\AfdReader\Field\Alphanumeric::class,
+            'size' => 12,
+            'type' => 'numeric',
+            'name' => 'identityNumber',
         ],
         7 => [
             'size'  => 52,
-            'type'  => 'numeric',
+            'type'  => 'alphanumeric',
             'name'  => 'name',
             'class' => \Convenia\AfdReader\Field\Alphanumeric::class,
         ],

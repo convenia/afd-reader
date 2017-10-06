@@ -169,7 +169,7 @@ class AfdReader
     }
 
     /**
-     * Return arry by user formated.
+     * Return array by user formated.
      *
      * @method getByUser
      *
@@ -183,6 +183,24 @@ class AfdReader
             return $this->getByUserAfdt();
         } else {
             return $this->getByUserAcjef();
+        }
+    }
+
+    /**
+     * Return array by user formated.
+     *
+     * @method getByUser
+     *
+     * @return array() By user formated array
+     */
+    public function getAll()
+    {
+        if ($this->fileType == 'Afd') {
+            return $this->getAllAfd();
+        } elseif ($this->fileType == 'Afdt') {
+            return $this->getAllAfdt();
+        } else {
+            return $this->getAllAcjef();
         }
     }
 
@@ -245,6 +263,27 @@ class AfdReader
         }
 
         if ($this->fileType == 'Acjef' && $value['type'] == 3) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isAllCondition($value)
+    {
+        if (!isset($value['type'])) {
+            return false;
+        }
+
+        if ($this->fileType == 'Afdt' && $value['type'] != 2) {
+            return true;
+        }
+
+        if ($this->fileType == 'Afd' && $value['type'] != 3) {
+            return true;
+        }
+
+        if ($this->fileType == 'Acjef' && $value['type'] != 3) {
             return true;
         }
 
@@ -316,5 +355,43 @@ class AfdReader
         }
 
         return $this->userArray;
+    }
+
+
+    private function getAllAcjef()
+    {
+
+        $data = [];
+
+        foreach ($this->fileArray as $value) {
+            if ($this->isAllCondition($value) && $value['type'] == 1) {
+                $data['header'] = [
+                    'sequency'       => $value['sequency'],
+                    'type'           => $value['type'],
+                    'entityType'     => $value['entityType'],
+                    'entityNumber'   => $value['entityNumber'],
+                    'cei'            => $value['cei'],
+                    'name'           => $value['name'],
+                    'startDate'      => $value['startDate']->format('dmY'),
+                    'endDate'        => $value['endDate']->format('dmY'),
+                    'generationDate' => $value['generationDate'],
+                    'generationTime' => $value['generationTime'],
+                ];
+            } elseif ($this->isAllCondition($value) && $value['type'] == 2) {
+                $data['contractualHours'][] = [
+                    'sequency'   => $value['sequency'],
+                    'type'       => $value['type'],
+                    'hourCode'   => $value['hourCode'],
+                    'startTime'  => $value['startTime'],
+                    'startBreak' => $value['startBreak'],
+                    'endBreak'   => $value['endBreak'],
+                    'endTime'    => $value['endTime'],
+                ];
+            }
+        }
+        
+        $data['detail'] = $this->getByUserAcjef();
+
+        return $data;
     }
 }

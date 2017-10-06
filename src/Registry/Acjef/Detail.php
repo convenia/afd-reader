@@ -41,7 +41,7 @@ class Detail implements RegistryInterface
         ],
         7  => [
             'size'  => 4,
-            'type'  => 'alphanumeric',
+            'type'  => 'numeric',
             'name'  => 'dayTime',
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
@@ -53,7 +53,7 @@ class Detail implements RegistryInterface
         ],
         9  => [
             'size'  => 4,
-            'type'  => 'alphanumeric',
+            'type'  => 'numeric',
             'name'  => 'overtime1',
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
