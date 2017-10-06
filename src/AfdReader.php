@@ -34,12 +34,11 @@ class AfdReader
     ];
 
     /**
-     * [__construct description].
-     *
-     * @method __construct
-     *
-     * @param string $filePath file Path
-     * @param string $fileType Optional type [afd|afdt]
+     * AfdReader constructor.
+     * @param $filePath
+     * @param null $fileType
+     * @throws FileNotFoundException
+     * @throws WrongFileTypeException
      */
     public function __construct($filePath, $fileType = null)
     {
@@ -59,7 +58,7 @@ class AfdReader
      *
      * @method setFileContents
      */
-    public function setFileContents()
+    private function setFileContents()
     {
         if (file_exists($this->file) === false) {
             throw new FileNotFoundException($this->file);
@@ -71,9 +70,8 @@ class AfdReader
     /**
      * Check file type by lines.
      *
-     * @method fileTypeMagic
-     *
-     * @return atring Type of files [afd|afdt]
+     * @return string
+     * @throws WrongFileTypeException
      */
     private function fileTypeMagic()
     {
@@ -100,7 +98,7 @@ class AfdReader
      *
      * @return array return array of lines
      */
-    public function readLines()
+    private function readLines()
     {
         foreach ($this->fileContents as $value) {
             $this->fileArray[] = $this->translateToArray($value);
@@ -116,7 +114,7 @@ class AfdReader
      *
      * @return array line content
      */
-    public function translateToArray($content)
+    private function translateToArray($content)
     {
         $position = 0;
         $line = [];
@@ -195,7 +193,7 @@ class AfdReader
      *
      * @return array() By user formated array
      */
-    public function getByUserAfd()
+    private function getByUserAfd()
     {
         $userControl = [];
         foreach ($this->fileArray as $value) {
@@ -246,17 +244,21 @@ class AfdReader
             return true;
         }
 
+        if ($this->fileType == 'Acjef' && $value['type'] == 3) {
+            return true;
+        }
+
         return false;
     }
 
     /**
      * Get By User on AFDT files.
      *
-     * @method getByUserAfd
+     * @method getByUserAfdt
      *
      * @return array() By user formated array
      */
-    public function getByUserAfdt()
+    private function getByUserAfdt()
     {
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
@@ -273,20 +275,46 @@ class AfdReader
         return $this->userArray;
     }
 
-    public function getByUserAcjef()
-    {
-        echo 'getByUserAcjef';
-    }
-
     /**
-     * Get Lines.
+     * Get By User on ACJEF files.
      *
-     * @method getLines
+     * @method getByUserAcjef
      *
-     * @return array lines array
+     * @return array() By user formated array
      */
-    public function getLines()
+    private function getByUserAcjef()
     {
-        return $this->fileArray;
+        foreach ($this->fileArray as $value) {
+            if ($this->isByUserCondition($value)) {
+                $this->userArray[$value['identityNumber']][] = [
+                    'sequency'              => $value['sequency'],
+                    'type'                  => $value['type'],
+                    'startDate'             => $value['startDate']->format('dmY'),
+                    'firstHour'             => $value['firstHour'],
+                    'hourCode'              => $value['hourCode'],
+                    'hourCode'              => $value['hourCode'],
+                    'dayTime'               => $value['dayTime'],
+                    'nightTime'             => $value['nightTime'],
+                    'overtime1'             => $value['overtime1'],
+                    'overtime1'             => $value['overtime1'],
+                    'overtimePercentage1'   => $value['overtimePercentage1'],
+                    'overtimeModality1'     => $value['overtimeModality1'],
+                    'overtime2'             => $value['overtime2'],
+                    'overtimePercentage2'   => $value['overtimePercentage2'],
+                    'overtimeModality2'     => $value['overtimeModality2'],
+                    'overtime3'             => $value['overtime3'],
+                    'overtimePercentage3'   => $value['overtimePercentage3'],
+                    'overtimeModality3'     => $value['overtimeModality3'],
+                    'overtime4'             => $value['overtime4'],
+                    'overtimePercentage4'   => $value['overtimePercentage4'],
+                    'overtimeModality4'     => $value['overtimeModality4'],
+                    'hourAbsencesLate'      => $value['hourAbsencesLate'],
+                    'hourSinalCompensate'   => $value['hourSinalCompensate'],
+                    'hourBalanceCompensate' => $value['hourBalanceCompensate'],
+                ];
+            }
+        }
+
+        return $this->userArray;
     }
 }

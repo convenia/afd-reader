@@ -123,12 +123,12 @@ class Detail implements RegistryInterface
         22 => [
             'size' => 1,
             'type' => 'numeric',
-            'name' => 'hourSinalCompensation',
+            'name' => 'hourSinalCompensate',
         ],
         23 => [
             'size'  => 4,
             'type'  => 'numeric',
-            'name'  => 'hourBalanceCompensation',
+            'name'  => 'hourBalanceCompensate',
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
     ];
