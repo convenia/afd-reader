@@ -253,6 +253,53 @@ class AfdReader
      *
      * @return array
      */
+    private function getAllAfd()
+    {
+
+        $data = [];
+
+        foreach ($this->fileArray as $value) {
+            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
+
+                if ($value['type'] == 1) {
+                    $data['header'] = [
+                        'sequency'          => $value['sequency'],
+                        'type'              => $value['type'],
+                        'identityType'      => $value['identityType'],
+                        'identityNumber'    => $value['identityNumber'],
+                        'cei'               => $value['cei'],
+                        'name'              => $value['name'],
+                        'SerialNumber'      => $value['SerialNumber'],
+                        'registryStartDate' => $value['registryStartDate']->format('dmY'),
+                        'registryEndDate'   => $value['registryEndDate']->format('dmY'),
+                        'generationDate'    => $value['generationDate']->format('dmY'),
+                        'generationTime'    => $value['generationTime'],
+                    ];
+                }
+                if ($value['type'] == 2) {
+//                    $data['header'] = $this->header($value);
+                }
+                if ($value['type'] == 4) {
+//                    $data['header'] = $this->header($value);
+                }
+                if ($value['type'] == 5) {
+//                    $data['header'] = $this->header($value);
+                }
+
+
+            }
+        }
+
+//        $data['mark'] = $this->getByUserAfd();
+
+        return $data;
+    }
+
+    /**
+     * Get By User on AFDT files.
+     *
+     * @return array
+     */
     private function getAllAfdt()
     {
 
