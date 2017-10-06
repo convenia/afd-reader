@@ -118,7 +118,7 @@ class Detail implements RegistryInterface
         21 => [
             'size' => 4,
             'type' => 'numeric',
-            'name' => 'hourMissLate',
+            'name' => 'hourAbsencesLate',
         ],
         22 => [
             'size' => 1,
