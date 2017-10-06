@@ -17,6 +17,15 @@ class AfdReaderTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('016428553393', $val);
     }
 
+    public function test_afdt_all()
+    {
+        $return = new AfdReader('tests/afdt_test.txt');
+        $val = $return->getAll();
+        $this->assertArrayHasKey('header', $val);
+        $this->assertArrayHasKey('trailer', $val);
+        $this->assertArrayHasKey('detail', $val);
+    }
+
     public function test_afd_get()
     {
         $return = new AfdReader('tests/afd_test.txt');

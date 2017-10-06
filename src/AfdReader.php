@@ -249,6 +249,39 @@ class AfdReader
     }
 
     /**
+     * Get By User on AFDT files.
+     *
+     * @return array
+     */
+    private function getAllAfdt()
+    {
+
+        $data = [];
+
+        foreach ($this->fileArray as $value) {
+            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
+
+                if ($value['type'] == 1) {
+                    $data['header'] = $this->header($value);
+                }
+
+                if ($value['type'] == 9) {
+                    $data['trailer'] = [
+                        'sequency' => $value['sequency'],
+                        'type'     => $value['type'],
+                    ];
+                }
+
+
+            }
+        }
+
+        $data['detail'] = $this->getByUserAfdt();
+
+        return $data;
+    }
+
+    /**
      * Check Line Type on file.
      *
      * @param $value
@@ -269,33 +302,6 @@ class AfdReader
         }
 
         if ($this->fileType == 'Acjef' && $value['type'] == 3) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Check Line Type on file.
-     *
-     * @param $value
-     * @return bool
-     */
-    private function isAllCondition($value)
-    {
-        if (!isset($value['type'])) {
-            return false;
-        }
-
-        if ($this->fileType == 'Afdt' && $value['type'] != 2) {
-            return true;
-        }
-
-        if ($this->fileType == 'Afd' && $value['type'] != 3) {
-            return true;
-        }
-
-        if ($this->fileType == 'Acjef' && $value['type'] != 3) {
             return true;
         }
 
@@ -377,34 +383,44 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if ($this->isAllCondition($value) && $value['type'] == 1) {
-                $data['header'] = [
-                    'sequency'       => $value['sequency'],
-                    'type'           => $value['type'],
-                    'entityType'     => $value['entityType'],
-                    'entityNumber'   => $value['entityNumber'],
-                    'cei'            => $value['cei'],
-                    'name'           => $value['name'],
-                    'startDate'      => $value['startDate']->format('dmY'),
-                    'endDate'        => $value['endDate']->format('dmY'),
-                    'generationDate' => $value['generationDate'],
-                    'generationTime' => $value['generationTime'],
-                ];
-            } elseif ($this->isAllCondition($value) && $value['type'] == 2) {
-                $data['contractualHours'][] = [
-                    'sequency'   => $value['sequency'],
-                    'type'       => $value['type'],
-                    'hourCode'   => $value['hourCode'],
-                    'startTime'  => $value['startTime'],
-                    'startBreak' => $value['startBreak'],
-                    'endBreak'   => $value['endBreak'],
-                    'endTime'    => $value['endTime'],
-                ];
+            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
+
+                if ($value['type'] == 1) {
+                    $data['header'] = $this->header($value);
+                }
+
+                if ($value['type'] == 2) {
+                    $data['contractualHours'][] = [
+                        'sequency'   => $value['sequency'],
+                        'type'       => $value['type'],
+                        'hourCode'   => $value['hourCode'],
+                        'startTime'  => $value['startTime'],
+                        'startBreak' => $value['startBreak'],
+                        'endBreak'   => $value['endBreak'],
+                        'endTime'    => $value['endTime'],
+                    ];
+                }
             }
         }
 
         $data['detail'] = $this->getByUserAcjef();
 
         return $data;
+    }
+
+    private function header($value)
+    {
+        return [
+            'sequency'       => $value['sequency'],
+            'type'           => $value['type'],
+            'entityType'     => $value['entityType'],
+            'entityNumber'   => $value['entityNumber'],
+            'cei'            => $value['cei'],
+            'name'           => $value['name'],
+            'startDate'      => $value['startDate']->format('dmY'),
+            'endDate'        => $value['endDate']->format('dmY'),
+            'generationDate' => $value['generationDate'],
+            'generationTime' => $value['generationTime'],
+        ];
     }
 }
