@@ -28,7 +28,7 @@ class AfdReader
         ],
         'Acjef' => [
             '1' => \Convenia\AfdReader\Registry\Acjef\Header::class,
-            '2' => \Convenia\AfdReader\Registry\Acjef\ContractHours::class,
+            '2' => \Convenia\AfdReader\Registry\Acjef\ContractualHours::class,
             '3' => \Convenia\AfdReader\Registry\Acjef\Detail::class,
         ],
     ];

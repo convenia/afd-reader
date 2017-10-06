@@ -4,7 +4,7 @@ namespace Convenia\AfdReader\Registry\Acjef;
 
 use Convenia\AfdReader\Interfaces\RegistryInterface;
 
-class ContractHours implements RegistryInterface
+class ContractualHours implements RegistryInterface
 {
     public $map = [
         1 => [
