@@ -35,8 +35,10 @@ class AfdReader
 
     /**
      * AfdReader constructor.
+     *
      * @param $filePath
      * @param null $fileType
+     *
      * @throws FileNotFoundException
      * @throws WrongFileTypeException
      */
@@ -70,8 +72,9 @@ class AfdReader
     /**
      * Check file type by lines.
      *
-     * @return string
      * @throws WrongFileTypeException
+     *
+     * @return string
      */
     private function fileTypeMagic()
     {
@@ -79,16 +82,15 @@ class AfdReader
         $trailer = trim($trailer);
 
         switch (strlen($trailer)) {
-            case 34 :
+            case 34:
                 return 'Afd';
-            case 55 :
+            case 55:
                 return 'Afdt';
-            case 91 :
+            case 91:
                 return 'Acjef';
-            default :
-                throw new WrongFileTypeException(__METHOD__ . ' couldn\'t recognize this file.');
+            default:
+                throw new WrongFileTypeException(__METHOD__.' couldn\'t recognize this file.');
         }
-
     }
 
     /**
@@ -147,7 +149,8 @@ class AfdReader
         $type = $this->getType($content);
         if (isset($this->typeNumber[$this->fileType][$type])) {
             $registry = $this->typeNumber[$this->fileType][$type];
-            $class = new $registry;
+            $class = new $registry();
+
             return $class->map;
         }
 

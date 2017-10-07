@@ -26,6 +26,7 @@ class IdentityType implements FieldInterface
         if (isset($this->types[$value])) {
             return $this->types[$value];
         }
+
         throw new IdentityNotExistsException($value);
     }
 }

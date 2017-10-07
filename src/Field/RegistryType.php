@@ -27,6 +27,7 @@ class RegistryType implements FieldInterface
         if (isset($this->types[$value])) {
             return $this->types[$value];
         }
+
         throw new RegistryNotExistsException($value);
     }
 }
