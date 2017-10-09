@@ -475,8 +475,8 @@ class AfdReader
                         'hourCode'   => $value['hourCode'],
                         'startTime'  => $value['startTime'],
                         'startBreak' => $value['startBreak'],
-                        'endBreak'   => $value['endBreak'],
-                        'endTime'    => $value['endTime'],
+                        'finishBreak'   => $value['finishBreak'],
+                        'finishTime'    => $value['finishTime'],
                     ];
                 }
             }
