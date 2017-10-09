@@ -2,11 +2,16 @@
 
 namespace Convenia\AfdReader\Field;
 
-use Convenia\AfdReader\Exception\InvalidTimeFormatException;
 use Convenia\AfdReader\Interfaces\FieldInterface;
 
-class Time implements FieldInterface
+class OperationType implements FieldInterface
 {
+    private $types = [
+        'I' => 'Inclusão',
+        'A' => 'Alteração',
+        'E' => 'Exclusão',
+    ];
+
     /**
      * Format field type.
      *
@@ -18,13 +23,10 @@ class Time implements FieldInterface
      */
     public function format($value)
     {
-        if (strlen($value) != 4 && $value != 0) {
-            throw new InvalidTimeFormatException($value);
+        if (isset($this->types[$value])) {
+            return $this->types[$value];
         }
 
-        return [
-            'hour'   => substr($value, 0, 2),
-            'minute' => substr($value, 2, 2),
-        ];
+        throw new OperationNotExistsException($value);
     }
 }

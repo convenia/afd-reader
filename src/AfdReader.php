@@ -470,13 +470,13 @@ class AfdReader
 
                 if ($value['type'] == 2) {
                     $data['contractualHours'][] = [
-                        'sequency'   => $value['sequency'],
-                        'type'       => $value['type'],
-                        'hourCode'   => $value['hourCode'],
-                        'startTime'  => $value['startTime'],
-                        'startBreak' => $value['startBreak'],
-                        'endBreak'   => $value['endBreak'],
-                        'endTime'    => $value['endTime'],
+                        'sequency'    => $value['sequency'],
+                        'type'        => $value['type'],
+                        'hourCode'    => $value['hourCode'],
+                        'startTime'   => $value['startTime'],
+                        'startBreak'  => $value['startBreak'],
+                        'finishBreak' => $value['finishBreak'],
+                        'finishTime'  => $value['finishTime'],
                     ];
                 }
             }

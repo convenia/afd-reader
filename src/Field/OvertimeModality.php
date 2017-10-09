@@ -2,11 +2,15 @@
 
 namespace Convenia\AfdReader\Field;
 
-use Convenia\AfdReader\Exception\InvalidTimeFormatException;
 use Convenia\AfdReader\Interfaces\FieldInterface;
 
-class Time implements FieldInterface
+class OvertimeModality implements FieldInterface
 {
+    private $types = [
+        'D' => 'Diurno',
+        'N' => 'Noturno',
+    ];
+
     /**
      * Format field type.
      *
@@ -18,13 +22,8 @@ class Time implements FieldInterface
      */
     public function format($value)
     {
-        if (strlen($value) != 4 && $value != 0) {
-            throw new InvalidTimeFormatException($value);
+        if (isset($this->types[$value])) {
+            return $this->types[$value];
         }
-
-        return [
-            'hour'   => substr($value, 0, 2),
-            'minute' => substr($value, 2, 2),
-        ];
     }
 }
