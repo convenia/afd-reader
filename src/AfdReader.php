@@ -117,7 +117,7 @@ class AfdReader
             case 91:
                 return 'Acjef';
             default:
-                throw new WrongFileTypeException(__METHOD__ . ' couldn\'t recognize this file.');
+                throw new WrongFileTypeException(__METHOD__.' couldn\'t recognize this file.');
         }
     }
 

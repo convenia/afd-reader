@@ -35,9 +35,9 @@ class ContractualHours implements RegistryInterface
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
         6 => [
-            'size' => 4,
-            'type' => 'numeric',
-            'name' => 'finishBreak',
+            'size'  => 4,
+            'type'  => 'numeric',
+            'name'  => 'finishBreak',
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
         7 => [
