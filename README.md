@@ -1,7 +1,15 @@
-# AfdReader
+![logo](afdreader.png)
+
+---
 
 Pacote para leitura de Arquivo Fonte de Dados (AFD).
 Especificação do MTE referente a portaria [1.510/2009](http://www.trtsp.jus.br/geral/tribunal2/ORGAOS/MTE/Portaria/P1510_09.html).
+
+---
+
+[![StyleCI](https://styleci.io/repos/62637664/shield?branch=master)](https://styleci.io/repos/62637664)
+
+---
 
 ## Arquivos suportados
 
