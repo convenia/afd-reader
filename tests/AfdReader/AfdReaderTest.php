@@ -47,14 +47,14 @@ class AfdReaderTest extends PHPUnit_Framework_TestCase
 
     public function test_acjef_get()
     {
-        $return = new AfdReader('tests/acjef_1_test.txt');
+        $return = new AfdReader('tests/acjef_2_test.txt');
         $val = $return->getByUser();
-        $this->assertArrayHasKey('012279542414', $val);
+        $this->assertArrayHasKey('020763990692', $val);
     }
 
     public function test_acjef_all()
     {
-        $return = new AfdReader('tests/acjef_1_test.txt');
+        $return = new AfdReader('tests/acjef_2_test.txt');
         $val = $return->getAll();
         $this->assertArrayHasKey('header', $val);
         $this->assertArrayHasKey('contractualHours', $val);

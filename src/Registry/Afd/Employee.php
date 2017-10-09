@@ -33,6 +33,7 @@ class Employee implements RegistryInterface
             'size' => 1,
             'type' => 'numeric',
             'name' => 'operation',
+            'class' => \Convenia\AfdReader\Field\OperationType::class,
         ],
         6 => [
             'size' => 12,
