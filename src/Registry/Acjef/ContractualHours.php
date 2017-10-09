@@ -1,16 +1,16 @@
 <?php
 
-namespace Convenia\AfdReader\Registry\Afd;
+namespace Convenia\AfdReader\Registry\Acjef;
 
 use Convenia\AfdReader\Interfaces\RegistryInterface;
 
-class MarkAdjust implements RegistryInterface
+class ContractualHours implements RegistryInterface
 {
     public $map = [
         1 => [
             'size' => 9,
             'type' => 'numeric',
-            'name' => 'nsr',
+            'name' => 'sequency',
         ],
         2 => [
             'size' => 1,
@@ -18,29 +18,34 @@ class MarkAdjust implements RegistryInterface
             'name' => 'type',
         ],
         3 => [
-            'size'  => 8,
-            'type'  => 'numeric',
-            'name'  => 'dateBefore',
-            'class' => \Convenia\AfdReader\Field\Date::class,
+            'size' => 4,
+            'type' => 'numeric',
+            'name' => 'hourCode',
         ],
         4 => [
             'size'  => 4,
             'type'  => 'numeric',
-            'name'  => 'timeBefore',
+            'name'  => 'startTime',
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
         5 => [
-            'size'  => 8,
-            'type'  => 'numeric',
-            'name'  => 'dateAfter',
-            'class' => \Convenia\AfdReader\Field\Date::class,
-        ],
-        6 => [
             'size'  => 4,
             'type'  => 'numeric',
-            'name'  => 'timeAfter',
+            'name'  => 'startBreak',
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
+        6 => [
+            'size' => 4,
+            'type' => 'numeric',
+            'name' => 'endBreak',
+        ],
+        7 => [
+            'size'  => 4,
+            'type'  => 'numeric',
+            'name'  => 'endTime',
+            'class' => \Convenia\AfdReader\Field\Time::class,
+        ],
+
     ];
 
     /**

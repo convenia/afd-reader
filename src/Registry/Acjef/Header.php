@@ -1,6 +1,6 @@
 <?php
 
-namespace Convenia\AfdReader\Registry\Afdt;
+namespace Convenia\AfdReader\Registry\Acjef;
 
 use Convenia\AfdReader\Interfaces\RegistryInterface;
 

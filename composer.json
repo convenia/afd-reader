@@ -1,26 +1,30 @@
 {
-    "name": "convenia/afd-reader",
-    "description": "Reader and tranlate Afd and AFDT point files",
-    "authors": [
-        {
-            "name": "Victor ventura",
-            "email": "euventura@gmail.com"
-        },
-        {
-            "name": "Convenia",
-            "email": "contato@convenia.com.br"
-        }
-    ],
-    "require": {
-        "php": "^5.3.3 || ^7.0"
+  "name": "convenia/afd-reader",
+  "description": "Pacote para leitura de Arquivo Fonte de Dados (AFD). Especificação do MTE referente a portaria 1.510/2009.",
+  "authors": [
+    {
+      "name": "Victor Ventura",
+      "email": "euventura@gmail.com"
     },
-    "require-dev": {
-        "phpunit/phpunit": "~4.0",
-        "codacy/coverage": "dev-master"
+    {
+      "name": "Alex Assunção",
+      "email": "alex.assuncao@convenia.com.br"
     },
-    "autoload": {
-        "psr-4": {
-            "Convenia\\AfdReader\\": "src/"
-        }
+    {
+      "name": "Convenia",
+      "email": "contato@convenia.com.br"
     }
+  ],
+  "require": {
+    "php": "^5.3.3 || ^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0",
+    "codacy/coverage": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Convenia\\AfdReader\\": "src/"
+    }
+  }
 }
