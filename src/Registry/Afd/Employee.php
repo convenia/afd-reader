@@ -30,9 +30,9 @@ class Employee implements RegistryInterface
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
         5 => [
-            'size' => 1,
-            'type' => 'numeric',
-            'name' => 'operation',
+            'size'  => 1,
+            'type'  => 'numeric',
+            'name'  => 'operation',
             'class' => \Convenia\AfdReader\Field\OperationType::class,
         ],
         6 => [

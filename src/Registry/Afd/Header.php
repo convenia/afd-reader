@@ -18,9 +18,9 @@ class Header implements RegistryInterface
             'name' => 'type',
         ],
         3  => [
-            'size' => 1,
-            'type' => 'numeric',
-            'name' => 'identityType',
+            'size'  => 1,
+            'type'  => 'numeric',
+            'name'  => 'identityType',
             'class' => \Convenia\AfdReader\Field\IdentityType::class,
         ],
         4  => [

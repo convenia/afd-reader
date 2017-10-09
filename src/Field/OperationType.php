@@ -2,7 +2,6 @@
 
 namespace Convenia\AfdReader\Field;
 
-use Convenia\AfdReader\Exception\IdentityNotExistsException;
 use Convenia\AfdReader\Interfaces\FieldInterface;
 
 class OperationType implements FieldInterface

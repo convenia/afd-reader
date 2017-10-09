@@ -63,9 +63,9 @@ class Detail implements RegistryInterface
             'name' => 'overtimePercentage1',
         ],
         11 => [
-            'size' => 1,
-            'type' => 'numeric',
-            'name' => 'overtimeModality1',
+            'size'  => 1,
+            'type'  => 'numeric',
+            'name'  => 'overtimeModality1',
             'class' => \Convenia\AfdReader\Field\OvertimeModality::class,
         ],
         12 => [
@@ -80,9 +80,9 @@ class Detail implements RegistryInterface
             'name' => 'overtimePercentage2',
         ],
         14 => [
-            'size' => 1,
-            'type' => 'numeric',
-            'name' => 'overtimeModality2',
+            'size'  => 1,
+            'type'  => 'numeric',
+            'name'  => 'overtimeModality2',
             'class' => \Convenia\AfdReader\Field\OvertimeModality::class,
         ],
         15 => [
@@ -97,9 +97,9 @@ class Detail implements RegistryInterface
             'name' => 'overtimePercentage3',
         ],
         17 => [
-            'size' => 1,
-            'type' => 'numeric',
-            'name' => 'overtimeModality3',
+            'size'  => 1,
+            'type'  => 'numeric',
+            'name'  => 'overtimeModality3',
             'class' => \Convenia\AfdReader\Field\OvertimeModality::class,
         ],
         18 => [
@@ -114,9 +114,9 @@ class Detail implements RegistryInterface
             'name' => 'overtimePercentage4',
         ],
         20 => [
-            'size' => 1,
-            'type' => 'numeric',
-            'name' => 'overtimeModality4',
+            'size'  => 1,
+            'type'  => 'numeric',
+            'name'  => 'overtimeModality4',
             'class' => \Convenia\AfdReader\Field\OvertimeModality::class,
         ],
         21 => [

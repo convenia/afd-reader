@@ -2,7 +2,6 @@
 
 namespace Convenia\AfdReader\Field;
 
-use Convenia\AfdReader\Exception\IdentityNotExistsException;
 use Convenia\AfdReader\Interfaces\FieldInterface;
 
 class OvertimeModality implements FieldInterface
@@ -26,6 +25,5 @@ class OvertimeModality implements FieldInterface
         if (isset($this->types[$value])) {
             return $this->types[$value];
         }
-
     }
 }
