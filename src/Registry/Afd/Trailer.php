@@ -20,24 +20,19 @@ class Trailer implements RegistryInterface
         3 => [
             'size' => 9,
             'type' => 'numeric',
-            'name' => 'numberType2',
+            'name' => 'numberType3',
         ],
         4 => [
             'size' => 9,
             'type' => 'numeric',
-            'name' => 'numberType3',
+            'name' => 'numberType4',
         ],
         5 => [
             'size' => 9,
             'type' => 'numeric',
-            'name' => 'numberType4',
-        ],
-        6 => [
-            'size' => 9,
-            'type' => 'numeric',
             'name' => 'numberType5',
         ],
-        7 => [
+        6 => [
             'size' => 1,
             'type' => 'numeric',
             'name' => 'type',

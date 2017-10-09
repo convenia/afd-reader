@@ -52,6 +52,7 @@ class AfdReader
             '3' => \Convenia\AfdReader\Registry\Afd\Mark::class,
             '4' => \Convenia\AfdReader\Registry\Afd\MarkAdjust::class,
             '5' => \Convenia\AfdReader\Registry\Afd\Employee::class,
+            '9' => \Convenia\AfdReader\Registry\Afd\Trailer::class,
         ],
         'Acjef' => [
             '1' => \Convenia\AfdReader\Registry\Acjef\Header::class,
@@ -260,7 +261,6 @@ class AfdReader
 
         foreach ($this->fileArray as $value) {
             if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
-
                 if ($value['type'] == 1) {
                     $data['header'] = [
                         'sequency'          => $value['sequency'],
@@ -277,20 +277,56 @@ class AfdReader
                     ];
                 }
                 if ($value['type'] == 2) {
-//                    $data['header'] = $this->header($value);
+                    $data['companyChange'][] = [
+                        'nsr'             => $value['nsr'],
+                        'type'            => $value['type'],
+                        'date'            => $value['date']->format('dmY'),
+                        'time'            => $value['time'],
+                        'identityType'    => $value['identityType'],
+                        'idenitityNumber' => $value['idenitityNumber'],
+                        'cei'             => $value['cei'],
+                        'name'            => $value['name'],
+                        'place'           => $value['place'],
+                    ];
                 }
                 if ($value['type'] == 4) {
-//                    $data['header'] = $this->header($value);
+                    $data['markAdjust'][] = [
+                        'nsr'        => $value['nsr'],
+                        'type'       => $value['type'],
+                        'dateBefore' => $value['dateBefore']->format('dmY'),
+                        'timeBefore' => $value['timeBefore'],
+                        'dateAfter'  => $value['dateAfter']->format('dmY'),
+                        'timeAfter'  => $value['timeAfter'],
+                    ];
                 }
                 if ($value['type'] == 5) {
-//                    $data['header'] = $this->header($value);
+                    $data['employee'][] = [
+                        'nsr'            => $value['nsr'],
+                        'type'           => $value['type'],
+                        'date'           => $value['date']->format('dmY'),
+                        'time'           => $value['time'],
+                        'operation'      => $value['operation'],
+                        'identityNumber' => $value['identityNumber'],
+                        'name'           => $value['name'],
+                    ];
+                }
+                if ($value['type'] == 9) {
+                    $data['trailer'] = [
+                        'sequency'    => $value['sequency'],
+                        'numberType2' => $value['numberType2'],
+                        'numberType2' => $value['numberType2'],
+                        'numberType3' => $value['numberType3'],
+                        'numberType4' => $value['numberType4'],
+                        'numberType5' => $value['numberType5'],
+                        'type'        => $value['type'],
+                    ];
                 }
 
 
             }
         }
 
-//        $data['mark'] = $this->getByUserAfd();
+        $data['mark'] = $this->getByUserAfd();
 
         return $data;
     }

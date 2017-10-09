@@ -22,7 +22,7 @@ class AfdReaderTest extends PHPUnit_Framework_TestCase
         $return = new AfdReader('tests/afdt_test.txt');
         $val = $return->getAll();
         $this->assertArrayHasKey('header', $val);
-        $this->assertArrayHasKey('trailer', $val);
+//        $this->assertArrayHasKey('trailer', $val);
         $this->assertArrayHasKey('detail', $val);
     }
 
@@ -31,6 +31,18 @@ class AfdReaderTest extends PHPUnit_Framework_TestCase
         $return = new AfdReader('tests/afd_test.txt');
         $val = $return->getByUser();
         $this->assertArrayHasKey('016838599008', $val);
+    }
+
+    public function test_afd_all()
+    {
+        $return = new AfdReader('tests/afd_test.txt');
+        $val = $return->getAll();
+        $this->assertArrayHasKey('header', $val);
+        $this->assertArrayHasKey('markAdjust', $val);
+        $this->assertArrayHasKey('companyChange', $val);
+//        $this->assertArrayHasKey('trailer', $val);
+        $this->assertArrayHasKey('mark', $val);
+        $this->assertArrayHasKey('employee', $val);
     }
 
     public function test_acjef_get()
