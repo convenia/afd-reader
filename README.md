@@ -3,18 +3,29 @@
 Pacote para leitura de Arquivo Fonte de Dados (AFD).
 Especificação do MTE referente a portaria [1.510/2009](http://www.trtsp.jus.br/geral/tribunal2/ORGAOS/MTE/Portaria/P1510_09.html).
 
-## Utilização:
+## Arquivos suportados
 
-```
+- Arquivo-Fonte de Dados - AFD
+- Arquivo-Fonte de Dados Tratado - AFDT
+- Arquivo de Controle de Jornada para Efeitos Fiscais - ACJEF
+
+## Utilização
+
+```php
  use Convenia\AfdReader\AfdReader;
 
- $objAfdReader = new AfdReader('afdt_test.txt');
- $array = $objAfdReader->getByUser();
+ $afdReader = new AfdReader('afdt_test.txt');
+ $afdReader->getByUser();
 ```
 
- ## Resposta:
+## Métodos
 
-```
+- getByUser()
+- getAll()
+
+## Resposta
+
+```php
 Array
 (
     [016428553393] => Array //PIS
