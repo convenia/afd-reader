@@ -66,6 +66,7 @@ class AfdReader
      *
      * @param $filePath
      * @param null $fileType
+     *
      * @throws FileNotFoundException
      * @throws WrongFileTypeException
      */
@@ -99,8 +100,9 @@ class AfdReader
     /**
      * Check file type by lines.
      *
-     * @return string
      * @throws WrongFileTypeException
+     *
+     * @return string
      */
     private function fileTypeMagic()
     {
@@ -108,16 +110,15 @@ class AfdReader
         $trailer = trim($trailer);
 
         switch (strlen($trailer)) {
-            case 34 :
+            case 34:
                 return 'Afd';
-            case 55 :
+            case 55:
                 return 'Afdt';
-            case 91 :
+            case 91:
                 return 'Acjef';
-            default :
-                throw new WrongFileTypeException(__METHOD__ . ' couldn\'t recognize this file.');
+            default:
+                throw new WrongFileTypeException(__METHOD__.' couldn\'t recognize this file.');
         }
-
     }
 
     /**
@@ -134,6 +135,7 @@ class AfdReader
      * Translate line to array info.
      *
      * @param $content
+     *
      * @return array
      */
     private function translateToArray($content)
@@ -159,6 +161,7 @@ class AfdReader
      * Return a map by line type and file type.
      *
      * @param $content
+     *
      * @return bool
      */
     private function getMap($content)
@@ -166,7 +169,8 @@ class AfdReader
         $type = $this->getType($content);
         if (isset($this->typeNumber[$this->fileType][$type])) {
             $registry = $this->typeNumber[$this->fileType][$type];
-            $class = new $registry;
+            $class = new $registry();
+
             return $class->map;
         }
 
@@ -177,6 +181,7 @@ class AfdReader
      * Get type line.
      *
      * @param $content
+     *
      * @return bool|string
      */
     private function getType($content)
@@ -256,7 +261,6 @@ class AfdReader
      */
     private function getAllAfd()
     {
-
         $data = [];
 
         foreach ($this->fileArray as $value) {
@@ -321,8 +325,6 @@ class AfdReader
                         'type'        => $value['type'],
                     ];
                 }
-
-
             }
         }
 
@@ -338,12 +340,10 @@ class AfdReader
      */
     private function getAllAfdt()
     {
-
         $data = [];
 
         foreach ($this->fileArray as $value) {
             if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
-
                 if ($value['type'] == 1) {
                     $data['header'] = $this->header($value);
                 }
@@ -354,8 +354,6 @@ class AfdReader
                         'type'     => $value['type'],
                     ];
                 }
-
-
             }
         }
 
@@ -368,6 +366,7 @@ class AfdReader
      * Check Line Type on file.
      *
      * @param $value
+     *
      * @return bool
      */
     private function isByUserCondition($value)
@@ -454,7 +453,6 @@ class AfdReader
         return $this->userArray;
     }
 
-
     /**
      * Get All on ACJEF files.
      *
@@ -462,12 +460,10 @@ class AfdReader
      */
     private function getAllAcjef()
     {
-
         $data = [];
 
         foreach ($this->fileArray as $value) {
             if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
-
                 if ($value['type'] == 1) {
                     $data['header'] = $this->header($value);
                 }
