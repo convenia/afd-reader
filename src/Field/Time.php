@@ -18,7 +18,8 @@ class Time implements FieldInterface
      */
     public function format($value)
     {
-        if (strlen($value) != 4) {
+
+        if (strlen($value) != 4 && $value != 0) {
             throw new InvalidTimeFormatException($value);
         }
 
