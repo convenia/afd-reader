@@ -117,7 +117,7 @@ class AfdReader
             case 91:
                 return 'Acjef';
             default:
-                throw new WrongFileTypeException(__METHOD__.' couldn\'t recognize this file.');
+                throw new WrongFileTypeException(__METHOD__ . ' couldn\'t recognize this file.');
         }
     }
 
@@ -470,13 +470,13 @@ class AfdReader
 
                 if ($value['type'] == 2) {
                     $data['contractualHours'][] = [
-                        'sequency'   => $value['sequency'],
-                        'type'       => $value['type'],
-                        'hourCode'   => $value['hourCode'],
-                        'startTime'  => $value['startTime'],
-                        'startBreak' => $value['startBreak'],
-                        'finishBreak'   => $value['finishBreak'],
-                        'finishTime'    => $value['finishTime'],
+                        'sequency'    => $value['sequency'],
+                        'type'        => $value['type'],
+                        'hourCode'    => $value['hourCode'],
+                        'startTime'   => $value['startTime'],
+                        'startBreak'  => $value['startBreak'],
+                        'finishBreak' => $value['finishBreak'],
+                        'finishTime'  => $value['finishTime'],
                     ];
                 }
             }
