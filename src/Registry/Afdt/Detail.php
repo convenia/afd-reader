@@ -33,6 +33,7 @@ class Detail implements RegistryInterface
             'size' => 12,
             'type' => 'numeric',
             'name' => 'identityNumber',
+            'class' => \Convenia\AfdReader\Field\IdentityNumber::class,
         ],
         6  => [
             'size' => 17,

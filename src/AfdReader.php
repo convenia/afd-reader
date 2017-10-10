@@ -4,6 +4,7 @@ namespace Convenia\AfdReader;
 
 use Convenia\AfdReader\Exception\FileNotFoundException;
 use Convenia\AfdReader\Exception\WrongFileTypeException;
+use Convenia\AfdReader\Field\IdentityNumber;
 
 class AfdReader
 {
@@ -194,14 +195,18 @@ class AfdReader
      *
      * @return array
      */
-    public function getByUser()
+    public function getByUser($identityNumber = null)
     {
+        if ($identityNumber) {
+            $identityNumber = (new IdentityNumber())->format($identityNumber);
+        }
+
         if ($this->fileType == 'Afd') {
-            return $this->getByUserAfd();
+            return $this->getByUserAfd($identityNumber);
         } elseif ($this->fileType == 'Afdt') {
-            return $this->getByUserAfdt();
+            return $this->getByUserAfdt($identityNumber);
         } else {
-            return $this->getByUserAcjef();
+            return $this->getByUserAcjef($identityNumber);
         }
     }
 
@@ -226,12 +231,12 @@ class AfdReader
      *
      * @return array
      */
-    private function getByUserAfd()
+    private function getByUserAfd($identityNumber = null)
     {
         $userControl = [];
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
-                if (!isset($userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')])) {
+                if (! isset($userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')])) {
                     $userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')] = 'Entrada';
                     $userControl[$value['identityNumber']]['period'][$value['date']->format('dmY')] = 1;
                 }
@@ -251,6 +256,14 @@ class AfdReader
             }
         }
 
+        if ($identityNumber) {
+            if (array_key_exists($identityNumber, $this->userArray)) {
+                return $this->userArray[$identityNumber];
+            } else {
+                return [];
+            }
+        }
+
         return $this->userArray;
     }
 
@@ -264,7 +277,7 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
+            if (! $this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = [
                         'sequency'          => $value['sequency'],
@@ -343,7 +356,7 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
+            if (! $this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = $this->header($value);
                 }
@@ -371,7 +384,7 @@ class AfdReader
      */
     private function isByUserCondition($value)
     {
-        if (!isset($value['type'])) {
+        if (! isset($value['type'])) {
             return false;
         }
 
@@ -395,7 +408,7 @@ class AfdReader
      *
      * @return array
      */
-    private function getByUserAfdt()
+    private function getByUserAfdt($identityNumber = null)
     {
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
@@ -409,6 +422,14 @@ class AfdReader
             }
         }
 
+        if ($identityNumber) {
+            if (array_key_exists($identityNumber, $this->userArray)) {
+                return $this->userArray[$identityNumber];
+            } else {
+                return [];
+            }
+        }
+
         return $this->userArray;
     }
 
@@ -417,7 +438,7 @@ class AfdReader
      *
      * @return array
      */
-    private function getByUserAcjef()
+    private function getByUserAcjef($identityNumber = null)
     {
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
@@ -450,6 +471,14 @@ class AfdReader
             }
         }
 
+        if ($identityNumber) {
+            if (array_key_exists($identityNumber, $this->userArray)) {
+                return $this->userArray[$identityNumber];
+            } else {
+                return [];
+            }
+        }
+
         return $this->userArray;
     }
 
@@ -463,7 +492,7 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
+            if (! $this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = $this->header($value);
                 }

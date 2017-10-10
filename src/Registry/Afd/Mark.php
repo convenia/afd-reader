@@ -33,6 +33,7 @@ class Mark implements RegistryInterface
             'size' => 12,
             'type' => 'numeric',
             'name' => 'identityNumber',
+            'class' => \Convenia\AfdReader\Field\IdentityNumber::class,
         ],
     ];
 
