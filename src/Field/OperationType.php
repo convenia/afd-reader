@@ -16,6 +16,7 @@ class OperationType implements FieldInterface
      * Format field type.
      *
      * @param $value
+     *
      * @return mixed
      */
     public function format($value)
