@@ -1,5 +1,7 @@
 {
   "name": "convenia/afd-reader",
+  "license": "MIT",
+  "keywords": ["php", "afd", "acjef", "afdt", "mte"],
   "description": "Pacote para leitura de Arquivo Fonte de Dados (AFD). Especificação do MTE referente a portaria 1.510/2009.",
   "authors": [
     {
