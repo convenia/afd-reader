@@ -11,11 +11,9 @@ class Date implements FieldInterface
     /**
      * Format field type.
      *
-     * @method format
-     *
-     * @param string $value value to be formated
-     *
-     * @return string formated value
+     * @param $value
+     * @return bool|\DateTime
+     * @throws \Convenia\AfdReader\Exception\InvalidDateFormatException
      */
     public function format($value)
     {
