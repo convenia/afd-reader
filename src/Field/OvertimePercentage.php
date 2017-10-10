@@ -11,8 +11,10 @@ class OvertimePercentage implements FieldInterface
      * Format field type.
      *
      * @param $value
-     * @return array
+     *
      * @throws \Convenia\AfdReader\Exception\InvalidOvertimePercentageException
+     *
+     * @return array
      */
     public function format($value)
     {
@@ -22,7 +24,7 @@ class OvertimePercentage implements FieldInterface
 
         return [
             'integer'   => substr($value, 0, 2),
-            'decimal' => substr($value, 2, 2),
+            'decimal'   => substr($value, 2, 2),
         ];
     }
 }

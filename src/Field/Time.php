@@ -11,8 +11,10 @@ class Time implements FieldInterface
      * Format field type.
      *
      * @param $value
-     * @return array
+     *
      * @throws \Convenia\AfdReader\Exception\InvalidTimeFormatException
+     *
+     * @return array
      */
     public function format($value)
     {

@@ -17,8 +17,10 @@ class RegistryType implements FieldInterface
      * Format field type.
      *
      * @param $value
-     * @return mixed
+     *
      * @throws \Convenia\AfdReader\Exception\RegistryNotExistsException
+     *
+     * @return mixed
      */
     public function format($value)
     {
