@@ -17,8 +17,10 @@ class Direction implements FieldInterface
      * Format field type.
      *
      * @param $value
-     * @return mixed
+     *
      * @throws \Convenia\AfdReader\Exception\DirectionNotExistsException
+     *
+     * @return mixed
      */
     public function format($value)
     {

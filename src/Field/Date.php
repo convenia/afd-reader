@@ -12,8 +12,10 @@ class Date implements FieldInterface
      * Format field type.
      *
      * @param $value
-     * @return bool|\DateTime
+     *
      * @throws \Convenia\AfdReader\Exception\InvalidDateFormatException
+     *
+     * @return bool|\DateTime
      */
     public function format($value)
     {
