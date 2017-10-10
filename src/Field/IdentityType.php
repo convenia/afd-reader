@@ -15,11 +15,11 @@ class IdentityType implements FieldInterface
     /**
      * Format field type.
      *
-     * @method format
+     * @param $value
      *
-     * @param string $value value to be formated
+     * @throws \Convenia\AfdReader\Exception\IdentityNotExistsException
      *
-     * @return string formated value
+     * @return mixed
      */
     public function format($value)
     {
