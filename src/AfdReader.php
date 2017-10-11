@@ -257,7 +257,7 @@ class AfdReader
         $userControl = [];
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
-                if (! isset($userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')])) {
+                if (!isset($userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')])) {
                     $userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')] = 'Entrada';
                     $userControl[$value['identityNumber']]['period'][$value['date']->format('dmY')] = 1;
                 }
@@ -298,7 +298,7 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if (! $this->isByUserCondition($value) && array_key_exists('type', $value)) {
+            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = [
                         'sequency'          => $value['sequency'],
@@ -377,7 +377,7 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if (! $this->isByUserCondition($value) && array_key_exists('type', $value)) {
+            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = $this->header($value);
                 }
@@ -405,7 +405,7 @@ class AfdReader
      */
     private function isByUserCondition($value)
     {
-        if (! isset($value['type'])) {
+        if (!isset($value['type'])) {
             return false;
         }
 
@@ -521,7 +521,7 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if (! $this->isByUserCondition($value) && array_key_exists('type', $value)) {
+            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = $this->header($value);
                 }
