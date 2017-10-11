@@ -25,28 +25,24 @@ Especificação do MTE referente a portaria [1.510/2009](http://www.trtsp.jus.br
 
 ## Utilização
 
-O AfdReader pode ser instanciado com o caminho do arquivo. Neste caso ele tentará descobrir o tipo do arquivo. (AFD, AFDT ou ACJEF)
+O AfdReader pode ser instanciado informando apenas o caminho do arquivo, neste caso ele tentará descobrir o tipo do arquivo:
 ```php
  use Convenia\AfdReader\AfdReader;
 
  $afdReader = new AfdReader('afdt_test.txt');
 ```
 
-E também informando o tipo do arquivo que será lido
+Informando o tipo do arquivo:
 ```php
  use Convenia\AfdReader\AfdReader;
 
  $afdReader = new AfdReader('afdt_test.txt', 'Afdt');
 ```
 
-
-### getByUser()
-Retorna as informações agrupados por NIS/PIS
+Obter informações agrupados por NIS/PIS:
 ```php
  $afdReader->getByUser();
 ```
-
-### Retorno
 
 ```php
 Array
@@ -134,13 +130,10 @@ Array
 )
 ```
 
-### getByUser(62915959739)
-Retorna as ocorrências de um NIS/PIS especifico
+Obter as ocorrências de um NIS/PIS:
 ```php
  $afdReader->getByUser(62915959739);
 ```
-
-### Retorno
 
 ```php
 [20052015] => Array //DDMMYYYY
@@ -220,13 +213,94 @@ Retorna as ocorrências de um NIS/PIS especifico
                 )
 ```
 
-### getAll()
-Retorna as informações de todos os registros
+Obter as ocorrências de um NIS/PIS no período especificado:
+```php
+ $afdReader->getByUser(62915959739, ['from' => '2015-05-20', 'to' => '2015-05-20']);
+```
+
+```php
+[20052015] => Array //DDMMYYYY
+                (
+                    [01] => Array //ORDER
+                        (
+                            [0] => Array //ENTRADA
+                                (
+                                    [sequency] => 000000002
+                                    [dateTime] => DateTime Object
+                                        (
+                                            [date] => 2015-05-20 09:00:00.000000
+                                            [timezone_type] => 3
+                                            [timezone] => America/Sao_Paulo
+                                        )
+
+                                    [reason] => 
+
+                                    [direction] => Entrada
+                                    [type] => Original
+                                )
+
+                            [1] => Array //SAIDA
+                                (
+                                    [sequency] => 000000003
+                                    [dateTime] => DateTime Object
+                                        (
+                                            [date] => 2015-05-20 12:04:00.000000
+                                            [timezone_type] => 3
+                                            [timezone] => America/Sao_Paulo
+                                        )
+
+                                    [reason] => 
+
+                                    [direction] => Saída
+                                    [type] => Original
+                                )
+
+                        )
+
+                    [02] => Array //ORDER
+                        (
+                            [0] => Array //ENTRADA
+                                (
+                                    [sequency] => 000000004
+                                    [dateTime] => DateTime Object
+                                        (
+                                            [date] => 2015-05-20 13:14:00.000000
+                                            [timezone_type] => 3
+                                            [timezone] => America/Sao_Paulo
+                                        )
+
+                                    [reason] => 
+
+                                    [direction] => Entrada
+                                    [type] => Original
+                                )
+
+                            [1] => Array //SAIDA
+                                (
+                                    [sequency] => 000000005
+                                    [dateTime] => DateTime Object
+                                        (
+                                            [date] => 2015-05-20 18:07:00.000000
+                                            [timezone_type] => 3
+                                            [timezone] => America/Sao_Paulo
+                                        )
+
+                                    [reason] => 
+
+                                    [direction] => Saída
+                                    [type] => Original
+                                )
+
+                        )
+
+                )
+```
+
+Obter as informações de todos os registros:
 ```php
  $afdReader->getAll();
 ```
 
-### Retorno
 ```php
 Array
 (
