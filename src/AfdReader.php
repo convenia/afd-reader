@@ -257,7 +257,7 @@ class AfdReader
         $userControl = [];
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
-                if (!isset($userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')])) {
+                if (! isset($userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')])) {
                     $userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')] = 'Entrada';
                     $userControl[$value['identityNumber']]['period'][$value['date']->format('dmY')] = 1;
                 }
@@ -298,7 +298,7 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
+            if (! $this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = [
                         'sequency'          => $value['sequency'],
@@ -377,7 +377,7 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
+            if (! $this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = $this->header($value);
                 }
@@ -405,7 +405,7 @@ class AfdReader
      */
     private function isByUserCondition($value)
     {
-        if (!isset($value['type'])) {
+        if (! isset($value['type'])) {
             return false;
         }
 
@@ -469,7 +469,7 @@ class AfdReader
             $this->filter($period, 'startDate', 3);
         }
 
-        foreach ($this->fileArray as $key => $value) {
+        foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
                 $this->userArray[$value['identityNumber']][] = [
                     'sequency'              => $value['sequency'],
@@ -521,7 +521,7 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
+            if (! $this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = $this->header($value);
                 }
@@ -563,8 +563,11 @@ class AfdReader
 
     private function period($data)
     {
-        $begin = DateTime::createFromFormat('Y-m-d', $data['from']);
-        $end = DateTime::createFromFormat('Y-m-d', $data['to']);
+        $begin = new DateTime();
+        $begin = $begin->createFromFormat('Y-m-d', $data['from']);
+
+        $end = new DateTime();
+        $end = $end->createFromFormat('Y-m-d', $data['to']);
 
         if ($begin === false || $end === false) {
             throw new InvalidDateFormatException('Passed value from: '.$data['from'].' - to: '.$data['to']);
@@ -587,10 +590,10 @@ class AfdReader
     private function filter($period, $key, $type)
     {
         $dates = $this->period($period);
-        $this->fileArray = array_filter($this->fileArray, function ($e) use ($dates, $key, $type) {
-            if (isset($e[$key]) && $e['type'] == $type) {
-                if (array_key_exists($e[$key]->format('dmY'), array_flip($dates))) {
-                    return $e;
+        $this->fileArray = array_filter($this->fileArray, function ($registry) use ($dates, $key, $type) {
+            if (isset($registry[$key]) && $registry['type'] == $type) {
+                if (array_key_exists($registry[$key]->format('dmY'), array_flip($dates))) {
+                    return $registry;
                 }
             }
         });
