@@ -25,35 +25,37 @@ Especificação do MTE referente a portaria [1.510/2009](http://www.trtsp.jus.br
 
 ## Utilização
 
-O AfdReader pode ser instanciado informando apenas o caminho do arquivo, neste caso ele tentará descobrir o tipo do arquivo:
+O AfdReader pode ser instanciado informando apenas o caminho do arquivo, neste caso ele tentará descobrir o tipo:
 ```php
- use Convenia\AfdReader\AfdReader;
-
- $afdReader = new AfdReader('afdt_test.txt');
+use Convenia\AfdReader\AfdReader;
+...
+ 
+$afdReader = new AfdReader('afdt_test.txt');
 ```
 
 Informando o tipo do arquivo:
 ```php
- use Convenia\AfdReader\AfdReader;
+use Convenia\AfdReader\AfdReader;
+...
 
- $afdReader = new AfdReader('afdt_test.txt', 'Afdt');
+$afdReader = new AfdReader('afdt_test.txt', 'Afdt');
 ```
 
-Obter informações agrupados por NIS/PIS:
+Obter informações agrupadas por NIS/PIS:
 ```php
- $afdReader->getByUser();
+$afdReader->getByUser();
 ```
 
-```php
+```
 Array
 (
-    [62915959739] => Array //PIS
+    [62915959739] => Array
         (
-            [20052015] => Array //DDMMYYYY
+            [20052015] => Array
                 (
-                    [01] => Array //ORDER
+                    [01] => Array
                         (
-                            [0] => Array //ENTRADA
+                            [0] => Array
                                 (
                                     [sequency] => 000000002
                                     [dateTime] => DateTime Object
@@ -69,7 +71,7 @@ Array
                                     [type] => Original
                                 )
 
-                            [1] => Array //SAIDA
+                            [1] => Array
                                 (
                                     [sequency] => 000000003
                                     [dateTime] => DateTime Object
@@ -87,9 +89,9 @@ Array
 
                         )
 
-                    [02] => Array //ORDER
+                    [02] => Array
                         (
-                            [0] => Array //ENTRADA
+                            [0] => Array
                                 (
                                     [sequency] => 000000004
                                     [dateTime] => DateTime Object
@@ -105,7 +107,7 @@ Array
                                     [type] => Original
                                 )
 
-                            [1] => Array //SAIDA
+                            [1] => Array
                                 (
                                     [sequency] => 000000005
                                     [dateTime] => DateTime Object
@@ -132,15 +134,15 @@ Array
 
 Obter as ocorrências de um NIS/PIS:
 ```php
- $afdReader->getByUser(62915959739);
+$afdReader->getByUser(62915959739);
 ```
 
-```php
-[20052015] => Array //DDMMYYYY
+```
+[20052015] => Array
                 (
-                    [01] => Array //ORDER
+                    [01] => Array
                         (
-                            [0] => Array //ENTRADA
+                            [0] => Array
                                 (
                                     [sequency] => 000000002
                                     [dateTime] => DateTime Object
@@ -156,7 +158,7 @@ Obter as ocorrências de um NIS/PIS:
                                     [type] => Original
                                 )
 
-                            [1] => Array //SAIDA
+                            [1] => Array
                                 (
                                     [sequency] => 000000003
                                     [dateTime] => DateTime Object
@@ -174,9 +176,9 @@ Obter as ocorrências de um NIS/PIS:
 
                         )
 
-                    [02] => Array //ORDER
+                    [02] => Array
                         (
-                            [0] => Array //ENTRADA
+                            [0] => Array
                                 (
                                     [sequency] => 000000004
                                     [dateTime] => DateTime Object
@@ -192,7 +194,7 @@ Obter as ocorrências de um NIS/PIS:
                                     [type] => Original
                                 )
 
-                            [1] => Array //SAIDA
+                            [1] => Array
                                 (
                                     [sequency] => 000000005
                                     [dateTime] => DateTime Object
@@ -215,15 +217,15 @@ Obter as ocorrências de um NIS/PIS:
 
 Obter as ocorrências de um NIS/PIS no período especificado:
 ```php
- $afdReader->getByUser(62915959739, ['from' => '2015-05-20', 'to' => '2015-05-20']);
+$afdReader->getByUser(62915959739, ['from' => '2015-05-20', 'to' => '2015-05-20']);
 ```
 
-```php
-[20052015] => Array //DDMMYYYY
+```
+[20052015] => Array
                 (
-                    [01] => Array //ORDER
+                    [01] => Array
                         (
-                            [0] => Array //ENTRADA
+                            [0] => Array
                                 (
                                     [sequency] => 000000002
                                     [dateTime] => DateTime Object
@@ -239,7 +241,7 @@ Obter as ocorrências de um NIS/PIS no período especificado:
                                     [type] => Original
                                 )
 
-                            [1] => Array //SAIDA
+                            [1] => Array
                                 (
                                     [sequency] => 000000003
                                     [dateTime] => DateTime Object
@@ -257,7 +259,7 @@ Obter as ocorrências de um NIS/PIS no período especificado:
 
                         )
 
-                    [02] => Array //ORDER
+                    [02] => Array
                         (
                             [0] => Array //ENTRADA
                                 (
@@ -275,7 +277,7 @@ Obter as ocorrências de um NIS/PIS no período especificado:
                                     [type] => Original
                                 )
 
-                            [1] => Array //SAIDA
+                            [1] => Array
                                 (
                                     [sequency] => 000000005
                                     [dateTime] => DateTime Object
@@ -298,10 +300,10 @@ Obter as ocorrências de um NIS/PIS no período especificado:
 
 Obter as informações de todos os registros:
 ```php
- $afdReader->getAll();
+$afdReader->getAll();
 ```
 
-```php
+```
 Array
 (
     [header] => Array
