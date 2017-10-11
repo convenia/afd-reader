@@ -6,10 +6,12 @@ Pacote para leitura de Arquivo Fonte de Dados (AFD).
 Especificação do MTE referente a portaria [1.510/2009](http://www.trtsp.jus.br/geral/tribunal2/ORGAOS/MTE/Portaria/P1510_09.html).
 
 ---
+[![Latest Stable Version](https://poser.pugx.org/convenia/afd-reader/v/stable)](https://packagist.org/packages/convenia/afd-reader)
 [![Build Status](https://travis-ci.org/convenia/afd-reader.svg?branch=master)](https://travis-ci.org/convenia/afd-reader)
 [![StyleCI](https://styleci.io/repos/62637664/shield?branch=master)](https://styleci.io/repos/62637664)
 [![Code Climate](https://codeclimate.com/github/convenia/afd-reader/badges/gpa.svg)](https://codeclimate.com/github/convenia/afd-reader)
 [![Total Downloads](https://poser.pugx.org/convenia/afd-reader/downloads)](https://packagist.org/packages/convenia/afd-reader)
+[![License](https://poser.pugx.org/convenia/afd-reader/license)](https://packagist.org/packages/convenia/afd-reader)
 ---
 
 ## Arquivos suportados
