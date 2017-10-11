@@ -73,7 +73,7 @@ class AfdReader
      */
     public function __construct($filePath, $fileType = null)
     {
-        $this->fileType = $fileType;
+        $this->fileType = ucfirst(strtolower($fileType));
         $this->file = $filePath;
         $this->setFileContents();
 
