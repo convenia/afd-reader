@@ -30,9 +30,10 @@ class Detail implements RegistryInterface
             'class' => \Convenia\AfdReader\Field\Time::class,
         ],
         5  => [
-            'size' => 12,
-            'type' => 'numeric',
-            'name' => 'identityNumber',
+            'size'  => 12,
+            'type'  => 'numeric',
+            'name'  => 'identityNumber',
+            'class' => \Convenia\AfdReader\Field\IdentityNumber::class,
         ],
         6  => [
             'size' => 17,

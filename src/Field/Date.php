@@ -22,7 +22,7 @@ class Date implements FieldInterface
         $dateObj = new DateTime();
         $dateObj = $dateObj->createFromFormat('dmY', $value);
         if ($dateObj === false) {
-            throw new InvalidDateFormatException('passed value:'.$value);
+            throw new InvalidDateFormatException('Passed value: '.$value);
         }
 
         return $dateObj;

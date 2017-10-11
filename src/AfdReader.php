@@ -3,7 +3,12 @@
 namespace Convenia\AfdReader;
 
 use Convenia\AfdReader\Exception\FileNotFoundException;
+use Convenia\AfdReader\Exception\InvalidDateFormatException;
 use Convenia\AfdReader\Exception\WrongFileTypeException;
+use Convenia\AfdReader\Field\IdentityNumber;
+use DateInterval;
+use DatePeriod;
+use DateTime;
 
 class AfdReader
 {
@@ -36,6 +41,16 @@ class AfdReader
      * @var int
      */
     private $typePosition = 9;
+
+    /**
+     * @var int
+     */
+    private $identityNumber;
+
+    /**
+     * @var array
+     */
+    private $period;
 
     /**
      * @var array
@@ -72,7 +87,7 @@ class AfdReader
      */
     public function __construct($filePath, $fileType = null)
     {
-        $this->fileType = $fileType;
+        $this->fileType = ucfirst(strtolower($fileType));
         $this->file = $filePath;
         $this->setFileContents();
 
@@ -194,14 +209,21 @@ class AfdReader
      *
      * @return array
      */
-    public function getByUser()
+    public function getByUser($identityNumber = null, $period = null)
     {
+        $this->identityNumber = $identityNumber;
+        $this->period = $period;
+
+        if ($this->identityNumber) {
+            $this->identityNumber = (new IdentityNumber())->format($this->identityNumber);
+        }
+
         if ($this->fileType == 'Afd') {
-            return $this->getByUserAfd();
+            return $this->getByUserAfd($this->identityNumber, $this->period);
         } elseif ($this->fileType == 'Afdt') {
-            return $this->getByUserAfdt();
+            return $this->getByUserAfdt($this->identityNumber, $this->period);
         } else {
-            return $this->getByUserAcjef();
+            return $this->getByUserAcjef($this->identityNumber, $this->period);
         }
     }
 
@@ -226,8 +248,12 @@ class AfdReader
      *
      * @return array
      */
-    private function getByUserAfd()
+    private function getByUserAfd($identityNumber = null, $period = null)
     {
+        if ($period) {
+            $this->filter($period, 'date', 3);
+        }
+
         $userControl = [];
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
@@ -248,6 +274,14 @@ class AfdReader
 
                 $userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')] = 'Entrada';
                 $userControl[$value['identityNumber']]['period'][$value['date']->format('dmY')]++;
+            }
+        }
+
+        if ($identityNumber) {
+            if (array_key_exists($identityNumber, $this->userArray)) {
+                return $this->userArray[$identityNumber];
+            } else {
+                return [];
             }
         }
 
@@ -328,7 +362,7 @@ class AfdReader
             }
         }
 
-        $data['mark'] = $this->getByUserAfd();
+        $data['mark'] = $this->getByUserAfd($this->identityNumber, $this->period);
 
         return $data;
     }
@@ -357,7 +391,7 @@ class AfdReader
             }
         }
 
-        $data['detail'] = $this->getByUserAfdt();
+        $data['detail'] = $this->getByUserAfdt($this->identityNumber, $this->period);
 
         return $data;
     }
@@ -395,8 +429,12 @@ class AfdReader
      *
      * @return array
      */
-    private function getByUserAfdt()
+    private function getByUserAfdt($identityNumber = null, $period = null)
     {
+        if ($period) {
+            $this->filter($period, 'clockDate', 2);
+        }
+
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
                 $this->userArray[$value['identityNumber']][$value['clockDate']->format('dmY')][$value['directionOrder']][] = [
@@ -409,6 +447,14 @@ class AfdReader
             }
         }
 
+        if ($identityNumber) {
+            if (array_key_exists($identityNumber, $this->userArray)) {
+                return $this->userArray[$identityNumber];
+            } else {
+                return [];
+            }
+        }
+
         return $this->userArray;
     }
 
@@ -417,9 +463,13 @@ class AfdReader
      *
      * @return array
      */
-    private function getByUserAcjef()
+    private function getByUserAcjef($identityNumber = null, $period = null)
     {
-        foreach ($this->fileArray as $value) {
+        if ($period) {
+            $this->filter($period, 'startDate', 3);
+        }
+
+        foreach ($this->fileArray as $key => $value) {
             if ($this->isByUserCondition($value)) {
                 $this->userArray[$value['identityNumber']][] = [
                     'sequency'              => $value['sequency'],
@@ -447,6 +497,14 @@ class AfdReader
                     'hourSinalCompensate'   => $value['hourSinalCompensate'],
                     'hourBalanceCompensate' => $value['hourBalanceCompensate'],
                 ];
+            }
+        }
+
+        if ($identityNumber) {
+            if (array_key_exists($identityNumber, $this->userArray)) {
+                return $this->userArray[$identityNumber];
+            } else {
+                return [];
             }
         }
 
@@ -482,7 +540,7 @@ class AfdReader
             }
         }
 
-        $data['detail'] = $this->getByUserAcjef();
+        $data['detail'] = $this->getByUserAcjef($this->identityNumber, $this->period);
 
         return $data;
     }
@@ -501,5 +559,40 @@ class AfdReader
             'generationDate' => $value['generationDate'],
             'generationTime' => $value['generationTime'],
         ];
+    }
+
+    private function period($data)
+    {
+        $begin = DateTime::createFromFormat('Y-m-d', $data['from']);
+        $end = DateTime::createFromFormat('Y-m-d', $data['to']);
+
+        if ($begin === false || $end === false) {
+            throw new InvalidDateFormatException('Passed value from: '.$data['from'].' - to: '.$data['to']);
+        }
+
+        $end = $end->modify('+1 day');
+
+        $interval = new DateInterval('P1D');
+        $daterange = new DatePeriod($begin, $interval, $end);
+
+        $result = [];
+
+        foreach ($daterange as $date) {
+            $result[] = $date->format('dmY');
+        }
+
+        return $result;
+    }
+
+    private function filter($period, $key, $type)
+    {
+        $dates = $this->period($period);
+        $this->fileArray = array_filter($this->fileArray, function ($e) use ($dates, $key, $type) {
+            if (isset($e[$key]) && $e['type'] == $type) {
+                if (array_key_exists($e[$key]->format('dmY'), array_flip($dates))) {
+                    return $e;
+                }
+            }
+        });
     }
 }
