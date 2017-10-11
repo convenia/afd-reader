@@ -315,7 +315,7 @@ Array
             [entityType] => CNPJ
             [entityNumber] => 32041763000177
             [cei] => 000000000000
-            [name] => NOME DA EMPRESA - LTDA ME                                                                                                                    
+            [name] => NOME DA EMPRESA - LTDA ME
             [startDate] => 20052015
             [endDate] => 20092015
             [generationDate] => DateTime Object
