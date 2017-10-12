@@ -140,7 +140,11 @@ $afdReader->getByUser(62915959739);
 ```
 
 ```
-[20052015] => Array
+Array
+(
+    [62915959739] => Array
+        (
+            [20052015] => Array
                 (
                     [01] => Array
                         (
@@ -149,15 +153,14 @@ $afdReader->getByUser(62915959739);
                                     [sequency] => 000000002
                                     [dateTime] => DateTime Object
                                         (
-                                            [date] => 2015-05-20 09:00:00.000000
+                                            [date] => 2017-09-01 09:00:00.000000
                                             [timezone_type] => 3
                                             [timezone] => America/Sao_Paulo
                                         )
 
-                                    [reason] => 
-
+                                    [reason] => ESQUECEU DE BATER                                                                                   
                                     [direction] => Entrada
-                                    [type] => Original
+                                    [type] => Incluído por digitação
                                 )
 
                             [1] => Array
@@ -165,13 +168,12 @@ $afdReader->getByUser(62915959739);
                                     [sequency] => 000000003
                                     [dateTime] => DateTime Object
                                         (
-                                            [date] => 2015-05-20 12:04:00.000000
+                                            [date] => 2017-09-01 11:59:00.000000
                                             [timezone_type] => 3
                                             [timezone] => America/Sao_Paulo
                                         )
 
-                                    [reason] => 
-
+                                    [reason] =>                                                                                                     
                                     [direction] => Saída
                                     [type] => Original
                                 )
@@ -185,15 +187,14 @@ $afdReader->getByUser(62915959739);
                                     [sequency] => 000000004
                                     [dateTime] => DateTime Object
                                         (
-                                            [date] => 2015-05-20 13:14:00.000000
+                                            [date] => 2017-09-01 13:00:00.000000
                                             [timezone_type] => 3
                                             [timezone] => America/Sao_Paulo
                                         )
 
-                                    [reason] => 
-
+                                    [reason] => ESQUECEU DE BATER                                                                                   
                                     [direction] => Entrada
-                                    [type] => Original
+                                    [type] => Incluído por digitação
                                 )
 
                             [1] => Array
@@ -201,20 +202,23 @@ $afdReader->getByUser(62915959739);
                                     [sequency] => 000000005
                                     [dateTime] => DateTime Object
                                         (
-                                            [date] => 2015-05-20 18:07:00.000000
+                                            [date] => 2017-09-01 19:00:00.000000
                                             [timezone_type] => 3
                                             [timezone] => America/Sao_Paulo
                                         )
 
-                                    [reason] => 
-
+                                    [reason] => ESQUECEU DE BATER                                                                                   
                                     [direction] => Saída
-                                    [type] => Original
+                                    [type] => Incluído por digitação
                                 )
 
                         )
 
                 )
+
+        )
+
+)
 ```
 
 Obter as ocorrências de um NIS/PIS no período especificado:
@@ -223,7 +227,11 @@ $afdReader->getByUser(62915959739, ['from' => '2015-05-20', 'to' => '2015-05-20'
 ```
 
 ```
-[20052015] => Array
+Array
+(
+    [62915959739] => Array
+        (
+            [20052015] => Array
                 (
                     [01] => Array
                         (
@@ -232,15 +240,14 @@ $afdReader->getByUser(62915959739, ['from' => '2015-05-20', 'to' => '2015-05-20'
                                     [sequency] => 000000002
                                     [dateTime] => DateTime Object
                                         (
-                                            [date] => 2015-05-20 09:00:00.000000
+                                            [date] => 2017-09-01 09:00:00.000000
                                             [timezone_type] => 3
                                             [timezone] => America/Sao_Paulo
                                         )
 
-                                    [reason] => 
-
+                                    [reason] => ESQUECEU DE BATER                                                                                   
                                     [direction] => Entrada
-                                    [type] => Original
+                                    [type] => Incluído por digitação
                                 )
 
                             [1] => Array
@@ -248,13 +255,12 @@ $afdReader->getByUser(62915959739, ['from' => '2015-05-20', 'to' => '2015-05-20'
                                     [sequency] => 000000003
                                     [dateTime] => DateTime Object
                                         (
-                                            [date] => 2015-05-20 12:04:00.000000
+                                            [date] => 2017-09-01 11:59:00.000000
                                             [timezone_type] => 3
                                             [timezone] => America/Sao_Paulo
                                         )
 
-                                    [reason] => 
-
+                                    [reason] =>                                                                                                     
                                     [direction] => Saída
                                     [type] => Original
                                 )
@@ -263,20 +269,19 @@ $afdReader->getByUser(62915959739, ['from' => '2015-05-20', 'to' => '2015-05-20'
 
                     [02] => Array
                         (
-                            [0] => Array //ENTRADA
+                            [0] => Array
                                 (
                                     [sequency] => 000000004
                                     [dateTime] => DateTime Object
                                         (
-                                            [date] => 2015-05-20 13:14:00.000000
+                                            [date] => 2017-09-01 13:00:00.000000
                                             [timezone_type] => 3
                                             [timezone] => America/Sao_Paulo
                                         )
 
-                                    [reason] => 
-
+                                    [reason] => ESQUECEU DE BATER                                                                                   
                                     [direction] => Entrada
-                                    [type] => Original
+                                    [type] => Incluído por digitação
                                 )
 
                             [1] => Array
@@ -284,20 +289,23 @@ $afdReader->getByUser(62915959739, ['from' => '2015-05-20', 'to' => '2015-05-20'
                                     [sequency] => 000000005
                                     [dateTime] => DateTime Object
                                         (
-                                            [date] => 2015-05-20 18:07:00.000000
+                                            [date] => 2017-09-01 19:00:00.000000
                                             [timezone_type] => 3
                                             [timezone] => America/Sao_Paulo
                                         )
 
-                                    [reason] => 
-
+                                    [reason] => ESQUECEU DE BATER                                                                                   
                                     [direction] => Saída
-                                    [type] => Original
+                                    [type] => Incluído por digitação
                                 )
 
                         )
 
                 )
+
+        )
+
+)
 ```
 
 Obter as informações de todos os registros:

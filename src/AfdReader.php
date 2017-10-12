@@ -244,6 +244,10 @@ class AfdReader
             $this->filter($period, 'date', 3);
         }
 
+        if ($identityNumber) {
+            $this->byIdentityNumber($identityNumber);
+        }
+
         $userControl = [];
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
@@ -268,10 +272,6 @@ class AfdReader
             }
         }
 
-        if ($identityNumber) {
-            return $this->byIdentityNumber($identityNumber, $this->userArray);
-        }
-
         return $this->userArray;
     }
 
@@ -288,6 +288,22 @@ class AfdReader
         $this->fileArray = array_filter($this->fileArray, function ($registry) use ($dates, $key, $type) {
             if (isset($registry[$key]) && $registry['type'] == $type) {
                 if (array_key_exists($registry[$key]->format('dmY'), array_flip($dates))) {
+                    return $registry;
+                }
+            }
+        });
+    }
+
+    /**
+     * Filter by identityNumber.
+     *
+     * @param $identityNumber
+     */
+    private function byIdentityNumber($identityNumber)
+    {
+        $this->fileArray = array_filter($this->fileArray, function ($registry) use ($identityNumber) {
+            if (isset($registry['identityNumber'])) {
+                if ($registry['identityNumber'] == $identityNumber) {
                     return $registry;
                 }
             }
@@ -356,22 +372,6 @@ class AfdReader
     }
 
     /**
-     * Filter by identityNumber.
-     *
-     * @param $identityNumber
-     * @param $data
-     * @return array
-     */
-    private function byIdentityNumber($identityNumber, $data)
-    {
-        if (array_key_exists($identityNumber, $data)) {
-            return $data[$identityNumber];
-        }
-
-        return [];
-    }
-
-    /**
      * Get By User on AFDT files.
      *
      * @param null $identityNumber
@@ -384,6 +384,10 @@ class AfdReader
             $this->filter($period, 'clockDate', 2);
         }
 
+        if ($identityNumber) {
+            $this->byIdentityNumber($identityNumber);
+        }
+
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
                 $this->userArray[$value['identityNumber']][$value['clockDate']->format('dmY')][$value['directionOrder']][] = [
@@ -394,10 +398,6 @@ class AfdReader
                     'type' => $value['registryType'],
                 ];
             }
-        }
-
-        if ($identityNumber) {
-            return $this->byIdentityNumber($identityNumber, $this->userArray);
         }
 
         return $this->userArray;
@@ -414,6 +414,10 @@ class AfdReader
     {
         if ($period) {
             $this->filter($period, 'startDate', 3);
+        }
+
+        if ($identityNumber) {
+            $this->byIdentityNumber($identityNumber);
         }
 
         foreach ($this->fileArray as $value) {
@@ -445,10 +449,6 @@ class AfdReader
                     'hourBalanceCompensate' => $value['hourBalanceCompensate'],
                 ];
             }
-        }
-
-        if ($identityNumber) {
-            return $this->byIdentityNumber($identityNumber, $this->userArray);
         }
 
         return $this->userArray;
