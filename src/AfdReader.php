@@ -13,55 +13,55 @@ use DateTime;
 class AfdReader
 {
     /**
-     * @var
+     * @var $file
      */
     private $file;
 
     /**
-     * @var string
+     * @var $fileType
      */
     private $fileType;
 
     /**
-     * @var
+     * @var $fileContents
      */
     private $fileContents;
 
     /**
-     * @var array
+     * @var $fileArray
      */
     private $fileArray = [];
 
     /**
-     * @var array
+     * @var $userArray
      */
     private $userArray = [];
 
     /**
-     * @var int
+     * @var $typePosition
      */
     private $typePosition = 9;
 
     /**
-     * @var int
+     * @var $identityNumber
      */
     private $identityNumber;
 
     /**
-     * @var array
+     * @var $period
      */
     private $period;
 
     /**
-     * @var array
+     * @var $typeNumber
      */
     private $typeNumber = [
-        'Afdt'  => [
+        'Afdt' => [
             '1' => \Convenia\AfdReader\Registry\Afdt\Header::class,
             '2' => \Convenia\AfdReader\Registry\Afdt\Detail::class,
             '9' => \Convenia\AfdReader\Registry\Afdt\Trailer::class,
         ],
-        'Afd'   => [
+        'Afd' => [
             '1' => \Convenia\AfdReader\Registry\Afd\Header::class,
             '2' => \Convenia\AfdReader\Registry\Afd\CompanyChange::class,
             '3' => \Convenia\AfdReader\Registry\Afd\Mark::class,
@@ -99,7 +99,7 @@ class AfdReader
     }
 
     /**
-     * check file, if exists set content.
+     * Check file, if exists set content.
      *
      * @method setFileContents
      */
@@ -137,7 +137,7 @@ class AfdReader
     }
 
     /**
-     * Read de Content and transforma in array.
+     * Read de Content and transform in array.
      */
     private function readLines()
     {
@@ -205,9 +205,11 @@ class AfdReader
     }
 
     /**
-     * Return array by user formated.
+     * Return array by user.
      *
-     * @return array
+     * @param null $identityNumber
+     * @param null $period
+     * @return array|mixed
      */
     public function getByUser($identityNumber = null, $period = null)
     {
@@ -220,33 +222,21 @@ class AfdReader
 
         if ($this->fileType == 'Afd') {
             return $this->getByUserAfd($this->identityNumber, $this->period);
-        } elseif ($this->fileType == 'Afdt') {
-            return $this->getByUserAfdt($this->identityNumber, $this->period);
-        } else {
-            return $this->getByUserAcjef($this->identityNumber, $this->period);
         }
-    }
 
-    /**
-     * Return array by user formated.
-     *
-     * @return array
-     */
-    public function getAll()
-    {
-        if ($this->fileType == 'Afd') {
-            return $this->getAllAfd();
-        } elseif ($this->fileType == 'Afdt') {
-            return $this->getAllAfdt();
-        } else {
-            return $this->getAllAcjef();
+        if ($this->fileType == 'Afdt') {
+            return $this->getByUserAfdt($this->identityNumber, $this->period);
         }
+
+        return $this->getByUserAcjef($this->identityNumber, $this->period);
     }
 
     /**
      * Get By User on AFD files.
      *
-     * @return array
+     * @param null $identityNumber
+     * @param null $period
+     * @return array|mixed
      */
     private function getByUserAfd($identityNumber = null, $period = null)
     {
@@ -257,13 +247,14 @@ class AfdReader
         $userControl = [];
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
-                if (!isset($userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')])) {
+                if (! isset($userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')])) {
                     $userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')] = 'Entrada';
                     $userControl[$value['identityNumber']]['period'][$value['date']->format('dmY')] = 1;
                 }
+
                 $this->userArray[$value['identityNumber']][$value['date']->format('dmY')][$userControl[$value['identityNumber']]['period'][$value['date']->format('dmY')]][] = [
-                    'sequency'  => $value['sequency'],
-                    'dateTime'  => $value['date']->setTime($value['time']['hour'], $value['time']['minute']),
+                    'sequency' => $value['sequency'],
+                    'dateTime' => $value['date']->setTime($value['time']['hour'], $value['time']['minute']),
                     'direction' => $userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')],
                 ];
 
@@ -278,14 +269,207 @@ class AfdReader
         }
 
         if ($identityNumber) {
-            if (array_key_exists($identityNumber, $this->userArray)) {
-                return $this->userArray[$identityNumber];
-            } else {
-                return [];
-            }
+            return $this->byIdentityNumber($identityNumber, $this->userArray);
         }
 
         return $this->userArray;
+    }
+
+    /**
+     * Filter registry by period.
+     *
+     * @param $period
+     * @param $key
+     * @param $type
+     */
+    private function filter($period, $key, $type)
+    {
+        $dates = $this->period($period);
+        $this->fileArray = array_filter($this->fileArray, function ($registry) use ($dates, $key, $type) {
+            if (isset($registry[$key]) && $registry['type'] == $type) {
+                if (array_key_exists($registry[$key]->format('dmY'), array_flip($dates))) {
+                    return $registry;
+                }
+            }
+        });
+    }
+
+    /**
+     * Period range data.
+     *
+     * @param $data
+     * @return array
+     * @throws \Convenia\AfdReader\Exception\InvalidDateFormatException
+     */
+    private function period($data)
+    {
+        $begin = new DateTime();
+        $begin = $begin->createFromFormat('Y-m-d', $data['from']);
+
+        $end = new DateTime();
+        $end = $end->createFromFormat('Y-m-d', $data['to']);
+
+        if ($begin === false || $end === false) {
+            throw new InvalidDateFormatException('Passed value from: '.$data['from'].' - to: '.$data['to']);
+        }
+
+        $end = $end->modify('+1 day');
+
+        $interval = new DateInterval('P1D');
+        $dateRange = new DatePeriod($begin, $interval, $end);
+
+        $result = [];
+
+        foreach ($dateRange as $date) {
+            $result[] = $date->format('dmY');
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check Line Type on file.
+     *
+     * @param $value
+     *
+     * @return bool
+     */
+    private function isByUserCondition($value)
+    {
+        if (! isset($value['type'])) {
+            return false;
+        }
+
+        if ($this->fileType == 'Afdt' && $value['type'] == 2) {
+            return true;
+        }
+
+        if ($this->fileType == 'Afd' && $value['type'] == 3) {
+            return true;
+        }
+
+        if ($this->fileType == 'Acjef' && $value['type'] == 3) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Filter by identityNumber.
+     *
+     * @param $identityNumber
+     * @param $data
+     * @return array
+     */
+    private function byIdentityNumber($identityNumber, $data)
+    {
+        if (array_key_exists($identityNumber, $data)) {
+            return $data[$identityNumber];
+        }
+
+        return [];
+    }
+
+    /**
+     * Get By User on AFDT files.
+     *
+     * @param null $identityNumber
+     * @param null $period
+     * @return array
+     */
+    private function getByUserAfdt($identityNumber = null, $period = null)
+    {
+        if ($period) {
+            $this->filter($period, 'clockDate', 2);
+        }
+
+        foreach ($this->fileArray as $value) {
+            if ($this->isByUserCondition($value)) {
+                $this->userArray[$value['identityNumber']][$value['clockDate']->format('dmY')][$value['directionOrder']][] = [
+                    'sequency' => $value['sequency'],
+                    'dateTime' => $value['clockDate']->setTime($value['clockTime']['hour'], $value['clockTime']['minute']),
+                    'reason' => $value['reason'],
+                    'direction' => $value['direction'],
+                    'type' => $value['registryType'],
+                ];
+            }
+        }
+
+        if ($identityNumber) {
+            return $this->byIdentityNumber($identityNumber, $this->userArray);
+        }
+
+        return $this->userArray;
+    }
+
+    /**
+     * Get By User on ACJEF files.
+     *
+     * @param null $identityNumber
+     * @param null $period
+     * @return array|mixed
+     */
+    private function getByUserAcjef($identityNumber = null, $period = null)
+    {
+        if ($period) {
+            $this->filter($period, 'startDate', 3);
+        }
+
+        foreach ($this->fileArray as $value) {
+            if ($this->isByUserCondition($value)) {
+                $this->userArray[$value['identityNumber']][] = [
+                    'sequency' => $value['sequency'],
+                    'type' => $value['type'],
+                    'startDate' => $value['startDate']->format('dmY'),
+                    'firstHour' => $value['firstHour'],
+                    'hourCode' => $value['hourCode'],
+                    'hourCode' => $value['hourCode'],
+                    'dayTime' => $value['dayTime'],
+                    'nightTime' => $value['nightTime'],
+                    'overtime1' => $value['overtime1'],
+                    'overtime1' => $value['overtime1'],
+                    'overtimePercentage1' => $value['overtimePercentage1'],
+                    'overtimeModality1' => $value['overtimeModality1'],
+                    'overtime2' => $value['overtime2'],
+                    'overtimePercentage2' => $value['overtimePercentage2'],
+                    'overtimeModality2' => $value['overtimeModality2'],
+                    'overtime3' => $value['overtime3'],
+                    'overtimePercentage3' => $value['overtimePercentage3'],
+                    'overtimeModality3' => $value['overtimeModality3'],
+                    'overtime4' => $value['overtime4'],
+                    'overtimePercentage4' => $value['overtimePercentage4'],
+                    'overtimeModality4' => $value['overtimeModality4'],
+                    'hourAbsencesLate' => $value['hourAbsencesLate'],
+                    'hourSinalCompensate' => $value['hourSinalCompensate'],
+                    'hourBalanceCompensate' => $value['hourBalanceCompensate'],
+                ];
+            }
+        }
+
+        if ($identityNumber) {
+            return $this->byIdentityNumber($identityNumber, $this->userArray);
+        }
+
+        return $this->userArray;
+    }
+
+    /**
+     * Return array all format.
+     *
+     * @return array
+     */
+    public function getAll()
+    {
+        if ($this->fileType == 'Afd') {
+            return $this->getAllAfd();
+        }
+
+        if ($this->fileType == 'Afdt') {
+            return $this->getAllAfdt();
+        }
+
+        return $this->getAllAcjef();
     }
 
     /**
@@ -298,65 +482,69 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
+            if (! $this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = [
-                        'sequency'          => $value['sequency'],
-                        'type'              => $value['type'],
-                        'identityType'      => $value['identityType'],
-                        'identityNumber'    => $value['identityNumber'],
-                        'cei'               => $value['cei'],
-                        'name'              => $value['name'],
-                        'SerialNumber'      => $value['SerialNumber'],
+                        'sequency' => $value['sequency'],
+                        'type' => $value['type'],
+                        'identityType' => $value['identityType'],
+                        'identityNumber' => $value['identityNumber'],
+                        'cei' => $value['cei'],
+                        'name' => $value['name'],
+                        'SerialNumber' => $value['SerialNumber'],
                         'registryStartDate' => $value['registryStartDate']->format('dmY'),
-                        'registryEndDate'   => $value['registryEndDate']->format('dmY'),
-                        'generationDate'    => $value['generationDate']->format('dmY'),
-                        'generationTime'    => $value['generationTime'],
+                        'registryEndDate' => $value['registryEndDate']->format('dmY'),
+                        'generationDate' => $value['generationDate']->format('dmY'),
+                        'generationTime' => $value['generationTime'],
                     ];
                 }
+
                 if ($value['type'] == 2) {
                     $data['companyChange'][] = [
-                        'nsr'             => $value['nsr'],
-                        'type'            => $value['type'],
-                        'date'            => $value['date']->format('dmY'),
-                        'time'            => $value['time'],
-                        'identityType'    => $value['identityType'],
+                        'nsr' => $value['nsr'],
+                        'type' => $value['type'],
+                        'date' => $value['date']->format('dmY'),
+                        'time' => $value['time'],
+                        'identityType' => $value['identityType'],
                         'idenitityNumber' => $value['idenitityNumber'],
-                        'cei'             => $value['cei'],
-                        'name'            => $value['name'],
-                        'place'           => $value['place'],
+                        'cei' => $value['cei'],
+                        'name' => $value['name'],
+                        'place' => $value['place'],
                     ];
                 }
+
                 if ($value['type'] == 4) {
                     $data['markAdjust'][] = [
-                        'nsr'        => $value['nsr'],
-                        'type'       => $value['type'],
+                        'nsr' => $value['nsr'],
+                        'type' => $value['type'],
                         'dateBefore' => $value['dateBefore']->format('dmY'),
                         'timeBefore' => $value['timeBefore'],
-                        'dateAfter'  => $value['dateAfter']->format('dmY'),
-                        'timeAfter'  => $value['timeAfter'],
+                        'dateAfter' => $value['dateAfter']->format('dmY'),
+                        'timeAfter' => $value['timeAfter'],
                     ];
                 }
+
                 if ($value['type'] == 5) {
                     $data['employee'][] = [
-                        'nsr'            => $value['nsr'],
-                        'type'           => $value['type'],
-                        'date'           => $value['date']->format('dmY'),
-                        'time'           => $value['time'],
-                        'operation'      => $value['operation'],
+                        'nsr' => $value['nsr'],
+                        'type' => $value['type'],
+                        'date' => $value['date']->format('dmY'),
+                        'time' => $value['time'],
+                        'operation' => $value['operation'],
                         'identityNumber' => $value['identityNumber'],
-                        'name'           => $value['name'],
+                        'name' => $value['name'],
                     ];
                 }
+
                 if ($value['type'] == 9) {
                     $data['trailer'] = [
-                        'sequency'    => $value['sequency'],
+                        'sequency' => $value['sequency'],
                         'numberType2' => $value['numberType2'],
                         'numberType2' => $value['numberType2'],
                         'numberType3' => $value['numberType3'],
                         'numberType4' => $value['numberType4'],
                         'numberType5' => $value['numberType5'],
-                        'type'        => $value['type'],
+                        'type' => $value['type'],
                     ];
                 }
             }
@@ -377,7 +565,7 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
+            if (! $this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = $this->header($value);
                 }
@@ -385,7 +573,7 @@ class AfdReader
                 if ($value['type'] == 9) {
                     $data['trailer'] = [
                         'sequency' => $value['sequency'],
-                        'type'     => $value['type'],
+                        'type' => $value['type'],
                     ];
                 }
             }
@@ -397,118 +585,25 @@ class AfdReader
     }
 
     /**
-     * Check Line Type on file.
+     * Registry header.
      *
      * @param $value
-     *
-     * @return bool
-     */
-    private function isByUserCondition($value)
-    {
-        if (!isset($value['type'])) {
-            return false;
-        }
-
-        if ($this->fileType == 'Afdt' && $value['type'] == 2) {
-            return true;
-        }
-
-        if ($this->fileType == 'Afd' && $value['type'] == 3) {
-            return true;
-        }
-
-        if ($this->fileType == 'Acjef' && $value['type'] == 3) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Get By User on AFDT files.
-     *
      * @return array
      */
-    private function getByUserAfdt($identityNumber = null, $period = null)
+    private function header($value)
     {
-        if ($period) {
-            $this->filter($period, 'clockDate', 2);
-        }
-
-        foreach ($this->fileArray as $value) {
-            if ($this->isByUserCondition($value)) {
-                $this->userArray[$value['identityNumber']][$value['clockDate']->format('dmY')][$value['directionOrder']][] = [
-                    'sequency'  => $value['sequency'],
-                    'dateTime'  => $value['clockDate']->setTime($value['clockTime']['hour'], $value['clockTime']['minute']),
-                    'reason'    => $value['reason'],
-                    'direction' => $value['direction'],
-                    'type'      => $value['registryType'],
-                ];
-            }
-        }
-
-        if ($identityNumber) {
-            if (array_key_exists($identityNumber, $this->userArray)) {
-                return $this->userArray[$identityNumber];
-            } else {
-                return [];
-            }
-        }
-
-        return $this->userArray;
-    }
-
-    /**
-     * Get By User on ACJEF files.
-     *
-     * @return array
-     */
-    private function getByUserAcjef($identityNumber = null, $period = null)
-    {
-        if ($period) {
-            $this->filter($period, 'startDate', 3);
-        }
-
-        foreach ($this->fileArray as $value) {
-            if ($this->isByUserCondition($value)) {
-                $this->userArray[$value['identityNumber']][] = [
-                    'sequency'              => $value['sequency'],
-                    'type'                  => $value['type'],
-                    'startDate'             => $value['startDate']->format('dmY'),
-                    'firstHour'             => $value['firstHour'],
-                    'hourCode'              => $value['hourCode'],
-                    'hourCode'              => $value['hourCode'],
-                    'dayTime'               => $value['dayTime'],
-                    'nightTime'             => $value['nightTime'],
-                    'overtime1'             => $value['overtime1'],
-                    'overtime1'             => $value['overtime1'],
-                    'overtimePercentage1'   => $value['overtimePercentage1'],
-                    'overtimeModality1'     => $value['overtimeModality1'],
-                    'overtime2'             => $value['overtime2'],
-                    'overtimePercentage2'   => $value['overtimePercentage2'],
-                    'overtimeModality2'     => $value['overtimeModality2'],
-                    'overtime3'             => $value['overtime3'],
-                    'overtimePercentage3'   => $value['overtimePercentage3'],
-                    'overtimeModality3'     => $value['overtimeModality3'],
-                    'overtime4'             => $value['overtime4'],
-                    'overtimePercentage4'   => $value['overtimePercentage4'],
-                    'overtimeModality4'     => $value['overtimeModality4'],
-                    'hourAbsencesLate'      => $value['hourAbsencesLate'],
-                    'hourSinalCompensate'   => $value['hourSinalCompensate'],
-                    'hourBalanceCompensate' => $value['hourBalanceCompensate'],
-                ];
-            }
-        }
-
-        if ($identityNumber) {
-            if (array_key_exists($identityNumber, $this->userArray)) {
-                return $this->userArray[$identityNumber];
-            } else {
-                return [];
-            }
-        }
-
-        return $this->userArray;
+        return [
+            'sequency' => $value['sequency'],
+            'type' => $value['type'],
+            'entityType' => $value['entityType'],
+            'entityNumber' => $value['entityNumber'],
+            'cei' => $value['cei'],
+            'name' => $value['name'],
+            'startDate' => $value['startDate']->format('dmY'),
+            'endDate' => $value['endDate']->format('dmY'),
+            'generationDate' => $value['generationDate'],
+            'generationTime' => $value['generationTime'],
+        ];
     }
 
     /**
@@ -521,20 +616,20 @@ class AfdReader
         $data = [];
 
         foreach ($this->fileArray as $value) {
-            if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
+            if (! $this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = $this->header($value);
                 }
 
                 if ($value['type'] == 2) {
                     $data['contractualHours'][] = [
-                        'sequency'    => $value['sequency'],
-                        'type'        => $value['type'],
-                        'hourCode'    => $value['hourCode'],
-                        'startTime'   => $value['startTime'],
-                        'startBreak'  => $value['startBreak'],
+                        'sequency' => $value['sequency'],
+                        'type' => $value['type'],
+                        'hourCode' => $value['hourCode'],
+                        'startTime' => $value['startTime'],
+                        'startBreak' => $value['startBreak'],
                         'finishBreak' => $value['finishBreak'],
-                        'finishTime'  => $value['finishTime'],
+                        'finishTime' => $value['finishTime'],
                     ];
                 }
             }
@@ -543,59 +638,5 @@ class AfdReader
         $data['detail'] = $this->getByUserAcjef($this->identityNumber, $this->period);
 
         return $data;
-    }
-
-    private function header($value)
-    {
-        return [
-            'sequency'       => $value['sequency'],
-            'type'           => $value['type'],
-            'entityType'     => $value['entityType'],
-            'entityNumber'   => $value['entityNumber'],
-            'cei'            => $value['cei'],
-            'name'           => $value['name'],
-            'startDate'      => $value['startDate']->format('dmY'),
-            'endDate'        => $value['endDate']->format('dmY'),
-            'generationDate' => $value['generationDate'],
-            'generationTime' => $value['generationTime'],
-        ];
-    }
-
-    private function period($data)
-    {
-        $begin = new DateTime();
-        $begin = $begin->createFromFormat('Y-m-d', $data['from']);
-
-        $end = new DateTime();
-        $end = $end->createFromFormat('Y-m-d', $data['to']);
-
-        if ($begin === false || $end === false) {
-            throw new InvalidDateFormatException('Passed value from: '.$data['from'].' - to: '.$data['to']);
-        }
-
-        $end = $end->modify('+1 day');
-
-        $interval = new DateInterval('P1D');
-        $daterange = new DatePeriod($begin, $interval, $end);
-
-        $result = [];
-
-        foreach ($daterange as $date) {
-            $result[] = $date->format('dmY');
-        }
-
-        return $result;
-    }
-
-    private function filter($period, $key, $type)
-    {
-        $dates = $this->period($period);
-        $this->fileArray = array_filter($this->fileArray, function ($registry) use ($dates, $key, $type) {
-            if (isset($registry[$key]) && $registry['type'] == $type) {
-                if (array_key_exists($registry[$key]->format('dmY'), array_flip($dates))) {
-                    return $registry;
-                }
-            }
-        });
     }
 }
