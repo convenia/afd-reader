@@ -105,8 +105,10 @@ class AfdReader
      */
     private function setFileContents()
     {
-        if (file_exists($this->file) === false) {
-            throw new FileNotFoundException($this->file);
+        if (strpos($this->file, 'http') === false) {
+            if (file_exists($this->file) === false) {
+                throw new FileNotFoundException($this->file);
+            }
         }
 
         $this->fileContents = file($this->file);
