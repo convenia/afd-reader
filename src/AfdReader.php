@@ -252,7 +252,9 @@ class AfdReader
             $this->byIdentityNumber($identityNumber);
         }
 
+        $this->userArray = [];
         $userControl = [];
+
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
                 if (!isset($userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')])) {
@@ -395,6 +397,8 @@ class AfdReader
             $this->byIdentityNumber($identityNumber);
         }
 
+        $this->userArray = [];
+
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
                 $this->userArray[$value['identityNumber']][$value['clockDate']->format('dmY')][$value['directionOrder']][] = [
@@ -427,6 +431,8 @@ class AfdReader
         if ($identityNumber) {
             $this->byIdentityNumber($identityNumber);
         }
+
+        $this->userArray = [];
 
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
