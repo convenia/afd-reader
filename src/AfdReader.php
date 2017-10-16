@@ -214,7 +214,7 @@ class AfdReader
      *
      * @return array|mixed
      */
-    public function getByUser($identityNumber = null, $period = null)
+    public function getByUser(int $identityNumber = null, $period = null)
     {
         $this->identityNumber = $identityNumber;
         $this->period = $period;
@@ -307,7 +307,7 @@ class AfdReader
     {
         $this->fileArray = array_filter($this->fileArray, function ($registry) use ($identityNumber) {
             if (isset($registry['identityNumber'])) {
-                if ($registry['identityNumber'] == $identityNumber) {
+                if ($registry['identityNumber'] === $identityNumber) {
                     return $registry;
                 }
             }
