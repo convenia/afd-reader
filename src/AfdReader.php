@@ -219,10 +219,6 @@ class AfdReader
         $this->identityNumber = $identityNumber;
         $this->period = $period;
 
-        if ($this->identityNumber) {
-            $this->identityNumber = (new IdentityNumber())->format($this->identityNumber);
-        }
-
         if ($this->fileType == 'Afd') {
             return $this->getByUserAfd($this->identityNumber, $this->period);
         }
