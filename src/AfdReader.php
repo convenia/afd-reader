@@ -5,7 +5,6 @@ namespace Convenia\AfdReader;
 use Convenia\AfdReader\Exception\FileNotFoundException;
 use Convenia\AfdReader\Exception\InvalidDateFormatException;
 use Convenia\AfdReader\Exception\WrongFileTypeException;
-use Convenia\AfdReader\Field\IdentityNumber;
 use DateInterval;
 use DatePeriod;
 use DateTime;
@@ -214,7 +213,7 @@ class AfdReader
      *
      * @return array|mixed
      */
-    public function getByUser(int $identityNumber = null, array $period = null)
+    public function getByUser(int $identityNumber = null, $period = null)
     {
         $this->identityNumber = $identityNumber;
         $this->period = $period;
