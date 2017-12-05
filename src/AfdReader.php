@@ -213,7 +213,7 @@ class AfdReader
      *
      * @return array|mixed
      */
-    public function getByUser(int $identityNumber = null, $period = null)
+    public function getByUser(int $identityNumber = null, array $period = null)
     {
         $this->identityNumber = $identityNumber;
         $this->period = $period;
