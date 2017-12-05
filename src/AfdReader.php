@@ -32,6 +32,11 @@ class AfdReader
     private $fileArray = [];
 
     /**
+     * @var array
+     */
+    private $dataArray = [];
+
+    /**
      * @var
      */
     private $userArray = [];
@@ -144,9 +149,14 @@ class AfdReader
     {
         foreach ($this->fileContents as $value) {
             $this->fileArray[] = $this->translateToArray($value);
+            $this->dataArray[] = $this->translateToArray($value);
         }
     }
 
+    public function clear()
+    {
+        $this->fileArray = $this->dataArray;
+    }
     /**
      * Translate line to array info.
      *
