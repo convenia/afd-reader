@@ -23,8 +23,8 @@ class OvertimePercentage implements FieldInterface
         }
 
         return [
-            'integer'   => substr($value, 0, 2),
-            'decimal'   => substr($value, 2, 2),
+            'integer'   => substr($value, 0, 2) ?: '00',
+            'decimal'   => substr($value, 2, 2) ?: '00',
         ];
     }
 }

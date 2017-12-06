@@ -23,8 +23,8 @@ class Time implements FieldInterface
         }
 
         return [
-            'hour'   => substr($value, 0, 2),
-            'minute' => substr($value, 2, 2),
+            'hour' => substr($value, 0, 2) ?: '00',
+            'minute' => substr($value, 2, 2) ?: '00',
         ];
     }
 }
