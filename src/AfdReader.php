@@ -138,7 +138,7 @@ class AfdReader
             case 91:
                 return 'Acjef';
             default:
-                throw new WrongFileTypeException(__METHOD__ . ' couldn\'t recognize this file.');
+                throw new WrongFileTypeException(__METHOD__.' couldn\'t recognize this file.');
         }
     }
 
@@ -272,8 +272,8 @@ class AfdReader
                 }
 
                 $this->userArray[$value['identityNumber']][$value['date']->format('dmY')][$userControl[$value['identityNumber']]['period'][$value['date']->format('dmY')]][] = [
-                    'sequency' => $value['sequency'],
-                    'dateTime' => $value['date']->setTime($value['time']['hour'], $value['time']['minute']),
+                    'sequency'  => $value['sequency'],
+                    'dateTime'  => $value['date']->setTime($value['time']['hour'], $value['time']['minute']),
                     'direction' => $userControl[$value['identityNumber']]['direction'][$value['date']->format('dmY')],
                 ];
 
@@ -343,7 +343,7 @@ class AfdReader
         $end = $end->createFromFormat('Y-m-d', $data['to']);
 
         if ($begin === false || $end === false) {
-            throw new InvalidDateFormatException('Passed value from: ' . $data['from'] . ' - to: ' . $data['to']);
+            throw new InvalidDateFormatException('Passed value from: '.$data['from'].' - to: '.$data['to']);
         }
 
         $end = $end->modify('+1 day');
@@ -411,11 +411,11 @@ class AfdReader
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
                 $this->userArray[$value['identityNumber']][$value['clockDate']->format('dmY')][$value['directionOrder']][] = [
-                    'sequency' => $value['sequency'],
-                    'dateTime' => $value['clockDate']->setTime($value['clockTime']['hour'], $value['clockTime']['minute']),
-                    'reason' => $value['reason'],
+                    'sequency'  => $value['sequency'],
+                    'dateTime'  => $value['clockDate']->setTime($value['clockTime']['hour'], $value['clockTime']['minute']),
+                    'reason'    => $value['reason'],
                     'direction' => $value['direction'],
-                    'type' => $value['registryType'],
+                    'type'      => $value['registryType'],
                 ];
             }
         }
@@ -446,29 +446,29 @@ class AfdReader
         foreach ($this->fileArray as $value) {
             if ($this->isByUserCondition($value)) {
                 $this->userArray[$value['identityNumber']][] = [
-                    'sequency' => $value['sequency'],
-                    'type' => $value['type'],
-                    'startDate' => $value['startDate']->format('dmY'),
-                    'firstHour' => $value['firstHour'],
-                    'hourCode' => $value['hourCode'],
-                    'hourCode' => $value['hourCode'],
-                    'dayTime' => $value['dayTime'],
-                    'nightTime' => $value['nightTime'],
-                    'overtime1' => $value['overtime1'],
-                    'overtime1' => $value['overtime1'],
-                    'overtimePercentage1' => $value['overtimePercentage1'],
-                    'overtimeModality1' => $value['overtimeModality1'],
-                    'overtime2' => $value['overtime2'],
-                    'overtimePercentage2' => $value['overtimePercentage2'],
-                    'overtimeModality2' => $value['overtimeModality2'],
-                    'overtime3' => $value['overtime3'],
-                    'overtimePercentage3' => $value['overtimePercentage3'],
-                    'overtimeModality3' => $value['overtimeModality3'],
-                    'overtime4' => $value['overtime4'],
-                    'overtimePercentage4' => $value['overtimePercentage4'],
-                    'overtimeModality4' => $value['overtimeModality4'],
-                    'hourAbsencesLate' => $value['hourAbsencesLate'],
-                    'hourSinalCompensate' => $value['hourSinalCompensate'],
+                    'sequency'              => $value['sequency'],
+                    'type'                  => $value['type'],
+                    'startDate'             => $value['startDate']->format('dmY'),
+                    'firstHour'             => $value['firstHour'],
+                    'hourCode'              => $value['hourCode'],
+                    'hourCode'              => $value['hourCode'],
+                    'dayTime'               => $value['dayTime'],
+                    'nightTime'             => $value['nightTime'],
+                    'overtime1'             => $value['overtime1'],
+                    'overtime1'             => $value['overtime1'],
+                    'overtimePercentage1'   => $value['overtimePercentage1'],
+                    'overtimeModality1'     => $value['overtimeModality1'],
+                    'overtime2'             => $value['overtime2'],
+                    'overtimePercentage2'   => $value['overtimePercentage2'],
+                    'overtimeModality2'     => $value['overtimeModality2'],
+                    'overtime3'             => $value['overtime3'],
+                    'overtimePercentage3'   => $value['overtimePercentage3'],
+                    'overtimeModality3'     => $value['overtimeModality3'],
+                    'overtime4'             => $value['overtime4'],
+                    'overtimePercentage4'   => $value['overtimePercentage4'],
+                    'overtimeModality4'     => $value['overtimeModality4'],
+                    'hourAbsencesLate'      => $value['hourAbsencesLate'],
+                    'hourSinalCompensate'   => $value['hourSinalCompensate'],
                     'hourBalanceCompensate' => $value['hourBalanceCompensate'],
                 ];
             }
@@ -508,66 +508,66 @@ class AfdReader
             if (!$this->isByUserCondition($value) && array_key_exists('type', $value)) {
                 if ($value['type'] == 1) {
                     $data['header'] = [
-                        'sequency' => $value['sequency'],
-                        'type' => $value['type'],
-                        'identityType' => $value['identityType'],
-                        'identityNumber' => $value['identityNumber'],
-                        'cei' => $value['cei'],
-                        'name' => $value['name'],
-                        'SerialNumber' => $value['SerialNumber'],
+                        'sequency'          => $value['sequency'],
+                        'type'              => $value['type'],
+                        'identityType'      => $value['identityType'],
+                        'identityNumber'    => $value['identityNumber'],
+                        'cei'               => $value['cei'],
+                        'name'              => $value['name'],
+                        'SerialNumber'      => $value['SerialNumber'],
                         'registryStartDate' => $value['registryStartDate']->format('dmY'),
-                        'registryEndDate' => $value['registryEndDate']->format('dmY'),
-                        'generationDate' => $value['generationDate']->format('dmY'),
-                        'generationTime' => $value['generationTime'],
+                        'registryEndDate'   => $value['registryEndDate']->format('dmY'),
+                        'generationDate'    => $value['generationDate']->format('dmY'),
+                        'generationTime'    => $value['generationTime'],
                     ];
                 }
 
                 if ($value['type'] == 2) {
                     $data['companyChange'][] = [
-                        'nsr' => $value['nsr'],
-                        'type' => $value['type'],
-                        'date' => $value['date']->format('dmY'),
-                        'time' => $value['time'],
-                        'identityType' => $value['identityType'],
+                        'nsr'             => $value['nsr'],
+                        'type'            => $value['type'],
+                        'date'            => $value['date']->format('dmY'),
+                        'time'            => $value['time'],
+                        'identityType'    => $value['identityType'],
                         'idenitityNumber' => $value['idenitityNumber'],
-                        'cei' => $value['cei'],
-                        'name' => $value['name'],
-                        'place' => $value['place'],
+                        'cei'             => $value['cei'],
+                        'name'            => $value['name'],
+                        'place'           => $value['place'],
                     ];
                 }
 
                 if ($value['type'] == 4) {
                     $data['markAdjust'][] = [
-                        'nsr' => $value['nsr'],
-                        'type' => $value['type'],
+                        'nsr'        => $value['nsr'],
+                        'type'       => $value['type'],
                         'dateBefore' => $value['dateBefore']->format('dmY'),
                         'timeBefore' => $value['timeBefore'],
-                        'dateAfter' => $value['dateAfter']->format('dmY'),
-                        'timeAfter' => $value['timeAfter'],
+                        'dateAfter'  => $value['dateAfter']->format('dmY'),
+                        'timeAfter'  => $value['timeAfter'],
                     ];
                 }
 
                 if ($value['type'] == 5) {
                     $data['employee'][] = [
-                        'nsr' => $value['nsr'],
-                        'type' => $value['type'],
-                        'date' => $value['date']->format('dmY'),
-                        'time' => $value['time'],
-                        'operation' => $value['operation'],
+                        'nsr'            => $value['nsr'],
+                        'type'           => $value['type'],
+                        'date'           => $value['date']->format('dmY'),
+                        'time'           => $value['time'],
+                        'operation'      => $value['operation'],
                         'identityNumber' => $value['identityNumber'],
-                        'name' => $value['name'],
+                        'name'           => $value['name'],
                     ];
                 }
 
                 if ($value['type'] == 9) {
                     $data['trailer'] = [
-                        'sequency' => $value['sequency'],
+                        'sequency'    => $value['sequency'],
                         'numberType2' => $value['numberType2'],
                         'numberType2' => $value['numberType2'],
                         'numberType3' => $value['numberType3'],
                         'numberType4' => $value['numberType4'],
                         'numberType5' => $value['numberType5'],
-                        'type' => $value['type'],
+                        'type'        => $value['type'],
                     ];
                 }
             }
@@ -596,7 +596,7 @@ class AfdReader
                 if ($value['type'] == 9) {
                     $data['trailer'] = [
                         'sequency' => $value['sequency'],
-                        'type' => $value['type'],
+                        'type'     => $value['type'],
                     ];
                 }
             }
@@ -617,14 +617,14 @@ class AfdReader
     private function header($value)
     {
         return [
-            'sequency' => $value['sequency'],
-            'type' => $value['type'],
-            'entityType' => $value['entityType'],
-            'entityNumber' => $value['entityNumber'],
-            'cei' => $value['cei'],
-            'name' => $value['name'],
-            'startDate' => $value['startDate']->format('dmY'),
-            'endDate' => $value['endDate']->format('dmY'),
+            'sequency'       => $value['sequency'],
+            'type'           => $value['type'],
+            'entityType'     => $value['entityType'],
+            'entityNumber'   => $value['entityNumber'],
+            'cei'            => $value['cei'],
+            'name'           => $value['name'],
+            'startDate'      => $value['startDate']->format('dmY'),
+            'endDate'        => $value['endDate']->format('dmY'),
             'generationDate' => $value['generationDate'],
             'generationTime' => $value['generationTime'],
         ];
@@ -647,13 +647,13 @@ class AfdReader
 
                 if ($value['type'] == 2) {
                     $data['contractualHours'][] = [
-                        'sequency' => $value['sequency'],
-                        'type' => $value['type'],
-                        'hourCode' => $value['hourCode'],
-                        'startTime' => $value['startTime'],
-                        'startBreak' => $value['startBreak'],
+                        'sequency'    => $value['sequency'],
+                        'type'        => $value['type'],
+                        'hourCode'    => $value['hourCode'],
+                        'startTime'   => $value['startTime'],
+                        'startBreak'  => $value['startBreak'],
                         'finishBreak' => $value['finishBreak'],
-                        'finishTime' => $value['finishTime'],
+                        'finishTime'  => $value['finishTime'],
                     ];
                 }
             }
