@@ -34,7 +34,7 @@ class AfdReader
     /**
      * @var array
      */
-    private $dataArray = [];
+    private $clear = [];
 
     /**
      * @var
@@ -143,20 +143,24 @@ class AfdReader
     }
 
     /**
-     * Read de Content and transform in array.
+     * Read content and transform in array.
      */
     private function readLines()
     {
         foreach ($this->fileContents as $value) {
             $this->fileArray[] = $this->translateToArray($value);
-            $this->dataArray[] = $this->translateToArray($value);
+            $this->clear[] = $this->translateToArray($value);
         }
     }
 
+    /**
+     * Clear content after use get methods.
+     */
     public function clear()
     {
-        $this->fileArray = $this->dataArray;
+        $this->fileArray = $this->clear;
     }
+
     /**
      * Translate line to array info.
      *
