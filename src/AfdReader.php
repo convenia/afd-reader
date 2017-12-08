@@ -451,10 +451,8 @@ class AfdReader
                     'startDate'             => $value['startDate']->format('dmY'),
                     'firstHour'             => $value['firstHour'],
                     'hourCode'              => $value['hourCode'],
-                    'hourCode'              => $value['hourCode'],
                     'dayTime'               => $value['dayTime'],
                     'nightTime'             => $value['nightTime'],
-                    'overtime1'             => $value['overtime1'],
                     'overtime1'             => $value['overtime1'],
                     'overtimePercentage1'   => $value['overtimePercentage1'],
                     'overtimeModality1'     => $value['overtimeModality1'],
@@ -562,7 +560,6 @@ class AfdReader
                 if ($value['type'] == 9) {
                     $data['trailer'] = [
                         'sequency'    => $value['sequency'],
-                        'numberType2' => $value['numberType2'],
                         'numberType2' => $value['numberType2'],
                         'numberType3' => $value['numberType3'],
                         'numberType4' => $value['numberType4'],
