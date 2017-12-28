@@ -85,6 +85,7 @@ class AfdReader
      *
      * @param $filePath
      * @param null $fileType
+     *
      * @throws FileNotFoundException
      * @throws WrongFileTypeException
      */
@@ -162,6 +163,7 @@ class AfdReader
      * Translate line to array info.
      *
      * @param $content
+     *
      * @return array
      */
     private function translateToArray($content)
@@ -187,6 +189,7 @@ class AfdReader
      * Return a map by line type and file type.
      *
      * @param $content
+     *
      * @return bool
      */
     private function getMap($content)
@@ -206,6 +209,7 @@ class AfdReader
      * Get type line.
      *
      * @param $content
+     *
      * @return bool|string
      */
     private function getType($content)
@@ -216,10 +220,12 @@ class AfdReader
     /**
      * Return array by user.
      *
-     * @param int|null $identityNumber
+     * @param int|null   $identityNumber
      * @param array|null $period
-     * @return array|mixed
+     *
      * @throws InvalidDateFormatException
+     *
+     * @return array|mixed
      */
     public function getByUser(int $identityNumber = null, array $period = null)
     {
@@ -242,8 +248,10 @@ class AfdReader
      *
      * @param null $identityNumber
      * @param null $period
-     * @return array
+     *
      * @throws InvalidDateFormatException
+     *
+     * @return array
      */
     private function getByUserAfd($identityNumber = null, $period = null)
     {
@@ -290,6 +298,7 @@ class AfdReader
      * @param $period
      * @param $key
      * @param $type
+     *
      * @throws InvalidDateFormatException
      */
     private function filter($period, $key, $type)
@@ -324,8 +333,10 @@ class AfdReader
      * Period range data.
      *
      * @param $data
-     * @return array
+     *
      * @throws InvalidDateFormatException
+     *
+     * @return array
      */
     private function period($data)
     {
@@ -357,6 +368,7 @@ class AfdReader
      * Check Line Type on file.
      *
      * @param $value
+     *
      * @return bool
      */
     private function isByUserCondition($value)
@@ -385,8 +397,10 @@ class AfdReader
      *
      * @param null $identityNumber
      * @param null $period
-     * @return array
+     *
      * @throws InvalidDateFormatException
+     *
+     * @return array
      */
     private function getByUserAfdt($identityNumber = null, $period = null)
     {
@@ -420,8 +434,10 @@ class AfdReader
      *
      * @param null $identityNumber
      * @param null $period
-     * @return array
+     *
      * @throws InvalidDateFormatException
+     *
+     * @return array
      */
     private function getByUserAcjef($identityNumber = null, $period = null)
     {
@@ -470,8 +486,9 @@ class AfdReader
     /**
      * Return array all format.
      *
-     * @return array
      * @throws InvalidDateFormatException
+     *
+     * @return array
      */
     public function getAll()
     {
@@ -489,8 +506,9 @@ class AfdReader
     /**
      * Get By User on AFDT files.
      *
-     * @return array
      * @throws InvalidDateFormatException
+     *
+     * @return array
      */
     private function getAllAfd()
     {
@@ -572,8 +590,9 @@ class AfdReader
     /**
      * Get By User on AFDT files.
      *
-     * @return array
      * @throws InvalidDateFormatException
+     *
+     * @return array
      */
     private function getAllAfdt()
     {
@@ -603,6 +622,7 @@ class AfdReader
      * Registry header.
      *
      * @param $value
+     *
      * @return array
      */
     private function header($value)
@@ -624,8 +644,9 @@ class AfdReader
     /**
      * Get All on ACJEF files.
      *
-     * @return array
      * @throws InvalidDateFormatException
+     *
+     * @return array
      */
     private function getAllAcjef()
     {
