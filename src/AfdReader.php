@@ -386,8 +386,8 @@ class AfdReader
      *
      * @param null $identityNumber
      * @param null $period
-     *
      * @return array
+     * @throws InvalidDateFormatException
      */
     private function getByUserAfdt($identityNumber = null, $period = null)
     {
@@ -421,8 +421,8 @@ class AfdReader
      *
      * @param null $identityNumber
      * @param null $period
-     *
-     * @return array|mixed
+     * @return array
+     * @throws InvalidDateFormatException
      */
     private function getByUserAcjef($identityNumber = null, $period = null)
     {
@@ -472,6 +472,7 @@ class AfdReader
      * Return array all format.
      *
      * @return array
+     * @throws InvalidDateFormatException
      */
     public function getAll()
     {
@@ -490,6 +491,7 @@ class AfdReader
      * Get By User on AFDT files.
      *
      * @return array
+     * @throws InvalidDateFormatException
      */
     private function getAllAfd()
     {
@@ -572,6 +574,7 @@ class AfdReader
      * Get By User on AFDT files.
      *
      * @return array
+     * @throws InvalidDateFormatException
      */
     private function getAllAfdt()
     {
@@ -623,6 +626,7 @@ class AfdReader
      * Get All on ACJEF files.
      *
      * @return array
+     * @throws InvalidDateFormatException
      */
     private function getAllAcjef()
     {
