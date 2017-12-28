@@ -85,7 +85,6 @@ class AfdReader
      *
      * @param $filePath
      * @param null $fileType
-     *
      * @throws FileNotFoundException
      * @throws WrongFileTypeException
      */
@@ -105,7 +104,7 @@ class AfdReader
     /**
      * Check file, if exists set content.
      *
-     * @method setFileContents
+     * @throws FileNotFoundException
      */
     private function setFileContents()
     {
@@ -121,9 +120,8 @@ class AfdReader
     /**
      * Check file type by lines.
      *
-     * @throws WrongFileTypeException
-     *
      * @return string
+     * @throws WrongFileTypeException
      */
     private function fileTypeMagic()
     {
@@ -165,7 +163,6 @@ class AfdReader
      * Translate line to array info.
      *
      * @param $content
-     *
      * @return array
      */
     private function translateToArray($content)
@@ -191,7 +188,6 @@ class AfdReader
      * Return a map by line type and file type.
      *
      * @param $content
-     *
      * @return bool
      */
     private function getMap($content)
@@ -211,7 +207,6 @@ class AfdReader
      * Get type line.
      *
      * @param $content
-     *
      * @return bool|string
      */
     private function getType($content)
@@ -222,10 +217,10 @@ class AfdReader
     /**
      * Return array by user.
      *
-     * @param null $identityNumber
-     * @param null $period
-     *
+     * @param int|null $identityNumber
+     * @param array|null $period
      * @return array|mixed
+     * @throws InvalidDateFormatException
      */
     public function getByUser(int $identityNumber = null, array $period = null)
     {
@@ -248,8 +243,8 @@ class AfdReader
      *
      * @param null $identityNumber
      * @param null $period
-     *
-     * @return array|mixed
+     * @return array
+     * @throws InvalidDateFormatException
      */
     private function getByUserAfd($identityNumber = null, $period = null)
     {
@@ -296,6 +291,7 @@ class AfdReader
      * @param $period
      * @param $key
      * @param $type
+     * @throws InvalidDateFormatException
      */
     private function filter($period, $key, $type)
     {
@@ -329,10 +325,8 @@ class AfdReader
      * Period range data.
      *
      * @param $data
-     *
-     * @throws \Convenia\AfdReader\Exception\InvalidDateFormatException
-     *
      * @return array
+     * @throws InvalidDateFormatException
      */
     private function period($data)
     {
@@ -364,7 +358,6 @@ class AfdReader
      * Check Line Type on file.
      *
      * @param $value
-     *
      * @return bool
      */
     private function isByUserCondition($value)
@@ -608,7 +601,6 @@ class AfdReader
      * Registry header.
      *
      * @param $value
-     *
      * @return array
      */
     private function header($value)
