@@ -120,10 +120,9 @@ class AfdReader
     /**
      * Check file type by lines.
      *
-     * @return string
-     * @throws WrongFileTypeException
+     * @return bool|string
      */
-    private function fileTypeMagic()
+    public function fileTypeMagic()
     {
         $trailer = ($this->fileContents[count($this->fileContents) - 2]);
         $trailer = trim($trailer);
@@ -136,7 +135,7 @@ class AfdReader
             case 91:
                 return 'Acjef';
             default:
-                throw new WrongFileTypeException(__METHOD__.' couldn\'t recognize this file.');
+                return false;
         }
     }
 
