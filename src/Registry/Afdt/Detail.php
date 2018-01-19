@@ -55,7 +55,6 @@ class Detail implements RegistryInterface
             'size'  => 1,
             'type'  => 'alphanumeric',
             'name'  => 'registryType',
-            'class' => \Convenia\AfdReader\Field\RegistryType::class,
         ],
         10 => [
             'size' => 100,
