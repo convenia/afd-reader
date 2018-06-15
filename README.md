@@ -8,7 +8,6 @@ Especificação do MTE referente a portaria [1.510/2009](http://www.trtsp.jus.br
 ---
 [![Latest Stable Version](https://poser.pugx.org/convenia/afd-reader/v/stable)](https://packagist.org/packages/convenia/afd-reader)
 [![Build Status](https://travis-ci.org/convenia/afd-reader.svg?branch=master)](https://travis-ci.org/convenia/afd-reader)
-[![StyleCI](https://styleci.io/repos/62637664/shield?branch=master)](https://styleci.io/repos/62637664)
 [![Total Downloads](https://poser.pugx.org/convenia/afd-reader/downloads)](https://packagist.org/packages/convenia/afd-reader)
 [![License](https://poser.pugx.org/convenia/afd-reader/license)](https://packagist.org/packages/convenia/afd-reader)
 ---
