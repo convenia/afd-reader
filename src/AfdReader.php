@@ -309,8 +309,6 @@ class AfdReader
                 }
             }
         });
-
-        return null;
     }
 
     /**
