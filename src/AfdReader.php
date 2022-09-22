@@ -4,7 +4,6 @@ namespace Convenia\AfdReader;
 
 use Convenia\AfdReader\Exception\FileNotFoundException;
 use Convenia\AfdReader\Exception\InvalidDateFormatException;
-use Convenia\AfdReader\Exception\WrongFileTypeException;
 use DateInterval;
 use DatePeriod;
 use DateTime;
@@ -87,7 +86,6 @@ class AfdReader
      * @param null $fileType
      *
      * @throws FileNotFoundException
-     * @throws WrongFileTypeException
      */
     public function __construct($filePath, $fileType = null)
     {
@@ -311,6 +309,8 @@ class AfdReader
                 }
             }
         });
+
+        return null;
     }
 
     /**
@@ -633,7 +633,7 @@ class AfdReader
             'entityType'     => $value['entityType'],
             'entityNumber'   => $value['entityNumber'],
             'cei'            => $value['cei'],
-            'name'           => $value['name'],
+            'name'           => trim($value['name']),
             'startDate'      => $value['startDate']->format('dmY'),
             'endDate'        => $value['endDate']->format('dmY'),
             'generationDate' => $value['generationDate'],
