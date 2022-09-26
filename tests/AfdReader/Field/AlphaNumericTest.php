@@ -1,19 +1,16 @@
 <?php
 
-namespace Convenia\AfdReader\Tests;
+namespace Tests\AfdReader\Field;
 
 use Convenia\AfdReader\Field\Alphanumeric;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Class AlphaNumericTest.
- */
-class AlphaNumericTest extends PHPUnit_Framework_TestCase
+class AlphaNumericTest extends TestCase
 {
-    public function test_success_value()
+    public function testItCorrectlyFormatsAValue()
     {
         $obj = new Alphanumeric();
-        $val = $obj->format('  Remove begin and And spaces   ');
-        $this->assertEquals('Remove begin and And spaces', $val);
+        $val = $obj->format('  Remove begin and end spaces   ');
+        $this->assertEquals('Remove begin and end spaces', $val);
     }
 }

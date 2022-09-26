@@ -13,16 +13,16 @@ class Date implements FieldInterface
      *
      * @param $value
      *
-     * @throws \Convenia\AfdReader\Exception\InvalidDateFormatException
+     * @throws InvalidDateFormatException
      *
-     * @return bool|\DateTime
+     * @return \DateTime
      */
     public function format($value)
     {
         $dateObj = new DateTime();
         $dateObj = $dateObj->createFromFormat('dmY', $value);
         if ($dateObj === false) {
-            throw new InvalidDateFormatException('Passed value: '.$value);
+            throw new InvalidDateFormatException('Value must be a valid date in the format dmY');
         }
 
         return $dateObj;

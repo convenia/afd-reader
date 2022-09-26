@@ -9,7 +9,7 @@ class AcjefReaderTest extends TestCase
 {
     public function testItGetsAllDataFromFile()
     {
-        $return = new AfdReader('tests/files/acjef_test.txt');
+        $return = new AfdReader(__DIR__ . '/../files/acjef_test.txt');
         $values = $return->getAll();
 
         $expected = [
@@ -181,7 +181,7 @@ class AcjefReaderTest extends TestCase
 
     public function testItGetsAllDataByNisFromFile()
     {
-        $return = new AfdReader('tests/files/acjef_test.txt');
+        $return = new AfdReader(__DIR__ . '/../files/acjef_test.txt');
         $values = $return->getByUser('222222222222');
 
         $expected = [

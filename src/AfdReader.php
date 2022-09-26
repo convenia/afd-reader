@@ -218,14 +218,14 @@ class AfdReader
     /**
      * Return array by user.
      *
-     * @param int|null   $identityNumber
+     * @param string|null   $identityNumber
      * @param array|null $period
      *
      * @throws InvalidDateFormatException
      *
-     * @return array|mixed
+     * @return array
      */
-    public function getByUser(int $identityNumber = null, array $period = null)
+    public function getByUser(string $identityNumber = null, array $period = null)
     {
         $this->identityNumber = $identityNumber;
         $this->period = $period;
@@ -320,7 +320,7 @@ class AfdReader
     {
         $this->fileArray = array_filter($this->fileArray, function ($registry) use ($identityNumber) {
             if (isset($registry['identityNumber'])) {
-                if ($registry['identityNumber'] === $identityNumber) {
+                if ($registry['identityNumber'] == $identityNumber) {
                     return $registry;
                 }
             }

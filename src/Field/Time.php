@@ -12,19 +12,26 @@ class Time implements FieldInterface
      *
      * @param $value
      *
-     * @throws \Convenia\AfdReader\Exception\InvalidTimeFormatException
+     * @throws InvalidTimeFormatException
      *
      * @return array
      */
     public function format($value)
     {
         if (strlen($value) != 4 && $value != 0) {
-            throw new InvalidTimeFormatException($value);
+            throw new InvalidTimeFormatException('Value must be on the hhmm format.');
+        }
+
+        $hour = substr($value, 0, 2) ?: '00';
+        $minute = substr($value, 2, 2) ?: '00';
+
+        if (!preg_match('/^\d{2}$/', $hour) || !preg_match('/^\d{2}$/', $minute) || $minute > 59) {
+            throw new InvalidTimeFormatException('Value must be on the hhmm format.');
         }
 
         return [
-            'hour'   => substr($value, 0, 2) ?: '00',
-            'minute' => substr($value, 2, 2) ?: '00',
+            'hour'   => $hour,
+            'minute' => $minute,
         ];
     }
 }

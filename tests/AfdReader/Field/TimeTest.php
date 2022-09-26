@@ -1,26 +1,44 @@
 <?php
 
-namespace Convenia\AfdReader\Tests;
+namespace Tests\AfdReader\Field;
 
+use Convenia\AfdReader\Exception\InvalidTimeFormatException;
 use Convenia\AfdReader\Field\Time;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Class TimeTest.
- */
-class TimeTest extends PHPUnit_Framework_TestCase
+class TimeTest extends TestCase
 {
-    public function test_success_value()
+    public function testItCorrectlyFormatsAValue()
     {
         $obj = new Time();
         $val = $obj->format('2254');
         $this->assertEquals(['hour' => '22', 'minute' => '54'], $val);
     }
 
-    public function test_fail_value()
+    public function testItThrowsExceptionWhenValueHasWrongSize()
     {
-        $this->setExpectedException('Convenia\AfdReader\Exception\InvalidTimeFormatException');
+        $this->expectException(InvalidTimeFormatException::class);
+        $this->expectExceptionMessage('Value must be on the hhmm format.');
+
         $obj = new Time();
         $obj->format('225');
+    }
+
+    public function testItThrowsExceptionWhenValueIsNotANumber()
+    {
+        $this->expectException(InvalidTimeFormatException::class);
+        $this->expectExceptionMessage('Value must be on the hhmm format.');
+
+        $obj = new Time();
+        $obj->format('aa11');
+    }
+
+    public function testItThrowsExceptionWhenMinutesAreGreaterThan60()
+    {
+        $this->expectException(InvalidTimeFormatException::class);
+        $this->expectExceptionMessage('Value must be on the hhmm format.');
+
+        $obj = new Time();
+        $obj->format('1199');
     }
 }

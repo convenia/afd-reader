@@ -2,6 +2,7 @@
 
 namespace Convenia\AfdReader\Field;
 
+use Convenia\AfdReader\Exception\OperationTypeNotExistsException;
 use Convenia\AfdReader\Interfaces\FieldInterface;
 
 class OperationType implements FieldInterface
@@ -18,6 +19,7 @@ class OperationType implements FieldInterface
      * @param $value
      *
      * @return mixed
+     * @throws OperationTypeNotExistsException
      */
     public function format($value)
     {
@@ -25,6 +27,6 @@ class OperationType implements FieldInterface
             return $this->types[$value];
         }
 
-        throw new OperationNotExistsException($value);
+        throw new OperationTypeNotExistsException('Value must be one of "' . implode(',', array_keys($this->types)) . '"');
     }
 }

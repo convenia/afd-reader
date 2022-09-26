@@ -18,9 +18,9 @@ class RegistryType implements FieldInterface
      *
      * @param $value
      *
-     * @throws \Convenia\AfdReader\Exception\RegistryNotExistsException
+     * @throws RegistryNotExistsException
      *
-     * @return mixed
+     * @return string
      */
     public function format($value)
     {
@@ -28,6 +28,6 @@ class RegistryType implements FieldInterface
             return $this->types[$value];
         }
 
-        throw new RegistryNotExistsException($value);
+        throw new RegistryNotExistsException('Value must be one of "' . implode(',', array_keys($this->types)) . '"');
     }
 }

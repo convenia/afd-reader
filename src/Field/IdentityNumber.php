@@ -2,6 +2,7 @@
 
 namespace Convenia\AfdReader\Field;
 
+use Convenia\AfdReader\Exception\InvalidIdentityFormatException;
 use Convenia\AfdReader\Interfaces\FieldInterface;
 
 class IdentityNumber implements FieldInterface
@@ -12,9 +13,14 @@ class IdentityNumber implements FieldInterface
      * @param $value
      *
      * @return int
+     * @throws InvalidIdentityFormatException
      */
     public function format($value)
     {
-        return (int) $value;
+        if (!preg_match('/^\d+$/', $value)) {
+            throw new InvalidIdentityFormatException('Value must be composed of only digits');
+        }
+
+        return $value;
     }
 }
