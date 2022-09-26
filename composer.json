@@ -35,6 +35,12 @@
     }
   },
   "scripts": {
+    "test": [
+      "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-text"
+    ],
+    "coverage": [
+      "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html ./coverage"
+    ],
     "phpstan": "./vendor/bin/phpstan analyze",
     "phpmd": "vendor/bin/phpmd src,tests ansi ruleset.xml",
     "phpcs": "./vendor/bin/phpcs",
