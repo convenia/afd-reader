@@ -23,4 +23,23 @@ class DateTest extends TestCase
         $obj = new Date();
         $obj->format('225');
     }
+    
+    public function testItThrowsExceptionWhenDayIsGreaterThan31()
+    {
+        $this->expectException(InvalidDateFormatException::class);
+        $this->expectExceptionMessage('Value must be a valid date in the format dmY');
+
+        $obj = new Date();
+        $obj->format('33122022');
+    }
+    
+    public function testItThrowsExceptionWhenMonthIsGreaterThan12()
+    {
+        $this->expectException(InvalidDateFormatException::class);
+        $this->expectExceptionMessage('Value must be a valid date in the format dmY');
+
+        $obj = new Date();
+        $obj->format('30222022');
+    }
 }
+

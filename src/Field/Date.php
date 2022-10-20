@@ -19,12 +19,12 @@ class Date implements FieldInterface
      */
     public function format($value)
     {
-        $dateObj = new DateTime();
-        $dateObj = $dateObj->createFromFormat('dmY', $value);
-        if ($dateObj === false) {
+        $dateObj = DateTime::createFromFormat('dmY', $value);
+        if ($dateObj === false || $dateObj->format('dmY') !== $value) {
             throw new InvalidDateFormatException('Value must be a valid date in the format dmY');
         }
 
         return $dateObj;
     }
 }
+
