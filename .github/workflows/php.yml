@@ -13,14 +13,11 @@ jobs:
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
-        php-version: '7.0'
+        php-version: '7.4'
         extensions: mbstring, dom, fileinfo
         coverage: xdebug
         
     - uses: actions/checkout@v3
-
-    - name: Temporary composer downgrade
-      run: composer self-update --2.2
       
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
