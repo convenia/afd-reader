@@ -1,25 +1,31 @@
 <?php
 
-namespace Convenia\AfdReader\Tests;
+namespace Tests\AfdReader\Field;
 
+use Convenia\AfdReader\Exception\DirectionNotExistsException;
 use Convenia\AfdReader\Field\Direction;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Class DirectionTest.
- */
-class DirectionTest extends PHPUnit_Framework_TestCase
+class DirectionTest extends TestCase
 {
-    public function test_success_value()
+    public function testItCorrectlyFormatsAValue()
     {
         $obj = new Direction();
         $val = $obj->format('E');
         $this->assertEquals('Entrada', $val);
+
+        $val = $obj->format('S');
+        $this->assertEquals('Saída', $val);
+
+        $val = $obj->format('D');
+        $this->assertEquals('Desconsiderado', $val);
     }
 
-    public function test_fail_value()
+    public function testItThrowsExceptionWhenValueHasWrongFormat()
     {
-        $this->setExpectedException('Convenia\AfdReader\Exception\DirectionNotExistsException');
+        $this->expectException(DirectionNotExistsException::class);
+        $this->expectExceptionMessage('Value must be one of "E,S,D"');
+
         $obj = new Direction();
         $obj->format('HH');
     }

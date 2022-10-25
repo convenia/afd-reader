@@ -17,7 +17,7 @@ class IdentityType implements FieldInterface
      *
      * @param $value
      *
-     * @throws \Convenia\AfdReader\Exception\IdentityNotExistsException
+     * @throws IdentityNotExistsException
      *
      * @return mixed
      */
@@ -27,6 +27,6 @@ class IdentityType implements FieldInterface
             return $this->types[$value];
         }
 
-        throw new IdentityNotExistsException($value);
+        throw new IdentityNotExistsException('Value must be one of "' . implode(',', array_keys($this->types)) . '"');
     }
 }

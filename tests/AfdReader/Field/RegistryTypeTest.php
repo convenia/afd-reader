@@ -1,25 +1,31 @@
 <?php
 
-namespace Convenia\AfdReader\Tests;
+namespace Tests\AfdReader\Field;
 
+use Convenia\AfdReader\Exception\RegistryNotExistsException;
 use Convenia\AfdReader\Field\RegistryType;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Class RegistryTypeTest.
- */
-class RegistryTypeTest extends PHPUnit_Framework_TestCase
+class RegistryTypeTest extends TestCase
 {
-    public function test_success_value()
+    public function testItCorrectlyFormatsAValue()
     {
         $obj = new RegistryType();
         $val = $obj->format('O');
         $this->assertEquals('Original', $val);
+
+        $val = $obj->format('I');
+        $this->assertEquals('Incluído por digitação', $val);
+
+        $val = $obj->format('P');
+        $this->assertEquals('Pré-assinalado', $val);
     }
 
-    public function test_fail_value()
+    public function testItThrowsExceptionWhenValueHasWrongFormat()
     {
-        $this->setExpectedException('Convenia\AfdReader\Exception\RegistryNotExistsException');
+        $this->expectException(RegistryNotExistsException::class);
+        $this->expectExceptionMessage('Value must be one of "O,I,P"');
+
         $obj = new RegistryType();
         $obj->format('HH');
     }

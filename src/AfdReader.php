@@ -4,7 +4,6 @@ namespace Convenia\AfdReader;
 
 use Convenia\AfdReader\Exception\FileNotFoundException;
 use Convenia\AfdReader\Exception\InvalidDateFormatException;
-use Convenia\AfdReader\Exception\WrongFileTypeException;
 use DateInterval;
 use DatePeriod;
 use DateTime;
@@ -87,7 +86,6 @@ class AfdReader
      * @param null $fileType
      *
      * @throws FileNotFoundException
-     * @throws WrongFileTypeException
      */
     public function __construct($filePath, $fileType = null)
     {
@@ -220,14 +218,14 @@ class AfdReader
     /**
      * Return array by user.
      *
-     * @param int|null   $identityNumber
+     * @param string|null   $identityNumber
      * @param array|null $period
      *
      * @throws InvalidDateFormatException
      *
-     * @return array|mixed
+     * @return array
      */
-    public function getByUser(int $identityNumber = null, array $period = null)
+    public function getByUser(string $identityNumber = null, array $period = null)
     {
         $this->identityNumber = $identityNumber;
         $this->period = $period;
@@ -322,7 +320,7 @@ class AfdReader
     {
         $this->fileArray = array_filter($this->fileArray, function ($registry) use ($identityNumber) {
             if (isset($registry['identityNumber'])) {
-                if ($registry['identityNumber'] === $identityNumber) {
+                if ($registry['identityNumber'] == $identityNumber) {
                     return $registry;
                 }
             }
@@ -633,7 +631,7 @@ class AfdReader
             'entityType'     => $value['entityType'],
             'entityNumber'   => $value['entityNumber'],
             'cei'            => $value['cei'],
-            'name'           => $value['name'],
+            'name'           => trim($value['name']),
             'startDate'      => $value['startDate']->format('dmY'),
             'endDate'        => $value['endDate']->format('dmY'),
             'generationDate' => $value['generationDate'],

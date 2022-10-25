@@ -11,9 +11,9 @@ class Alphanumeric implements FieldInterface
      *
      * @method format
      *
-     * @param string $value value to be formated
+     * @param string $value value to be formatted
      *
-     * @return string formated value
+     * @return string formatted value
      */
     public function format($value)
     {

@@ -18,7 +18,7 @@ class Direction implements FieldInterface
      *
      * @param $value
      *
-     * @throws \Convenia\AfdReader\Exception\DirectionNotExistsException
+     * @throws DirectionNotExistsException
      *
      * @return mixed
      */
@@ -28,6 +28,6 @@ class Direction implements FieldInterface
             return $this->types[$value];
         }
 
-        throw new DirectionNotExistsException($value);
+        throw new DirectionNotExistsException('Value must be one of "' . implode(',', array_keys($this->types)) . '"');
     }
 }
