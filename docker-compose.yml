@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  php:
+    container_name: afd-reader
+    build:
+      context: .docker
+      dockerfile: php.dockerfile
+    volumes:
+      - ./.docker/conf/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - .:/var/www/app
