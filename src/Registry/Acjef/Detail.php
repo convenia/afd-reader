@@ -128,6 +128,7 @@ class Detail implements RegistryInterface
             'size' => 4,
             'type' => 'numeric',
             'name' => 'hourAbsencesLate',
+            'class' => \Convenia\AfdReader\Field\Time::class,
         ],
         22 => [
             'size' => 1,

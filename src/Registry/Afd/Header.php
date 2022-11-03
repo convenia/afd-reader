@@ -40,24 +40,24 @@ class Header implements RegistryInterface
             'class' => \Convenia\AfdReader\Field\Alphanumeric::class,
         ],
         7  => [
-            'size' => 8,
+            'size' => 17,
             'type' => 'numeric',
             'name' => 'SerialNumber',
         ],
         8  => [
-            'size'  => 6,
+            'size'  => 8,
             'type'  => 'numeric',
             'name'  => 'registryStartDate',
             'class' => \Convenia\AfdReader\Field\Date::class,
         ],
         9  => [
-            'size'  => 6,
+            'size'  => 8,
             'type'  => 'numeric',
             'name'  => 'registryEndDate',
             'class' => \Convenia\AfdReader\Field\Date::class,
         ],
         10 => [
-            'size'  => 6,
+            'size'  => 8,
             'type'  => 'numeric',
             'name'  => 'generationDate',
             'class' => \Convenia\AfdReader\Field\Date::class,

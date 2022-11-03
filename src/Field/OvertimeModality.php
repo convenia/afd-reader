@@ -7,9 +7,12 @@ use Convenia\AfdReader\Interfaces\FieldInterface;
 
 class OvertimeModality implements FieldInterface
 {
+    const DIURNO = 'Diurno';
+    const NOTURNO = 'Noturno';
+
     private $types = [
-        'D' => 'Diurno',
-        'N' => 'Noturno',
+        'D' => self::DIURNO,
+        'N' => self::NOTURNO,
     ];
 
     /**

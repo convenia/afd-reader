@@ -18,6 +18,7 @@ class Time implements FieldInterface
      */
     public function format($value)
     {
+        $value = trim($value);
         if (strlen($value) != 4 && $value != 0) {
             throw new InvalidTimeFormatException('Value must be on the hhmm format.');
         }
