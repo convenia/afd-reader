@@ -4,67 +4,45 @@ namespace Convenia\AfdReader;
 
 use Convenia\AfdReader\Exception\FileNotFoundException;
 use Convenia\AfdReader\Exception\InvalidDateFormatException;
+use Convenia\AfdReader\Exception\InvalidFileTypeException;
 use DateInterval;
 use DatePeriod;
 use DateTime;
+use SplFileObject;
 
 class AfdReader
 {
-    /**
-     * @var
-     */
+    const AFDT = 'Afdt';
+    const AFD = 'Afd';
+    const ACJEF = 'Acjef';
+
     private $file;
 
-    /**
-     * @var
-     */
     private $fileType;
 
-    /**
-     * @var
-     */
     private $fileContents;
 
-    /**
-     * @var
-     */
     private $fileArray = [];
 
-    /**
-     * @var array
-     */
-    private $clear = [];
-
-    /**
-     * @var
-     */
     private $userArray = [];
 
-    /**
-     * @var
-     */
     private $typePosition = 9;
 
-    /**
-     * @var
-     */
     private $identityNumber;
 
-    /**
-     * @var
-     */
     private $period;
 
-    /**
-     * @var
-     */
+    private $offset;
+
+    private $chunkSize;
+
     private $typeNumber = [
-        'Afdt' => [
+        self::AFDT => [
             '1' => \Convenia\AfdReader\Registry\Afdt\Header::class,
             '2' => \Convenia\AfdReader\Registry\Afdt\Detail::class,
             '9' => \Convenia\AfdReader\Registry\Afdt\Trailer::class,
         ],
-        'Afd' => [
+        self::AFD => [
             '1' => \Convenia\AfdReader\Registry\Afd\Header::class,
             '2' => \Convenia\AfdReader\Registry\Afd\CompanyChange::class,
             '3' => \Convenia\AfdReader\Registry\Afd\Mark::class,
@@ -72,7 +50,7 @@ class AfdReader
             '5' => \Convenia\AfdReader\Registry\Afd\Employee::class,
             '9' => \Convenia\AfdReader\Registry\Afd\Trailer::class,
         ],
-        'Acjef' => [
+        self::ACJEF => [
             '1' => \Convenia\AfdReader\Registry\Acjef\Header::class,
             '2' => \Convenia\AfdReader\Registry\Acjef\ContractualHours::class,
             '3' => \Convenia\AfdReader\Registry\Acjef\Detail::class,
@@ -80,21 +58,26 @@ class AfdReader
     ];
 
     /**
-     * AfdReader constructor.
-     *
-     * @param $filePath
-     * @param null $fileType
-     *
      * @throws FileNotFoundException
+     * @throws InvalidFileTypeException
      */
-    public function __construct($filePath, $fileType = null)
+    public function __construct(string $filePath, string $fileType = '', int $offset = 0, int $chunkSize = 0)
     {
         $this->fileType = ucfirst(strtolower($fileType ?? ''));
         $this->file = $filePath;
-        $this->setFileContents();
+        $this->offset = $offset;
+        $this->chunkSize = $chunkSize;
 
-        if ($fileType === null) {
+        $this->setFileContents();
+        if ($fileType === '') {
             $this->fileType = $this->fileTypeMagic();
+        }
+
+        $availableTypes = [self::AFD, self::AFDT, self::ACJEF];
+        if (! in_array($this->fileType, $availableTypes)) {
+            throw new InvalidFileTypeException(
+                'File type must be one of ' . implode(', ', $availableTypes)
+            );
         }
 
         $this->readLines();
@@ -113,7 +96,20 @@ class AfdReader
             }
         }
 
-        $this->fileContents = file($this->file);
+        if ($this->chunkSize === 0 && $this->offset === 0) {
+            $this->fileContents = file($this->file);
+            return;
+        }
+
+        $this->chunkSize = $this->chunkSize === 0 ? PHP_INT_MAX : $this->chunkSize;
+        $file = new SplFileObject($this->file, 'r');
+        $file->seek($this->offset);
+        $currentLine = 0;
+        while ($currentLine < $this->chunkSize && !$file->eof()) {
+            $this->fileContents[] = $file->current();
+            $currentLine++;
+            $file->seek($currentLine + $this->offset);
+        }
     }
 
     /**
@@ -128,11 +124,11 @@ class AfdReader
 
         switch (strlen($trailer)) {
             case 34:
-                return 'Afd';
+                return self::AFD;
             case 55:
-                return 'Afdt';
+                return self::AFDT;
             case 91:
-                return 'Acjef';
+                return self::ACJEF;
             default:
                 return false;
         }
@@ -145,16 +141,7 @@ class AfdReader
     {
         foreach ($this->fileContents as $value) {
             $this->fileArray[] = $this->translateToArray($value);
-            $this->clear[] = $this->translateToArray($value);
         }
-    }
-
-    /**
-     * Clear content after use get methods.
-     */
-    public function clear()
-    {
-        $this->fileArray = $this->clear;
     }
 
     /**
@@ -164,7 +151,7 @@ class AfdReader
      *
      * @return array
      */
-    private function translateToArray($content)
+    private function translateToArray(string $content): array
     {
         $position = 0;
         $line = [];
@@ -190,7 +177,7 @@ class AfdReader
      *
      * @return bool
      */
-    private function getMap($content)
+    private function getMap(string $content)
     {
         $type = $this->getType($content);
         if (isset($this->typeNumber[$this->fileType][$type])) {
@@ -210,8 +197,12 @@ class AfdReader
      *
      * @return bool|string
      */
-    private function getType($content)
+    private function getType(string $content): string
     {
+        if ($this->fileType === self::AFD && strlen($content) === 47) {
+            $this->typePosition = 45;
+        }
+
         return substr($content, $this->typePosition, 1);
     }
 
@@ -225,16 +216,16 @@ class AfdReader
      *
      * @return array
      */
-    public function getByUser(string $identityNumber = null, array $period = null)
+    public function getByUser(string $identityNumber = null, array $period = null): array
     {
         $this->identityNumber = $identityNumber;
         $this->period = $period;
 
-        if ($this->fileType == 'Afd') {
+        if ($this->fileType == self::AFD) {
             return $this->getByUserAfd($this->identityNumber, $this->period);
         }
 
-        if ($this->fileType == 'Afdt') {
+        if ($this->fileType == self::AFDT) {
             return $this->getByUserAfdt($this->identityNumber, $this->period);
         }
 
@@ -251,7 +242,7 @@ class AfdReader
      *
      * @return array
      */
-    private function getByUserAfd($identityNumber = null, $period = null)
+    private function getByUserAfd(string $identityNumber = null, array $period = null): array
     {
         if ($period) {
             $this->filter($period, 'date', 3);
@@ -336,7 +327,7 @@ class AfdReader
      *
      * @return array
      */
-    private function period($data)
+    private function period(array $data): array
     {
         $begin = new DateTime();
         $begin = $begin->createFromFormat('Y-m-d', $data['from']);
@@ -369,21 +360,21 @@ class AfdReader
      *
      * @return bool
      */
-    private function isByUserCondition($value)
+    private function isByUserCondition(array $value) : bool
     {
         if (!isset($value['type'])) {
             return false;
         }
 
-        if ($this->fileType == 'Afdt' && $value['type'] == 2) {
+        if ($this->fileType == self::AFDT && $value['type'] == 2) {
             return true;
         }
 
-        if ($this->fileType == 'Afd' && $value['type'] == 3) {
+        if ($this->fileType == self::AFD && $value['type'] == 3) {
             return true;
         }
 
-        if ($this->fileType == 'Acjef' && $value['type'] == 3) {
+        if ($this->fileType == self::ACJEF && $value['type'] == 3) {
             return true;
         }
 
@@ -400,7 +391,7 @@ class AfdReader
      *
      * @return array
      */
-    private function getByUserAfdt($identityNumber = null, $period = null)
+    private function getByUserAfdt(string $identityNumber = null, array $period = null): array
     {
         if ($period) {
             $this->filter($period, 'clockDate', 2);
@@ -437,7 +428,7 @@ class AfdReader
      *
      * @return array
      */
-    private function getByUserAcjef($identityNumber = null, $period = null)
+    private function getByUserAcjef(string $identityNumber = null, array $period = null): array
     {
         if ($period) {
             $this->filter($period, 'startDate', 3);
@@ -488,13 +479,13 @@ class AfdReader
      *
      * @return array
      */
-    public function getAll()
+    public function getAll(): array
     {
-        if ($this->fileType == 'Afd') {
+        if ($this->fileType == self::AFD) {
             return $this->getAllAfd();
         }
 
-        if ($this->fileType == 'Afdt') {
+        if ($this->fileType == self::AFDT) {
             return $this->getAllAfdt();
         }
 
@@ -508,7 +499,7 @@ class AfdReader
      *
      * @return array
      */
-    private function getAllAfd()
+    private function getAllAfd(): array
     {
         $data = [];
 
@@ -537,7 +528,7 @@ class AfdReader
                         'date'            => $value['date']->format('dmY'),
                         'time'            => $value['time'],
                         'identityType'    => $value['identityType'],
-                        'idenitityNumber' => $value['idenitityNumber'],
+                        'identityNumber'  => $value['identityNumber'],
                         'cei'             => $value['cei'],
                         'name'            => $value['name'],
                         'place'           => $value['place'],
@@ -592,7 +583,7 @@ class AfdReader
      *
      * @return array
      */
-    private function getAllAfdt()
+    private function getAllAfdt(): array
     {
         $data = [];
 
@@ -623,7 +614,7 @@ class AfdReader
      *
      * @return array
      */
-    private function header($value)
+    private function header($value): array
     {
         return [
             'sequency'       => $value['sequency'],
@@ -646,7 +637,7 @@ class AfdReader
      *
      * @return array
      */
-    private function getAllAcjef()
+    private function getAllAcjef(): array
     {
         $data = [];
 

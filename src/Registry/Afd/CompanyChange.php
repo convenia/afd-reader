@@ -18,7 +18,7 @@ class CompanyChange implements RegistryInterface
             'name' => 'type',
         ],
         3 => [
-            'size'  => 6,
+            'size'  => 8,
             'type'  => 'numeric',
             'name'  => 'date',
             'class' => \Convenia\AfdReader\Field\Date::class,
@@ -37,7 +37,7 @@ class CompanyChange implements RegistryInterface
         6 => [
             'size' => 14,
             'type' => 'numeric',
-            'name' => 'idenitityNumber',
+            'name' => 'identityNumber',
         ],
         7 => [
             'size'  => 12,
@@ -52,7 +52,7 @@ class CompanyChange implements RegistryInterface
             'class' => \Convenia\AfdReader\Field\Alphanumeric::class,
         ],
         9 => [
-            'size'  => 1,
+            'size'  => 100,
             'type'  => 'alphanumeric',
             'name'  => 'place',
             'class' => \Convenia\AfdReader\Field\Alphanumeric::class,

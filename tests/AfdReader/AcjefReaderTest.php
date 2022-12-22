@@ -50,7 +50,7 @@ class AcjefReaderTest extends TestCase
                         'overtime4' => ['hour' => '00', 'minute' => '00'],
                         'overtimePercentage4' => ['integer' => '00', 'decimal' => '00'],
                         'overtimeModality4' => 'Diurno',
-                        'hourAbsencesLate' => '0000',
+                        'hourAbsencesLate' => ['hour' => '00', 'minute' => '00'],
                         'hourSinalCompensate' => '1',
                         'hourBalanceCompensate' => ['hour' => '00', 'minute' => '00'],
                     ], [
@@ -73,7 +73,7 @@ class AcjefReaderTest extends TestCase
                         'overtime4' => ['hour' => '00', 'minute' => '00'],
                         'overtimePercentage4' => ['integer' => '00', 'decimal' => '00'],
                         'overtimeModality4' => 'Diurno',
-                        'hourAbsencesLate' => '0000',
+                        'hourAbsencesLate' => ['hour' => '00', 'minute' => '00'],
                         'hourSinalCompensate' => '1',
                         'hourBalanceCompensate' => ['hour' => '00', 'minute' => '00'],
                     ], [
@@ -96,7 +96,7 @@ class AcjefReaderTest extends TestCase
                         'overtime4' => ['hour' => '00', 'minute' => '55'],
                         'overtimePercentage4' => ['integer' => '70', 'decimal' => '00'],
                         'overtimeModality4' => 'Diurno',
-                        'hourAbsencesLate' => '0000',
+                        'hourAbsencesLate' => ['hour' => '00', 'minute' => '00'],
                         'hourSinalCompensate' => '1',
                         'hourBalanceCompensate' => ['hour' => '00', 'minute' => '00'],
                     ], [
@@ -119,7 +119,7 @@ class AcjefReaderTest extends TestCase
                         'overtime4' => ['hour' => '00', 'minute' => '00'],
                         'overtimePercentage4' => ['integer' => '00', 'decimal' => '00'],
                         'overtimeModality4' => 'Diurno',
-                        'hourAbsencesLate' => '0055',
+                        'hourAbsencesLate' => ['hour' => '00', 'minute' => '55'],
                         'hourSinalCompensate' => '1',
                         'hourBalanceCompensate' => ['hour' => '00', 'minute' => '00'],
                     ]
@@ -145,7 +145,7 @@ class AcjefReaderTest extends TestCase
                         'overtime4' => ['hour' => '00', 'minute' => '00'],
                         'overtimePercentage4' => ['integer' => '00', 'decimal' => '00'],
                         'overtimeModality4' => 'Diurno',
-                        'hourAbsencesLate' => '0000',
+                        'hourAbsencesLate' => ['hour' => '00', 'minute' => '00'],
                         'hourSinalCompensate' => '1',
                         'hourBalanceCompensate' => ['hour' => '00', 'minute' => '00'],
                     ], [
@@ -168,7 +168,7 @@ class AcjefReaderTest extends TestCase
                         'overtime4' => ['hour' => '01', 'minute' => '10'],
                         'overtimePercentage4' => ['integer' => '10', 'decimal' => '00'],
                         'overtimeModality4' => 'Diurno',
-                        'hourAbsencesLate' => '0100',
+                        'hourAbsencesLate' => ['hour' => '01', 'minute' => '00'],
                         'hourSinalCompensate' => '1',
                         'hourBalanceCompensate' => ['hour' => '00', 'minute' => '00'],
                     ]
@@ -206,7 +206,7 @@ class AcjefReaderTest extends TestCase
                     'overtime4' => ['hour' => '00', 'minute' => '00'],
                     'overtimePercentage4' => ['integer' => '00', 'decimal' => '00'],
                     'overtimeModality4' => 'Diurno',
-                    'hourAbsencesLate' => '0000',
+                    'hourAbsencesLate' => ['hour' => '00', 'minute' => '00'],
                     'hourSinalCompensate' => '1',
                     'hourBalanceCompensate' => ['hour' => '00', 'minute' => '00'],
                 ], [
@@ -229,7 +229,7 @@ class AcjefReaderTest extends TestCase
                     'overtime4' => ['hour' => '01', 'minute' => '10'],
                     'overtimePercentage4' => ['integer' => '10', 'decimal' => '00'],
                     'overtimeModality4' => 'Diurno',
-                    'hourAbsencesLate' => '0100',
+                    'hourAbsencesLate' => ['hour' => '01', 'minute' => '00'],
                     'hourSinalCompensate' => '1',
                     'hourBalanceCompensate' => ['hour' => '00', 'minute' => '00'],
                 ]

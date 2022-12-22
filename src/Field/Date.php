@@ -27,4 +27,3 @@ class Date implements FieldInterface
         return $dateObj;
     }
 }
-
