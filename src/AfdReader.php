@@ -63,7 +63,7 @@ class AfdReader
      */
     public function __construct(string $filePath, string $fileType = '', int $offset = 0, int $chunkSize = 0)
     {
-        $this->fileType = ucfirst(strtolower($fileType ?? ''));
+        $this->fileType = ucfirst(strtolower($fileType));
         $this->file = $filePath;
         $this->offset = $offset;
         $this->chunkSize = $chunkSize;
