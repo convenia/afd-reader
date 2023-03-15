@@ -10,9 +10,9 @@ class TimeTest extends TestCase
 {
     public function testItCorrectlyFormatsAValue()
     {
-        $obj = new Time();
-        $val = $obj->format('2254');
-        $this->assertEquals(['hour' => '22', 'minute' => '54'], $val);
+        $class = new Time();
+        $value = $class->format('2254');
+        $this->assertEquals(['hour' => '22', 'minute' => '54'], $value);
     }
 
     public function testItThrowsExceptionWhenValueHasWrongSize()
@@ -20,8 +20,8 @@ class TimeTest extends TestCase
         $this->expectException(InvalidTimeFormatException::class);
         $this->expectExceptionMessage('Value must be on the hhmm format.');
 
-        $obj = new Time();
-        $obj->format('225');
+        $class = new Time();
+        $class->format('225');
     }
 
     public function testItThrowsExceptionWhenValueIsNotANumber()
@@ -29,8 +29,8 @@ class TimeTest extends TestCase
         $this->expectException(InvalidTimeFormatException::class);
         $this->expectExceptionMessage('Value must be on the hhmm format.');
 
-        $obj = new Time();
-        $obj->format('aa11');
+        $class = new Time();
+        $class->format('aa11');
     }
 
     public function testItThrowsExceptionWhenMinutesAreGreaterThan60()
@@ -38,7 +38,14 @@ class TimeTest extends TestCase
         $this->expectException(InvalidTimeFormatException::class);
         $this->expectExceptionMessage('Value must be on the hhmm format.');
 
-        $obj = new Time();
-        $obj->format('1199');
+        $class = new Time();
+        $class->format('1199');
+    }
+
+    public function testItReturnsZeroWhenValueIsFilledWithWhiteSpaces()
+    {
+        $class = new Time();
+        $value = $class->format('    ');
+        $this->assertEquals(['hour' => '00', 'minute' => '00'], $value);
     }
 }
