@@ -238,4 +238,58 @@ class AcjefReaderTest extends TestCase
 
         $this->assertEquals($expected, $values);
     }
+
+    public function testItShouldReadHeaderWithAccentuation()
+    {
+        $return = new AfdReader(__DIR__ . '/../files/acjef_test_accentuation.txt');
+        $values = $return->getAll();
+
+        $expected = [
+            'header' => [
+                'sequency' => '000000001',
+                'type' => '1',
+                'entityType' => 'CNPJ',
+                'entityNumber' => '17484689000170',
+                'cei' => '000000000000',
+                'name' => 'DEVS NERDS CONCEIÇÃO',
+                'startDate' => '01012016',
+                'endDate' => '13042016',
+                'generationDate' => \DateTime::createFromFormat('Y-m-d', '2016-04-13'),
+                'generationTime' => [
+                    'hour' => '11',
+                    'minute' => '37'
+                ],
+            ],
+            'detail' => [
+                '111111111111' => [
+                    [
+                        'sequency' => '000000006',
+                        'type' => '3',
+                        'startDate' => '04012021',
+                        'firstHour' => ['hour' => '09', 'minute' => '00'],
+                        'hourCode' => '0001',
+                        'dayTime' => ['hour' => '08', 'minute' => '00'],
+                        'nightTime' => ['hour' => '00', 'minute' => '00'],
+                        'overtime1' => ['hour' => '00', 'minute' => '00'],
+                        'overtimePercentage1' => ['integer' => '00', 'decimal' => '00'],
+                        'overtimeModality1' => 'Diurno',
+                        'overtime2' => ['hour' => '00', 'minute' => '00'],
+                        'overtimePercentage2' => ['integer' => '00', 'decimal' => '00'],
+                        'overtimeModality2' => 'Diurno',
+                        'overtime3' => ['hour' => '00', 'minute' => '00'],
+                        'overtimePercentage3' => ['integer' => '00', 'decimal' => '00'],
+                        'overtimeModality3' => 'Diurno',
+                        'overtime4' => ['hour' => '00', 'minute' => '00'],
+                        'overtimePercentage4' => ['integer' => '00', 'decimal' => '00'],
+                        'overtimeModality4' => 'Diurno',
+                        'hourAbsencesLate' => ['hour' => '00', 'minute' => '55'],
+                        'hourSinalCompensate' => '1',
+                        'hourBalanceCompensate' => ['hour' => '00', 'minute' => '00'],
+                    ],
+                ],
+            ],
+        ];
+
+        $this->assertEquals($expected, $values);
+    }
 }
