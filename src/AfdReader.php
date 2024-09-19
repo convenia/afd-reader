@@ -158,7 +158,7 @@ class AfdReader
         $map = $this->getMap($content);
         if ($map !== false) {
             foreach ($map as $fieldMap) {
-                $line[$fieldMap['name']] = substr($content, $position, $fieldMap['size']);
+                $line[$fieldMap['name']] = mb_substr($content, $position, $fieldMap['size']);
                 if (isset($fieldMap['class'])) {
                     $field = new $fieldMap['class']($line[$fieldMap['name']]);
                     $line[$fieldMap['name']] = $field->format($line[$fieldMap['name']]);
