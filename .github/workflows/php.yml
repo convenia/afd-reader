@@ -29,7 +29,7 @@ jobs:
         extensions: mbstring, dom, fileinfo
         coverage: xdebug
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
 
     - name: Cache Composer packages
       id: composer-cache
